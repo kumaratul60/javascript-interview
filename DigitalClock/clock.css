@@ -1,0 +1,11 @@
+#clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  font-family: "Fjalla One", sans-serif, "Orbitron";
+  height: 100vh;
+  color: #043f81;
+
+  background-color: aquamarine;
+}
