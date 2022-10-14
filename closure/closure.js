@@ -13,14 +13,12 @@ function test() {
 }
 test();
 
-
-
-// 
+//
 function Outer() {
   function Inner() {
-    console.log("hello");
+    console.log("hello1");
   }
   return Inner;
 }
-var getValue = Outer;
+let getValue = Outer;
 getValue()();
