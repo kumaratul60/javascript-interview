@@ -29,16 +29,16 @@
 
 ///////////////////
 
-// for (var i = 10; i < 20; i++) {
-//   setTimeout(function () {
-//     console.log(i);
-//   }, 1000);
-// }
-
-let i;
-for (i = 0; i < 3; i++) {
-  const log = () => {
+for (var i = 10; i < 20; i++) {
+  setTimeout(function () {
     console.log(i);
-  };
-  setTimeout(log, 100);
+  }, 1000);
 }
+
+// let i;
+// for (i = 0; i < 3; i++) {
+//   const log = () => {
+//     console.log(i);
+//   };
+//   setTimeout(log, 1000);
+// }
