@@ -27,6 +27,8 @@ console.log(typeof Symbol()); // "symbol"
 console.log(typeof []); // "object"
 console.log(typeof Array(5)); // "object"
 
+console.log(typeof arguments); // object
+console.log(typeof argument); // undefined
 console.log(typeof function () {}); // "function"
 console.log(typeof new Function()); // "function"
 

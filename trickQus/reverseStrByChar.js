@@ -6,3 +6,5 @@ function flip(str) {
 }
 const res = flip("world");
 console.log(res); // owlrd
+
+console.log(this); //{}

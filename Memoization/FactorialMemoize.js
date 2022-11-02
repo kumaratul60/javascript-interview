@@ -21,6 +21,8 @@ const memoize = (fn) => {
   };
 };
 
+
+
 const memoizeFact = memoize(factorial);
 console.log(memoizeFact(10));
 console.log(memoizeFact(10));
