@@ -33,3 +33,17 @@ console.log(Number.MIN_VALUE > 0); // true
 console.log(Math.min() > Math.max()); // true
 //  Math.min() => -Infinity
 // Math.max() => Infinity
+
+
+
+const user = {
+  name: "Ram",
+  age: 24,
+  todo:['Hay men', 'nice to meet you']
+
+}
+const {name,age, todo:[op,gp]} = user
+console.log(name)
+console.log(gp)
+console.log(user.todo[0]);
+
