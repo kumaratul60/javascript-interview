@@ -1,21 +1,22 @@
-function debounce(func, delay) {
+/*
+Debouncing => Debouncing is a performance optimization technique. It limits the rate of execution of a function (API call) 
+and wait for a certain amount of time before running it again.
+
+*/
+
+const debounce = (fn, delay) => {
   let timer;
-
   return function () {
-    clearTimeout(timer);
-    timer = setTimeout(func, delay);
+    if (timer) clearTimeout();
+    timer = setTimeout(() => {
+      fn();
+    }, delay);
   };
-}
+};
 
-const logger = () => console.log("logging...");
+const check = () => console.log("checking...");
 
-const wait = 3000;
-
-const debounced = debounce(logger, wait);
-
-console.log("running...");
-debounced();
-debounced();
-setTimeout(debounced, 1000);
-setTimeout(debounced, 1500);
-setTimeout(debounced, 5000);
+const myDebounce = debounce(check, 1000);
+console.log("running1");
+myDebounce();
+console.log("running2");
