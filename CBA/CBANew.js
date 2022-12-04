@@ -1,3 +1,9 @@
+/*
+1. call(object, arguments) - invokes the function on passed object along with passed arguments if there
+2. apply(object, [arguments]) - invokes the function on passed object along with passed array of arguments if there
+3. bind(object, arguments) - returns a new function with referencing passed object and arguments
+*/
+
 function doSomeMagic(param1, param2) {
   console.log(`${this.name},${this.age},${param1},${param2}`);
 }
