@@ -46,3 +46,27 @@ for (let key in obj) {
 // for (let i = 0; i < keys.length; i++) {
 //   console.log(keys[i], obj[keys[i]]);
 // }
+
+// nested object loop through
+
+const obj2 = {
+  name: 5,
+  age: -1,
+  address: {
+    addresslineOne: 9,
+    zip: -1,
+  },
+  someArray: [3, -1, { month: 5 }, [-1]],
+};
+
+const iterate = (obj) => {
+  Object.keys(obj).forEach((key) => {
+    console.log("key: " + key + ", value: " + obj[key]);
+
+    if (typeof obj[key] === "object") {
+      iterate(obj[key]);
+    }
+  });
+};
+
+iterate(obj2);
