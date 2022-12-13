@@ -27,6 +27,25 @@ const myJSONExample = {
   ],
 };
 
+const obj1 = {
+  name: "coder",
+  age: 30,
+  address: {
+    addresslineOne: "something",
+    zip: 560001,
+  },
+  someArray: ["jan", 2, { month: "march" }, [4]],
+};
+
+let nestedObject = {
+  a: 1,
+  b: 2,
+  c: {
+    d: 3,
+    e: 4,
+  },
+};
+
 const iterate = (obj) => {
   Object.keys(obj).forEach((key) => {
     console.log("key: " + key + ", value: " + obj[key]);
@@ -38,3 +57,40 @@ const iterate = (obj) => {
 };
 
 iterate(myJSONExample);
+
+function iterateViaLoop(nestedObject) {
+  for (let key in nestedObject) {
+    if (typeof nestedObject[key] === "object") {
+      // The value of the property is another object, so you can
+      // iterate over its properties as well
+      for (let nestedKey in nestedObject[key]) {
+        console.log(nestedKey + ":=> " + nestedObject[key][nestedKey]);
+      }
+    } else {
+      // The value of the property is not an object, so you can
+      // just print the key and value
+      console.log(key + ":=>: " + nestedObject[key]);
+    }
+  }
+}
+iterateViaLoop(obj1);
+
+////////////////////////////////////////////////////////////////
+// without recursion
+
+function IterateWithoutRecursion(nestedObject) {
+  Object.keys(nestedObject).forEach((key) => {
+    if (typeof nestedObject[key] === "object") {
+      // The value of the property is another object, so you can
+      // iterate over its properties as well
+      Object.keys(nestedObject[key]).forEach((nestedKey) => {
+        console.log(nestedKey + ": " + nestedObject[key][nestedKey]);
+      });
+    } else {
+      // The value of the property is not an object, so you can
+      // just print the key and value
+      console.log(key + ": " + nestedObject[key]);
+    }
+  });
+}
+IterateWithoutRecursion(nestedObject);
