@@ -10,6 +10,12 @@ timeouts.push(setTimeout(() => { console.log("hello3") }, 5000))
 function clearAllTimeout() {
     // timeouts.forEach(clearTimeout);
     // timeouts=[]
+
+    // or
+
+    // timeouts.forEach(id => clearTimeout(id));
+
+
     while (timeouts.length) {
         clearTimeout(timeouts.pop())
     }
