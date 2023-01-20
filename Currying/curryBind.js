@@ -1,17 +1,17 @@
-let multyply = function (x, y) {
+let multiply = function (x, y) {
   console.log(x * y);
 };
-//  we make a coppy of  multiply method using bind() and we create more method out of it
+//  we make a copy of  multiply method using bind() and we create more method out of it
 
 
-let multyplyByTwo = multyply.bind(this, 2);
-multyplyByTwo(5);
+let multiplyByTwo = multiply.bind(this, 2);
+multiplyByTwo(5);
 
-let multyplyByThree = multyply.bind(this, 3);
-multyplyByThree(5);
+let multiplyByThree = multiply.bind(this, 3);
+multiplyByThree(5);
 
-let multyplyByFour = multyply.bind(this, 4, 6);
-multyplyByFour(5); // ignored
+let multiplyByFour = multiply.bind(this, 4, 6);
+multiplyByFour(5); // ignored
 
-let multyplyByFive = multyply.bind(this);
-multyplyByFive(5, 5);
+let multiplyByFive = multiply.bind(this);
+multiplyByFive(5, 5);
