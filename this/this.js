@@ -8,10 +8,6 @@
  In a constructor function, "this" refers to the newly created object. 
  The value of "this" can also be set explicitly using the call, bind or apply methods.
 
-
-difination
-
-
 */
 
 
