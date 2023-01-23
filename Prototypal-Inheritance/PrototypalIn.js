@@ -1,4 +1,4 @@
-// inheritence -> An object which trying to access the method and properties of another object
+// inheritance -> An object which trying to access the method and properties of another object
 
 // let arr = ["Atul", "Akash"];
 let object = {
@@ -11,13 +11,13 @@ let object = {
 let object2 = {
   name: "Atul",
 };
-//Never do this because it couses a huge performance issue
+//Never do this because it causes a huge performance issue
 // object2._proto_ = object
 
 Function.prototype.myBind = function () {
-  console.log("helo roc8");
+  console.log("hello roc8");
 };
-function fun2() {}
+function fun2() { }
 
 // obj or arr.__proto__ = Array.prototype
 //  arr.__proto__.__proto__ = Object.prototype
@@ -29,3 +29,16 @@ function fun2() {}
 
 // fun.__proto__ = Function.prototype
 // fun.__proto__.__proto__  = Object.prototype
+
+
+const obj1 = {
+  name: "Atul Kumar"
+}
+console.log(obj1);
+
+const obj2 = {
+  role: 1,
+  // _proto: obj1 == _proto_: obj1
+  _proto_: obj1
+}
+console.log(obj2);
