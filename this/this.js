@@ -10,6 +10,20 @@
 
 */
 
+function foo() {
+  console.log(this)
+}
+
+// normal function call
+foo() // `this` will refer to `window` or global in node environment
+
+// as object method
+var obj = { bar: foo }
+obj.bar() // `this` will refer to `obj`
+
+// as constructor function
+new foo() // `this` will refer to an object that inherits from `foo.prototype`
+
 
 const person = {
   name: "javascript",
