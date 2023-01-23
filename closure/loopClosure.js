@@ -12,6 +12,17 @@
 //   setTimeout(() => console.log(i), 1000+i);
 // }
 
+// print boom counter
+
+for (let i = 10; i >= 0; i--) {
+  setTimeout(function () {
+    console.log(i);
+  }, (10 - i) * 800)
+}
+
+
+////
+
 function ex() {
   for (var i = 1; i <= 5; i++) {
     setTimeout((function (k) {
