@@ -1,5 +1,5 @@
-
-/* Currying is a technique, It's like breaking down a big project(a final dish recipe) into smaller tasks(recipe steps).
+/*
+ Currying is a technique, It's like breaking down a big project(a final dish recipe) into smaller tasks(recipe steps).
 Instead of trying to accomplish everything at once, you focus on one specific task/step at a time. This way, you can work on the smaller tasks/steps and then put them together to complete the final project(dish).
 */
 

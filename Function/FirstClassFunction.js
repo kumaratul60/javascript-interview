@@ -55,9 +55,10 @@ d(function () {
 
 var e = function (param2) {
     console.log(param2);
+    console.log("efn");
 }
 function xyd() {
-
+    console.log("xyd");
 }
 e(xyd)
 
@@ -65,6 +66,7 @@ e(xyd)
 
 var f = function (param) {
     return function xyr() {
+        console.log("xyr");
 
     }
 }
