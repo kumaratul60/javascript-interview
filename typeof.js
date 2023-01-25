@@ -29,7 +29,7 @@ console.log(typeof Array(5)); // "object"
 
 console.log(typeof arguments); // object
 console.log(typeof argument); // undefined
-console.log(typeof function () {}); // "function"
+console.log(typeof function () { }); // "function"
 console.log(typeof new Function()); // "function"
 
 console.log(typeof new Date()); // "object"
@@ -185,5 +185,45 @@ console.log(booleanOrTrue([])); // true
 
 console.log(["a"] + ["b"]); // "ab"
 console.log([] + []); // ""
-console.log(![] + []); // "false", because ![] returns false.
+console.log(![] + []); // "false", because ![] returns false while [] returns true.
+// [] == ![] : Type coercion +[] == +![], +[] = 0 and ![] = false so it becomes +false => 0==0 => true
 console.log(![]); // false
+
+console.log(![]);        // false
+console.log([] == ![]);  // true 
+console.log([] === ![]); // false
+
+console.log(null == false); // false
+console.log(null == true);  // false
+
+console.log(typeof null)              // 'object'
+console.log(null instanceof Object)   // false
+console.log(NaN instanceof Number)    // false
+console.log(typeof NaN)               // 'number'
+
+/*  typeof new String("str") === typeof String("str") // false Why?
+a. typeof new String(“str”) : ‘object’
+b. typeof String(“str”) : ‘string’*/
+console.log(typeof new String("str") === typeof String("str")); // false
+
+
+// false value
+
+Boolean('')           // false
+Boolean(0)            // false     
+Boolean(-0)           // false
+Boolean(NaN)          // false
+Boolean(null)         // false
+Boolean(undefined)    // false
+Boolean(false)        // false
+
+
+// Truthy Values: Anything not in the list above is a truthy value like -
+
+
+
+Boolean({})             // true
+Boolean([])             // true
+Boolean(Symbol())       // true
+!!Symbol()              // true
+Boolean(function () { })  // true
