@@ -10,7 +10,7 @@ const sum = (a) => {
     }
 }
 const increment = sum(1)(2)
-console.log(increment)
+console.log(increment)  //3
 
 const pointFreeIncrement = sum(1)
-console.log(pointFreeIncrement(5));
+console.log(pointFreeIncrement(5));//6
