@@ -112,9 +112,9 @@ const clearCookies = () =>
     .split(";")
     .forEach(
       (c) =>
-        (document.cookie = c
-          .replace(/^ +/, "")
-          .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`))
+      (document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`))
     );
 
 // Get value of cookie
@@ -134,9 +134,9 @@ const escape = (str) =>
   str.replace(
     /[&<>"']/g,
     (m) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[
-        m
-      ])
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[
+      m
+    ])
   );
 escape('<div class="medium">Hi Medium.</div>');
 // &lt;div class=&quot;medium&quot;&gt;Hi Medium.&lt;/div&gt
