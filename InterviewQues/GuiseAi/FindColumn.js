@@ -15,7 +15,7 @@
 
 //  28
 
-function findCoulumnNumber(column) {
+function findColumnNumber(column) {
   let res = 0;
   for (let i = 0; i < column.length; i++) {
     const charCode = column.charCodeAt(i);
@@ -27,5 +27,5 @@ function findCoulumnNumber(column) {
 
   return res;
 }
-const checkAns = findCoulumnNumber("AAC");
+const checkAns = findColumnNumber("AAC");
 console.log(checkAns);
