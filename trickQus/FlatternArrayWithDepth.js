@@ -24,7 +24,7 @@ const multidimension1 = ["🥗", ["🍌", "🍎", "🍇"], "🍣", ["🐟", "�
 
 const simple1 = [].concat(...multidimension1); // This will return: [🥗, 🍌, 🍎, 🍇, 🍣, 🐟, 🍚]
 console.log(simple1);
-const multidimension2 = [1, [2, 3, 4], 5, [6, 7]];
+const multidimensional2 = [1, [2, 3, 4], 5, [6, 7]];
 
-const simple2 = [].concat(...multidimension2); // This will return: [1, 2, 3, 4, 5, 6, 7]
+const simple2 = [].concat(...multidimensional2); // This will return: [1, 2, 3, 4, 5, 6, 7]
 console.log(simple2);

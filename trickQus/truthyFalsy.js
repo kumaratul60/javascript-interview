@@ -21,7 +21,7 @@ console.log("String array", strArr);
 
 /**  
 
-the number 0
+the number 0,-0
 the BigInt 0n
 the keyword null
 the keyword undefined

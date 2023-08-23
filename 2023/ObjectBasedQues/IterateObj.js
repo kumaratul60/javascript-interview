@@ -9,7 +9,7 @@ const obj = {
 
 // how to access th values in object
 // most useful way to iterate an object for  in interview
-for (let key in obj) {
+for (let [key] in obj) {
   console.log(obj[key]); // Values
   console.log(key); // keys
 }
