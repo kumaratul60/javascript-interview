@@ -9,7 +9,8 @@ for (let i = 10; i >= 0; i--) {
 
 // IFFY ES5 way
 
-(function () {
+(
+  function () {
     for (var i = 10; i >= 0; i--) {
       (function (count) {
         setTimeout(function () {
@@ -17,4 +18,5 @@ for (let i = 10; i >= 0; i--) {
         },(10-i)* 1000);
       })(i);
     }
-  })();
+  }
+  )();

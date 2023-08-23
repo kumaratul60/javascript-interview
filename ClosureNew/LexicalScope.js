@@ -15,7 +15,7 @@ function func() {
 func();
 
 /*
-The lexical scope of innerOfInnerOfFunc() consits of scopes of innerOfFunc(), func() and global scope (the outermost scope). Within innerOfInnerOfFunc() you can access the lexical scope variables myInnerVar, myVar and myGlobal.
+The lexical scope of innerOfInnerOfFunc() consists of scopes of innerOfFunc(), func() and global scope (the outermost scope). Within innerOfInnerOfFunc() you can access the lexical scope variables myInnerVar, myVar and myGlobal.
 
 The lexical scope of innerFunc() consists of func() and global scope. Within innerOfFunc() you can access the lexical scope variables myVar and myGlobal.
 
