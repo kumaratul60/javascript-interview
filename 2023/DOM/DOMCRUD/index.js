@@ -1,3 +1,21 @@
+
+// creating ul node elements on body
+
+(function createUL() {
+  const ul = document.createElement("ul");
+  ul.className = "language-list";
+  document.body.appendChild(ul);
+})();
+function initialList(language) {
+  const li = document.createElement("li");
+  li.innerHTML = language;
+  const selectedClass = document.querySelector(".language-list");
+  selectedClass.appendChild(li);
+}
+initialList("Javascript");
+
+
+// add language in list
 function addLanguages(language) {
   const li = document.createElement("li");
   li.innerHTML = language;
