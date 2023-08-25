@@ -10,6 +10,14 @@ const debounce = (fn, delay) => {
   };
 };
 
+const debounce1 = (func, delay) => {
+  let timerId;
+  return (...args) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => func(...args), delay);
+  };
+};
+
 document.getElementById("myId").addEventListener(
   "click",
   debounce((e) => {

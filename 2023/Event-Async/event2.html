@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Rambo's event</h1>
+    <h1>Rambo's event2</h1>
+    <button id="stop">Stop</button>
+  </body>
+  <script>
+    const sayHi = function () {
+      console.log("Hi");
+    };
+    const changeText = function () {
+      document.querySelector("h1").innerHTML = "best JS series";
+    };
+
+    const changeMe = setTimeout(changeText, 2000);
+    const sayHiRef = setTimeout(sayHi, 1000);
+    // setInterval(sayHi, 1000);
+
+    document.querySelector("#stop").addEventListener("click", function () {
+      clearTimeout(changeMe);
+      clearTimeout(sayHiRef)
+      console.log("STOPPED");
+    });
+  </script>
+</html>

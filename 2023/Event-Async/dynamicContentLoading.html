@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async - Dynamic content loading</title>
+  </head>
+  <div id="dynamicContent"></div>
+  <button id="startLoading">Start Loading</button>
+  <button id="stopLoading">Stop Loading</button>
+
+  <script>
+    const dynamicContent = document.getElementById("dynamicContent");
+    let intervalId;
+
+    document.getElementById("startLoading").addEventListener("click", () => {
+      intervalId = setInterval(() => {
+        dynamicContent.textContent += "New content ";
+      }, 1000);
+    });
+
+    document.getElementById("stopLoading").addEventListener("click", () => {
+      clearInterval(intervalId);
+    });
+  </script>
+</html>

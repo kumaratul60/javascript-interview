@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>count-down</title>
+  </head>
+  <body>
+    <div id="countdown"></div>
+    <button id="startCountdown">Start Countdown</button>
+  </body>
+  <script>
+    const countdownElement = document.getElementById("countdown");
+    let countdown = 10;
+
+    document.getElementById("startCountdown").addEventListener("click", () => {
+      countdownElement.textContent = countdown;
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = countdown;
+        if (countdown === 0) {
+          clearInterval(countdownInterval);
+          countdownElement.textContent = "Time's up!";
+        }
+      }, 1000);
+    });
+  </script>
+</html>

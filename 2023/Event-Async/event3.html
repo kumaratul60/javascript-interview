@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Chai aur Javascript</h1>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+  </body>
+  <script>
+    const sayDate = function (str) {
+      console.log(str, Date.now());
+    };
+
+    let intervalId;
+    document.getElementById("start").addEventListener("click", function () {
+      intervalId = setInterval(sayDate, 1000, "hi");
+    });
+
+    document.getElementById("stop").addEventListener("click", function () {
+      clearInterval(intervalId);
+    });
+  </script>
+</html>
+
+<!--
+setTimeout schedules a function to be executed after a specified delay in milliseconds.
+setInterval repeatedly executes a function with a specified time interval between executions.
+
+clearTimeout cancels a task scheduled with setTimeout.
+clearInterval cancels a task scheduled with setInterval.
+
+
+ -->
