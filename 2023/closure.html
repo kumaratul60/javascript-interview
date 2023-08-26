@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Closure aur chai</title>
+  </head>
+  <body style="background-color: #313131">
+    <button id="orange">Orange</button>
+    <button id="green">Green</button>
+    <button id="pinki">Pink</button>
+    <b>
+      A closure is formed when a function is encapsulated within another
+      function that has access to it's lexical scope (outer function scope)
+    </b>
+  </body>
+
+  <script>
+    // function init() {
+    //     let name = "Mozilla";
+    //     function displayName() {
+    //         console.log(name);
+    //     }
+    //     displayName();
+    // }
+    // init();
+
+    // function outer(){
+    //     let username = "hitesh"
+    //     console.log("OUTER", secret);
+    //     function inner(){
+    //         let secret = "my123"
+    //         console.log("inner", username);
+    //     }
+    //     function innerTwo(){
+    //         console.log("innerTwo", username);
+    //         console.log(secret);
+    //     }
+    //     inner()
+    //     innerTwo()
+
+    // }
+    // outer()
+    // console.log("TOO OUTER", username);
+
+    // function makeFunc() {
+    //     const name = "Mozilla";
+    //     function displayName() {
+    //         console.log(name);
+    //     }
+    //     return displayName;
+    // }
+
+    // const myFunc = makeFunc();
+    // myFunc();
+  </script>
+  <script>
+    // document.getElementById("orange").onclick = function(){
+    //     document.body.style.backgroundColor = `orange`
+    // }
+    // document.getElementById("green").onclick = function(){
+    //     document.body.style.backgroundColor = `green`
+    // }
+
+    function clickHandler(color) {
+      // document.body.style.backgroundColor = `${color}`
+
+      return function () {
+        document.body.style.backgroundColor = `${color}`;
+      };
+    }
+
+    document.getElementById("orange").onclick = clickHandler("orange");
+    document.getElementById("green").onclick = clickHandler("green");
+    document
+      .getElementById("pinki")
+      .addEventListener("click", clickHandler("pink"));
+  </script>
+
+  <!-- <script>
+    /*
+    the DOMContentLoaded event ensures that the JavaScript code is executed after the DOM has fully loaded. Then, addEventListener is used to attach the click handlers to the buttons, allowing for better separation and flexibility.
+    */
+
+    function clickHandler(color) {
+      return function () {
+        document.body.style.backgroundColor = color;
+      };
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document
+        .getElementById("orange")
+        .addEventListener("click", clickHandler("orange"));
+      document
+        .getElementById("green")
+        .addEventListener("click", clickHandler("green"));
+    });
+  </script> -->
+</html>

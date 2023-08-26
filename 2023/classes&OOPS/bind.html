@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React</title>
+  </head>
+  <body>
+    <button>Button Clicked</button>
+  </body>
+  <script>
+    class React {
+      constructor() {
+        this.library = "React";
+        this.server = "https://localhost:300";
+
+        //requirement -> by click on  handleClick() , want to reference of that button and want to print that reference
+        document
+        .querySelector("button")
+        .addEventListener
+        (
+          "click",
+          this
+          .handleClick
+          .bind(this)
+          //  if .bind(this) we commented then above library&server will not shows on  btn click
+        );
+      }
+      handleClick() {
+        console.log("button clicked");
+        // console.log(this);
+        console.log(this.server);
+        //  if not add .bind(this) then by consoling the  this.server will shows as undefined and by consoling the only this will shows  <button>Button Clicked</button>.
+
+      }
+    }
+
+    const app = new React();
+  </script>
+</html>
