@@ -12,7 +12,15 @@ const user = {
   purchases: ["Mob", "Laptop", "Bike"],
 
   //   not user Arrow function (()=>{}) here because Arrow functions have not  this keyword context
-  sayHola: function () {
+
+  // old way
+  
+  // sayHola: function () {
+  //   console.log(this);
+  // },
+
+  // ES6 Enhanced Object Literal
+  sayHola() {
     console.log(this);
   },
 };
