@@ -3,7 +3,7 @@ const API_URL = "https://api.github.com/users/kumaratul60";
 /**
 how fetch works?
 
-fetch() => return a promise that resolves and get a response object which has body that is a readable stream.
+fetch() => return a promise that resolves and get a response object which has body that is a ReadableStream.
 Now you have to convert this readable stream into a json, which is also a promise to resolve it you get value or result so you do like:
 
 fetch => Response.json => jsonValue or result
@@ -28,6 +28,6 @@ async function handleFetch() {
   //  or
   //  fetch(API_URL).then(res=>res.json()).then(res=>console.log(res)).catch(err=>console.log(err))
 }
-// the oleder way of catching error if you using try/catch: handleFetch().catch(err=>console.log(err))
+// the older way of catching error if you using try/catch: handleFetch().catch(err=>console.log(err))
 
 handleFetch();
