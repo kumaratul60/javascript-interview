@@ -29,3 +29,26 @@ u2.name = "deep";
 u2.email = "depth@gmail.in";
 console.log(u1);
 console.log(u2);
+
+///
+
+let obj = {
+  fn: "xyx",
+  ln: "mnk",
+  address: {
+    fl: "jkl",
+    ll: "test2",
+  },
+};
+const obj2 = {
+  ...obj,
+  ln: "llll",
+  address: {
+    ...obj.address,
+    ll: "test3",
+  },
+};
+// obj2.address.ll="test3"
+
+console.log(obj); //{ fn: 'xyx', ln: 'mnk', address: { fl: 'jkl', ll: 'test2' } }
+console.log(obj2); // { fn: 'xyx', ln: 'llll', address: { fl: 'jkl', ll: 'test3' } }
