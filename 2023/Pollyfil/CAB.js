@@ -14,6 +14,7 @@ The call(), apply() and bind() methods are used for function borrowing in JavaSc
 /* The prototype function will take two arguments similar to the call function, obj (which can be referred using the this keyword inside the function) and the other arguments (args), that we will be getting in the args variable.*/
 
 Function.prototype.customCall = function (obj, ...args) {
+  if(typeof this !== 'function') throw new Error("This is not a function")
   obj.fnRef = this;
   obj.fnRef(...args);
 };
