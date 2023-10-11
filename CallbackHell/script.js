@@ -1,5 +1,7 @@
 // Javascript is a loosely coupled, Dynamically typed, Single threaded, Synchronous language. And it can do just one thing at a time because javascript has one call-stack.
 
+// callback hell => pyramid of Doom
+
 console.log("Hay");
 
 setTimeout(function () {
