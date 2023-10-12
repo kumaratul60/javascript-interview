@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      ul {
+        padding: 0;
+      }
+      li {
+        cursor: pointer;
+      }
+      .highlighted {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="parentList">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+
+    <script>
+      const parentList = document.getElementById("parentList");
+
+      parentList.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.tagName === "LI") {
+          target.classList.toggle("highlighted");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!--
+Event Delegation:
+Event delegation is a technique where you attach a single event listener to a common ancestor of multiple elements instead of attaching individual event listeners to each element. This is useful for handling events on dynamically added elements or minimizing the number of event listeners.
+
+Event Propagation:
+Event propagation refers to the order in which events are handled as they travel through the DOM tree. There are two phases: capturing phase and bubbling phase.
+
+Capturing Phase: Events are captured from the root to the target element. top-bottom
+Bubbling Phase: Events bubble up from the target element to the root. bottom-top
+
+ -->

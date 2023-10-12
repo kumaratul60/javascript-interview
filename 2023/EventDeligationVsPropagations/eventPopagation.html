@@ -1,0 +1,39 @@
+<!--
+Event Delegation:
+Event delegation is a technique where you attach a single event listener to a common ancestor of multiple elements instead of attaching individual event listeners to each element. This is useful for handling events on dynamically added elements or minimizing the number of event listeners.
+
+Event Propagation:
+Event propagation refers to the order in which events are handled as they travel through the DOM tree. There are two phases: capturing phase and bubbling phase.
+
+Capturing Phase: Events are captured from the root to the target element. top-bottom
+Bubbling Phase: Events bubble up from the target element to the root. bottom-top
+
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      div {
+        min-width: 100px;
+        min-height: 100px;
+        padding: 30px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <h1>Event bubbling</h1>
+  <body>
+    <div id="grandParent">
+      <div id="parent">
+        <div id="child"></div>
+      </div>
+    </div>
+    <!-- true -> capturing/trickling -->
+    <!-- false -> bubbling -->
+
+    <script src="Bubble.js"></script>
+    <!-- <script src="Capturing.js"></script> -->
+    <!-- <script src="MixQusBC.js"></script> -->
+  </body>
+</html>
