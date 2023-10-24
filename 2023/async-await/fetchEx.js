@@ -9,7 +9,7 @@ Now you have to convert this readable stream into a json, which is also a promis
 fetch => Response.json => jsonValue or result
 
 //
-1) fetch(url, options).then((response)=> response.json())
+1) fetch(url, options).then((response)=> response.json()).then(res => console.log(res))
 2) then we can use the data in our code
 3) if there is any error while fetching it will throw an exception and catch block will execute
 4) finally block will always run irrespective of success or failure

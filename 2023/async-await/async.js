@@ -31,7 +31,7 @@ res2.then((res) => console.log({ res })); //'Result: Promise Resolve Value!!'
 console.log({ res2 }); // Promise { <pending> }
 
 ////////////////////////////////////////////////////////////////////////
-// AWAIT -> await keyword can used only inside async function,
+// AWAIT -> await keyword can used only inside an async function,
 // async & await is a keyword that is used to handle promise.
 //  always write await front of the peomise.
 
