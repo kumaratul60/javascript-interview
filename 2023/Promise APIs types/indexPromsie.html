@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promises</title>
+  </head>
+  <body>
+    <center>
+      <h1>Promise</h1>
+
+    <marquee>
+      <h3>
+        A promise is an object that represents eventual completion or failure of
+        an asynchronous operation. Promise.all,allSetteled,race and any taked
+        array of promsies, i.e
+      </h3>
+    </marquee>
+
+    <code>Promsie.all([p1,p2,p3,..])</code>
+</center>
+</br>
+ <center>
+
+        <b>Promiss.all:</b>
+         </br>
+          </br>
+        </center>
+      <li>
+         It work based on fail-fast method. if all promises are
+        fulfilled: It wait for all of them to finish and then return an array of
+        promises result. if any of them rejected then Promise.all immediate
+        throw an error as a response. it'lln't wait for other promises.
+      </li>
+    </br>
+     <center>
+       <b>Promise.allSetteled:</b>
+        </br>
+         </br>
+        </center>
+      <li>
+         if all promises are fulfilled: It wait for all of
+        them to finish or setteled and then return an array of promises result.
+        if any of them rejected then Promise.allSetteled return an array of
+        fullfiled promises result and reject promise result as error message.
+        basically it won't be return an error for rejecting the promise case.
+      </li>
+       </br>
+        <center>
+       <b>Promise.race:</b>
+        </br>
+         </br>
+        </center>
+      <li>
+         Promise.race means the person who'll finish first is the
+        winner. it'll return the result of the first promise that settles,
+        either fulfilled or rejected.
+      </li>
+       </br>
+        <center>
+       <b>Promise.any:</b>
+        </br>
+         </br>
+        </center>
+      <li>
+         It is kind of success seeking race. It'll wait for the
+        first promise to resolve/fullfiled/success and return the promise result
+        as a response. If all of them promises get failed or rejected then
+        return result will be an aggrigated error, this aggrigateError will be
+        an array of all the promises error, i.e [err1,err2,err3,...] It returns
+        the result of the first promise that settles successfully. If no promise
+        settles successfully and one rejects, it will throw an error.
+      </li>
+    </ol>
+  </body>
+  <script src="./Promises.js"></script>
+</html>
