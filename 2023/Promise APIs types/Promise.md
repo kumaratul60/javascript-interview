@@ -2,6 +2,13 @@
 
 A promise is an object that represents eventual completion or failure of an asynchronous operation.
 
+## What are and which are Promise combinators?
+
+Promise combinators are higher-order functions that operate on multiple Promises and return a new Promise.
+This technique can improve performance and reduce the overall time it takes to complete multiple asynchronous operations.
+
+Some common Promise combinators are:
+
 Promise.all,allSetteled,race and any taked array of promsies, i.e Promsie.all([p1,p2,p3,..])
 
 - **Promiss.all**: It work based on fail-fast method.
@@ -40,8 +47,16 @@ It returns the result of the first promise that settles successfully. If no prom
 - **Fulfillment**: An action performed when a promise successfully completes its execution.
 - **Rejection**: An action performed when a promise fails during its execution.
 
-resolve/success/fulfilled
-reject/failure/reject
+```javascript
+resolve / success / fulfilled;
+reject / failure / reject;
+```
+
+- The key differences between these methods are in the way they handle multiple Promises, and in the values that they resolve or reject.
+
+  - **Promise.all()** and **Promise.race()** are focused on resolving or rejecting with a single value.
+  - **Promise.any()** and **Promise.allSettled()** are focused on aggregating the outcomes of multiple Promises.
+  - **Promise.any()** and **Promise.allSettled()** return a Promise that always resolves, while **Promise.all()** and **Promise.race()** can result in a rejected Promise.
 
 ## what are challenges of using promises?
 
@@ -97,3 +112,141 @@ Promises allow you to write asynchronous code in a more sequential manner using 
 
 - **Compatibility with Other APIs**:
   Many modern APIs and libraries use Promises for handling asynchronous operations. Using Promises in your code makes it easier to integrate with these APIs and maintain consistency.
+
+## What is Promise Chaining?
+
+Promise Chaining is a powerful technique in JavaScript that allows us to execute asynchronous operations in a specific order. This technique involves returning a new Promise from a then() callback of an existing Promise, which allows us to chain multiple asynchronous operations together.
+
+```javascript
+const promise3 = (name) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve(name);
+    }, 1000); // Delayed function after 1 second (1000 milliseconds)
+  });
+};
+
+promise3("Lorem")
+  .then((data) => {
+    console.log(data); // wait 1 second and output: "Lorem"
+    return promise3("Ipsum");
+  })
+  .then((data) => {
+    console.log(data); // wait 1 second and output: "Ipsum"
+    return promise3("Dolor");
+  })
+  .then((data) => {
+    console.log(data); // wait 1 second and output: "Dolor"
+    return promise3("Amet");
+  })
+  .then((data) => {
+    console.log(data); // wait 1 second and output: "Amet"
+  });
+```
+- Promises exmaples
+
+```javascript
+const p1 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    resolve("Resolved p1");
+  }, 3000);
+});
+
+const p2 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    resolve("Resolved p2");
+  }, 2000);
+});
+
+const p3 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("rejected p3");
+  }, 4000);
+});
+
+const p4 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Resolved p4");
+  }, 5000);
+});
+
+const promiseAll = Promise.all([p1, p2, p3, p4]);
+// promiseAll
+//   .then((res) => console.log({ res }))
+//   .catch((err) => console.error({ err }));
+
+// console.log({ promiseAll });
+/*
+ [[Prototype]]:Promise
+ [[PromiseState]]:"rejected"
+ [[PromiseResult]]:"rejected p3"
+ */
+
+const promiseAllSetteled = Promise.allSettled([p1, p2, p3, p4]);
+// promiseAllSetteled.then((res) => console.log({ res }));
+// console.log({ promiseAllSetteled });
+/*
+ [[Prototype]]:Promise
+ [[PromiseState]]:"fulfilled"
+ [[PromiseResult]]:Array(4)
+ 0:{status: 'fulfilled', value: 'Resolved p1'}
+ 1:{status: 'fulfilled', value: 'Resolved p2'}
+ 2:{status: 'rejected', reason: 'rejected p3'}
+ 3:{status: 'fulfilled', value: 'Resolved p4'}
+ */
+
+const promiseRace = Promise.race([p1, p2, p3, p4]);
+// promiseRace.then((res) => console.log({ res }));
+// console.log({ promiseRace });
+/*
+ [[Prototype]]:Promise
+ [[PromiseState]]:"fulfilled"
+ [[PromiseResult]]:"Resolved p2"
+ */
+
+const promiseAny = Promise.any([p1, p2, p3, p4]);
+// promiseAny.then((res) => console.log({ res }));
+// console.log({ promiseAny });
+/*
+ [[Prototype]]:Promise
+ [[PromiseState]]:"fulfilled"
+ [[PromiseResult]]:"Resolved p2"
+ */
+
+///* AggregateError
+
+const ap1 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("rejected p1");
+  }, 3000);
+});
+
+const ap2 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("rejected p2");
+  }, 2000);
+});
+
+const ap3 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("rejected p3");
+  }, 4000);
+});
+
+const ap4 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("rejected p4");
+  }, 5000);
+});
+
+const promiseAggregateErr = Promise.any([ap1, ap2, ap3, ap4]);
+promiseAggregateErr
+  .then((msg) => console.log({ msg }))
+  .catch((err) => {
+    console.error({ err });
+    console.log(err.errors); // aggregate err []
+  });
+
+```
+
+

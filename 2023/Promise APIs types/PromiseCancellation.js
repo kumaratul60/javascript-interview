@@ -1,4 +1,23 @@
-// using function
+// M1- using AbortController
+const controller = new AbortController();
+const signal = controller.signal;
+
+const promise = new Promise((resolve, reject) => {
+  if (signal.aborted) {
+    reject(new Error("Promise cancelled"));
+  } else if (error) {
+    reject(error);
+  } else {
+    resolve(result);
+  }
+});
+
+// Set a timeout to cancel the Promise after 5 seconds
+setTimeout(() => {
+  controller.abort();
+}, 5000);
+
+// M2- using function
 
 function createCancellablePromise(executor) {
   let isCancelled = false;
@@ -55,7 +74,7 @@ cancellablePromise
 // Cancel the operation before it completes
 cancellablePromise.cancel();
 
-// using class
+// M3- using class
 
 class CancellablePromise {
   constructor(executor) {
