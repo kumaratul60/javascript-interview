@@ -70,3 +70,4 @@ setTimeout(() => console.log(7));
 Promise.resolve().then(() => console.log(8));
 setTimeout(() => console.log(9));
 console.log(10);
+
