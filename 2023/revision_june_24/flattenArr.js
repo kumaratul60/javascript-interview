@@ -1,6 +1,21 @@
 const a = [1, 2, 3, [4, [5, 6]], [{ t: "l" }], [7], 8, [9, 10]];
 const arr = [[1, [2]], [3, [4, 5]], [6, 7], 8];
 
+// best way
+function flattenBest(arr, flattenArr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      flattenBest(arr[i], flattenArr);
+    } else {
+      flattenArr.push(arr[i]);
+    }
+  }
+  return flattenArr;
+}
+
+// const output = flattenBest(a,[])
+// console.log(output);
+
 // optimise way o(1) space
 function flattenInPlace(arr) {
   for (let i = 0; i < arr.length; i++) {
@@ -15,19 +30,6 @@ function flattenInPlace(arr) {
 const flatTest = flattenInPlace(a, 2);
 
 console.log({ flatTest });
-
-// best way
-
-function flattenBest(arr, flattenArr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (Array.isArray(arr[i])) {
-      flattenBest(arr[i], flattenArr);
-    } else {
-      flattenArr.push(arr[i]);
-    }
-  }
-  return flattenArr;
-}
 
 //Using while loop with a recursive helper function
 function flattenArr(nested) {
@@ -82,6 +84,3 @@ function stackFlatten(input) {
 // const output = a.flat(Infinity);
 // const output = flatDeep(a, Infinity);
 // const output = stackFlatten(a);
-
-// const output = flattenBest(a,[])
-// console.log(output);
