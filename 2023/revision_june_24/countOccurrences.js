@@ -1,3 +1,14 @@
+function countFrequencies(array) {
+  return array.reduce((acc, value) => {
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+const elements = ["a", "b", "c", "d", "b", "c", "d", "b", "c", "d"];
+console.log(countFrequencies(elements));
+
+// lengthy way
 function countOccurrences(array) {
   const countMap = {};
 
@@ -17,5 +28,7 @@ function countOccurrences(array) {
 }
 
 const myArray = [1, 2, 3, 2, 4, 2, 5];
+
 const occurrences = countOccurrences(myArray);
+const occurrencesFr = countFrequencies(myArray);
 console.log(occurrences);
