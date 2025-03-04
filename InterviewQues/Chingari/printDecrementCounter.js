@@ -55,3 +55,23 @@ function b() {
 }
 
 b();
+
+
+
+//
+function b() {
+  for (let j = 10; j >= 0; j--) {
+    setTimeout(() => {
+      console.clear(); // Clear console for a dynamic effect
+      console.log(`💥 Countdown: ${j}`);
+      
+      // Adding a visual progress bar
+      console.log("[" + "=".repeat(10 - j) + " ".repeat(j) + "]");
+
+      if (j === 0) {
+        console.log("🔥💥 BOOM 💥🔥");
+      }
+    }, (10 - j) * 1000);
+  }
+}
+
