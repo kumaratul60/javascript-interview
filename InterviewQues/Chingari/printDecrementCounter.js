@@ -104,3 +104,27 @@ function b(start = 10, delay = 1000) {
 b(5, 800); // Countdown from 12 with 800ms interval
 
 
+
+//
+
+function b(start = 10, delay = 1000) {
+  for (let j = start; j > 0; j--) {  // Change j >= 0 to j > 0
+    setTimeout(() => {
+      console.clear(); // Clear console for a dynamic effect
+      console.log(`${j} seconds to go`);
+
+      // Dynamic progress bar that scales
+      let progress = Math.floor(((start - j) / start) * start);
+      console.log("[" + "=".repeat(progress) + " ".repeat(start - progress) + "]");
+    }, (start - j) * delay);
+  }
+
+  // Handle "BOOM" separately to avoid displaying "0"
+  setTimeout(() => {
+    console.clear();
+    console.log("BOOM");
+  }, start * delay);
+}
+b(5, 800);
+
+
