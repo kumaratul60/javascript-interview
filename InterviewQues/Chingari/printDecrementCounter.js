@@ -76,3 +76,31 @@ function b(start=10) {
 }
 b(12)
 
+
+//
+
+function b(start = 10, delay = 1000) {
+  const totalLength = 20; // Progress bar length
+
+  for (let j = start; j >= 0; j--) {
+    setTimeout(() => {
+      console.clear(); // Clear console for a dynamic effect
+      console.log(`⏳ Countdown: ${j} seconds remaining`);
+
+      // Dynamic progress bar that scales
+      let progress = Math.floor(((start - j) / start) * totalLength);
+      console.log("[" + "=".repeat(progress) + " ".repeat(totalLength - progress) + "]");
+
+      if (j === 0) {
+        console.log("🔥💥 BOOM 💥🔥");
+        // Optional: Play the explosion sound
+        // new Audio('explosion.mp3').play(); (For browser usage)
+      }
+    }, (start - j) * delay);
+  }
+}
+
+// Start countdown with custom settings
+b(5, 800); // Countdown from 12 with 800ms interval
+
+
