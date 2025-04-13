@@ -181,3 +181,6 @@ const result = 5 |> (x => x * x) |> (x => x + 1);
 
 This document covers TypeScript features from version 4.0 onwards, including stable and experimental features. More features will be added as they get released!
 
+
+https://docs.google.com/presentation/d/17kw77NlWn5Ah5moPYXRSv1KVPwRA0mQaIUGqwh__PkQ/edit?slide=id.g34994bb3763_3_12&pli=1#slide=id.g34994bb3763_3_12
+
