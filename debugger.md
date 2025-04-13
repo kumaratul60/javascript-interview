@@ -12,7 +12,7 @@ A markdown guide to mastering Chrome DevTools debugging from basic to advanced u
   - [Sources Panel Overview](#sources-panel-overview)
   - [File Navigation](#file-navigation)
   - [Code Navigation](#code-navigation)
-  - [Debugger Controls](#debugger-controls)
+  - [🐞 Debugger Controls](#-debugger-controls)
   - [Breakpoints](#breakpoints)
   - [Watch Expressions](#watch-expressions)
   - [Call Stack \& Scope](#call-stack--scope)
@@ -56,15 +56,15 @@ Three main sections:
 
 ---
 
-## Debugger Controls
+## 🐞 Debugger Controls
 
-| Icon/Action             | Shortcut    | Description                                                                                                               |
-| ----------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| ▶️ Resume (F8)          | `F8`        | Continue execution until next breakpoint                                                                                  |
-| ➡️ Step Over (F10)      | `F10`       | Execute current line, skip functions                                                                                      |
-| 🔍 Step Into (F11)      | `F11`       | Enters the next function call and pauses at its first line.                                                               |
-| 🚪 Step Out (Shift+F11) | `Shift+F11` | Completes execution of the current function and pauses at the next line after the function call and Exit current function |
-| 🎯 Step (F9)            | `F9`        | Toggle breakpoints or Enables or disables all breakpoints.                                                                | [[9]][[7]] |
+| Icon / Action            | Shortcut    | Description                                                                     |
+| ------------------------ | ----------- | ------------------------------------------------------------------------------- |
+| ▶️ **Resume**            | `F8`        | Continue execution until the next breakpoint.                                   |
+| ⏭️ **Step Over**         | `F10`       | Execute the current line of code without stepping into functions.               |
+| 🔎 **Step Into**         | `F11`       | Enter the next function call and pause at its first line.                       |
+| 🔙 **Step Out**          | `Shift+F11` | Finish executing the current function and pause at the line following its call. |
+| 🎯 **Toggle Breakpoint** | `F9`        | Enable or disable a breakpoint on the current line.                             |
 
 ---
 
@@ -99,3 +99,4 @@ Monitor variables/expression:
 - [Chrome DevTools Docs](https://developer.chrome.com/docs/devtools/)
 - [JavaScript Debugging Guide](https://javascript.info/debugging-chrome)
 - [Advanced Debugging Techniques](https://developer.chrome.com/docs/devtools/javascript/)
+- [GIT Cheat sheet](https://www.freecodecamp.org/news/git-cheat-sheet)
