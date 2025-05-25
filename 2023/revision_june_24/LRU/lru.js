@@ -1,4 +1,0 @@
-/**
- * Chrome storage automatic eviction
- *
- */

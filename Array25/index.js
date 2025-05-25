@@ -230,3 +230,5 @@ console.log(lengthArray.length); // 1 ["tomato"]
 
 // note: An array can hold the elements of any type, maximum length of an array will be 2 ** 32 - 1 === 4294967295
 
+// Phase-8: Array methods
+
