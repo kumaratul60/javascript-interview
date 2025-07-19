@@ -231,4 +231,52 @@ console.log(lengthArray.length); // 1 ["tomato"]
 // note: An array can hold the elements of any type, maximum length of an array will be 2 ** 32 - 1 === 4294967295
 
 // Phase-8: Array methods
+// concat(): it is a immutable method, it means that if you performing the operation on the array using the concat method, then the source array will not get change.
 
+const fc1 = [1, 2, 3];
+const fc2 = [4, 5, 6];
+const fc3 = [7, 8, 9];
+const fm1 = fc1.concat(fc2);
+const fm2 = fc2.concat(fc1);
+const fm3 = fc1.concat(fc2, fc3);
+console.log({ fc1, fc2, fm1, fm2, fm3 });
+
+// join():
+// 1. Join the array elements together.
+// 2. Join the all array of elements using a "separator" and ultimate return a "string"
+// 3. The default separator the join method is using is comma (',').
+
+const joinTest = ["✅", "✔️", "💥", "🔽", "▶️"];
+const joinRes1 = joinTest.join();
+const joinRes2 = joinTest.join("$");
+const joinRes3 = joinTest.join("&<^=>");
+// [].join() => return ""
+console.log({ joinTest, joinRes1, joinRes2, joinRes3 });
+
+// fill(): fill a array with static values and selective change, it mutate(change). the array
+const colors = ["red", "white", "green"];
+// colors.fill("pink"); //['pink', 'pink', 'pink']
+
+// for selective change
+colors.fill("pink", 1, 3); //['red', 'pink', 'pink']
+console.log({ colors });
+
+// includes(): it determines that element presence in array or not. case-sensitive(case matters a-lot): return true or false
+
+const valP = ["tom", "bom"];
+const cp = valP.includes("tom"); // true
+const cp1 = valP.includes("Tom"); // false
+
+// indexOf(): it used to know index position of a element in array, it return first occurrence of element.
+const namesBaba = ["alex", "bob", "saba"];
+const resBaba = namesBaba.indexOf("bob");
+console.log({ resBaba }); //1
+namesBaba.indexOf("robbi"); //-1
+
+// lastIndexOf(): it used to know index position of a element in array, it return last occurrence of element.
+
+// reverse(): reverse the existing array, it mutate the original array
+const revA = [1, 2, 3, 4];
+console.log(revA.reverse());
+
+// sort: 

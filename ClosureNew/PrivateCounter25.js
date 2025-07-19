@@ -1,7 +1,7 @@
 function createCounter() {
   let count = 0;
   return {
-    increment: function () {
+    increment: () => {
       count++;
       console.log(`increment by ${count}`);
     },
@@ -16,8 +16,8 @@ function createCounter() {
   };
 }
 
-const counter = createCounter()
-counter.increment()
+const counter = createCounter();
+counter.increment();
 counter.increment();
 counter.increment();
 counter.decrement();
