@@ -279,4 +279,78 @@ namesBaba.indexOf("robbi"); //-1
 const revA = [1, 2, 3, 4];
 console.log(revA.reverse());
 
-// sort: 
+// sort:
+// the default sort() method converts the element types into string
+// the default sorting order is ascending
+
+const artist = ["jon", "tom", "lio", "kio", "Anna"];
+const defaultSort = artist.sort();
+// writing comparator function
+const descendingSort = artist.sort(function (a, b) {
+  return a === b ? 0 : a > b ? -1 : 1;
+});
+const descendingSort1 = artist.sort(function (a, b) {
+  return b - a;
+});
+const descendingSort2 = artist.sort((a, b) => b - a);
+
+//✅ Always clone the original array before sorting if you don't want it mutated.
+//❌ b - a only works for numbers, not for strings.
+//✅ Use a > b ? -1 : 1 or localeCompare() for safer string sorting.
+
+const defaultSort1 = [...artist].sort(); // shallow copy and sort
+const descendingSort11 = [...artist].sort((a, b) => {
+  return a === b ? 0 : a > b ? -1 : 1;
+});
+const ascendingSort11 = [...artist].sort((a, b) => {
+  return a === b ? 0 : a > b ? 1 : -1;
+});
+// Or simpler comparator:
+const descendingSort12 = [...artist].sort((a, b) => b.localeCompare(a));
+
+// Splice()
+
+// splice(start,deleteCount,item, item1,item2,...)
+// start: starting position
+// deleteCount: number of element want to delete, if count is 0,-1 then none of element get removed
+// item, item1,item2,...: that element get added from starting position,
+//so for the adding the item: splice(start,deleteCount,item, item1,item2,...)
+// for deleting the item = splice(start,deleteCount)
+// splice return the deleted item of array
+
+const tomSplice1 = ["paa", "kka", "lla"];
+console.log(tomSplice1.splice(0, 1)); // ["paa"]
+console.log(tomSplice1.splice(0, 1, "ooo")); // ["paa"]
+console.log(tomSplice1); // ["ooo", "kka", "lla"]
+
+// at()
+// +ve number start count from left hand side
+// -ve number start count from right hand side
+
+const junky = ["ab", "bc", "cd", "ef", "fg", "gh", "hi", "ij", "jk"];
+console.log(junky[0]); //"ab"
+console.log(junky.at[0]); // undefined
+console.log(junky.at(0)); // "ab"
+console.log(junky.at(3)); // "ef"
+console.log(junky.at(-1)); // "jk"
+console.log(junky.at(-5)); // "fg"
+console.log(junky.at(8)); // "jk"
+// console.log(junky(-10));// error
+// console.log(junky(10));// error
+
+// copyWithin()
+// copyWithIn(target,start,end) : target and start are mandatory, end operator is optional
+
+const withIn1 = [1, 2, 3, 4, 5, 6, 7];
+withIn1.copyWithin(0, 3, 6);
+console.log(withIn1); //  [4, 5, 6, 4, 5, 6, 7];
+
+const withIn2 = [7, 8, 9, 10, 11, 12, 13];
+withIn2.copyWithin(0, 4);
+console.log(withIn2); //[11,12,13,10,11,12,13]
+
+const withIn3 = [7, 8, 9, 10, 11, 12, 13];
+withIn2.copyWithin(0, 4, 12);
+console.log(withIn3); //[12,13,9,10,11,12,13]
+
+// flat()
