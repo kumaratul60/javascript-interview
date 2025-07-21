@@ -354,3 +354,85 @@ withIn2.copyWithin(0, 4, 12);
 console.log(withIn3); //[12,13,9,10,11,12,13]
 
 // flat()
+const fl1 = [0, 1, 2, [4, 5]];
+console.log(fl1.flat()); // [0,1,2,4,5]
+
+const fl2 = [0, 1, [2, [3, 4, [5, [6, 7]]]]];
+console.log(fl2.flat()); //[ 0, 1, 2, [ 3, 4, [ 5, [Array] ] ] ]
+console.log(fl2.flat(2)); //[ 0, 1, 2, 3, 4, [ 5, [ 6, 7 ] ] ]
+console.log(fl2.flat(3)); //[ 0, 1, 2, 3, 4, 5, [ 6, 7 ] ]
+console.log(fl2.flat(Infinity)); //[0, 1, 2, 3, 4, 5, 6, 7]
+
+// grouping the data in array
+
+const emplooyees = [
+  { name: "Bob", dept: "Eng", salary: "5000" },
+  { name: "Alex", dept: "HR", salary: "500" },
+  { name: "Fron", dept: "Sels", salary: "100" },
+  { name: "Toby", dept: "Eng", salary: "400" },
+  { name: "Boby", dept: "Product", salary: "5100" },
+  { name: "Coby", dept: "Eng", salary: "6000" },
+  { name: "Doby", dept: "Eng", salary: "7000" },
+];
+const groupByDept = Object.groupBy(emplooyees, ({ dept }) => dept);
+console.log({ groupByDept }, groupByDept.Eng);
+
+const groupByMoreThat5k = Object.groupBy(emplooyees, ({ salary }) => salary > 5000);
+console.log(groupByMoreThat5k); // response in true/false format
+
+const groupByMoreThat5k1 = Object.groupBy(emplooyees, ({ salary }) => {
+  return salary >= 5000 ? "More than 5k" : "Less than 5k";
+});
+console.log(groupByMoreThat5k1);
+
+// Phase 9: Immutability
+
+//toReversed(): it is a immutable version of reverse() method
+const rev1 = [0, 1, 2, 3];
+const rev2 = [10, 11, 12, 13];
+// it get change the  original array:
+console.log(rev1.reverse(), rev1); // [ 3, 2, 1, 0 ] [ 3, 2, 1, 0 ]
+
+//toReversed(): it doesn't change the original array, rather than it return new array
+console.log(rev2.toReversed(), rev2); // [ 13, 12, 11, 10 ] [ 10, 11, 12, 13 ]
+
+// toSorted(): it is a immutable version of sorting method
+const months = ["Mar", "Jan", "Jul", "May", "Jun"];
+const months2 = ["May", "Jun", "Jan", "Mar", "Jun"];
+const months1 = months.sort();
+const monthsT2 = months2.toSorted();
+console.log({ months, months1, months });
+console.log({ months2, monthsT2, months2 });
+// months: [ 'Jan', 'Jul', 'Jun', 'Mar', 'May' ],
+// months1: [ 'Jan', 'Jul', 'Jun', 'Mar', 'May' ]
+
+// months2: [ 'May', 'Jun', 'Jan', 'Mar', 'Jun' ],
+// monthsT2: [ 'Jan', 'Jun', 'Jun', 'Mar', 'May' ]
+
+// toSpliced(): same immutable of splice()
+const monthsSp = ["May", "Jun", "Jan", "Mar", "Jun"];
+const monthsSpRes = monthsSp.toSpliced(1, 0, "feb");
+console.log({ monthsSpRes, monthsSp });
+// monthsSpRes: [ 'May', 'feb', 'Jun', 'Jan', 'Mar', 'Jun' ],
+// monthsSp: [ 'May', 'Jun', 'Jan', 'Mar', 'Jun' ]
+
+// with(): immutability power ,
+// with(index, value) // index is number that can be -ve also, when index number will be:
+//  -ve it start counting from backward (from right hand side)
+// -ve it start counting from front (from left hand side)
+
+const withNum = [1, 2, 3, 4, 5, 6];
+// how to change element 3 and change to 7
+withNum[2] = 7;
+console.log({ withNum }); //  [ 1, 2, 7, 4, 5, 6 ] // orinal array get changed
+
+// play with -ve index
+withNum[-2] = 8;
+console.log({ withNum }); //  [ 1, 2, 7, 4, 5, 6, '-2': 8 ]
+
+const usingWith = withNum.with(2, 7);
+const usingWithNeg = withNum.with(-2, 8);
+console.log({ usingWith }); //  [ 1, 2, 7, 4, 5, 6 ]
+console.log({ usingWithNeg }); // [ 1, 2, 7, 4, 8, 6 ]
+
+// Phase 10: Array Static method
