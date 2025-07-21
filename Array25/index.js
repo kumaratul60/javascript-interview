@@ -424,7 +424,7 @@ console.log({ monthsSpRes, monthsSp });
 const withNum = [1, 2, 3, 4, 5, 6];
 // how to change element 3 and change to 7
 withNum[2] = 7;
-console.log({ withNum }); //  [ 1, 2, 7, 4, 5, 6 ] // orinal array get changed
+console.log({ withNum }); //  [ 1, 2, 7, 4, 5, 6 ] // original array get changed
 
 // play with -ve index
 withNum[-2] = 8;
@@ -436,3 +436,77 @@ console.log({ usingWith }); //  [ 1, 2, 7, 4, 5, 6 ]
 console.log({ usingWithNeg }); // [ 1, 2, 7, 4, 8, 6 ]
 
 // Phase 10: Array Static method
+
+// Array Like
+const arr_like = { 0: "I", 1: "Like", 2: "Code", length: 3 };
+console.log({ arr_like });
+arr_like[2]; // "code"
+//Array.isArray(arr_like); // false
+//arr_like instanceof object; // true
+
+// uses of Array Like
+function checkArgs() {
+  console.log(arguments); // prototype:object
+  // It shows error typeError: arguments.forEach is not a function
+  // arguments.forEach((el) => {
+  //   // do something
+  // });
+
+  // if we want to iterate then first convert it into array then do the operation
+  const argArr = [...arguments];
+  console.log(argArr); // prototype:Array
+  argArr.forEach((elm) => {
+    console.log(elm); //1,3
+  });
+}
+checkArgs(1, 3); // Arguments(2):[0:1,2:3,length:2], it is look like an array but is is not an array it is an object. Array methods will not works here.
+
+console.log("HTML collection as Array Like", document.getElementsByTagName("li"));
+// when convert Array-Like to Array use Array.from(Array-Like)
+const collectionArr = Array.from(document.getElementsByTagName("li"));
+console.log("converted Array", collectionArr);
+
+// fromAsync(): this is also a static method in Array like Array-Like and Array.from, this is will also create new array just like Array.from does, but the one mazor difference is in case of Array.from() you get array directly but in Array.fromAsync you will get a promise in return, and then you've to handle that promise to get actual array value.
+// fromAsync also work with asyncIterable object(readableStream, asyncGenerator)
+// So if you've asyncIterable object and from there want to convert or get an array as result that is time you'll using Array.fromAsync()
+
+const collectionAsyncArr = Array.fromAsync(document.getElementsByTagName("li"));
+console.log("converted Array", collectionAsyncArr); // Promise{<pending>}
+collectionAsyncArr.then((res) => console.log(res)).catch((err) => console.log(err));
+
+// Ex:2
+const ret = Array.fromAsync({
+  0: Promise.resolve("Do code"),
+  1: Promise.resolve("Get Dream"),
+  2: Promise.resolve("Feel Happy"),
+  length: 3,
+});
+
+/*
+Array-Like:
+{
+  0: Promise.resolve("Do code"),
+  1: Promise.resolve("Get Dream"),
+  2: Promise.resolve("Feel Happy"),
+  length: 3,
+}
+*/
+const retRes = ret.then((val) => console.log(val).catch((err) => console.log(err)));
+console.log(ret, retRes, "::ret");
+
+// Array.of(): Array.of is a static method that help us to create a new array instance.
+// not like prev two method where create array from array like using Array.from and Array.fromAsync.
+// here it'll create new instance from any number of arguments
+
+// creating an array using array constructor
+const aOf = new Array(2, 3, 4); // [2,3,4]
+// creating an array using normal way
+const bOf = [4, 5, 6]; // [4,5,6]
+// creating an array using of() method
+const cOf = Array.of(5, 6, 7, true, "test of", { name: "alex" }, [8, 9, 1]);
+console.log(cOf); // [5, 6, 7, true, "test of", { name: "alex" }, [8, 9, 1]];
+
+//------------------------------------------------------------------------------------
+
+// Phase 11:
+// Array iterator methods
