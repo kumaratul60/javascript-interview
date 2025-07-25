@@ -143,6 +143,8 @@ console.log(document.URL); // The Current page's URL
 5. **Paint**: draw pixels
 6. **Composite**: assemble layers
 
+<img target="_blank" src="rendertree.png" alt="">
+
 ---
 
 ## ⚙️ Reflow vs Repaint vs Composite
