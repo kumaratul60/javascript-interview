@@ -51,7 +51,7 @@ A complete, zero-to-hero guide on the DOM. From core fundamentals and browser re
       - [3. Efficiently Render Large Lists: Virtualization](#3-efficiently-render-large-lists-virtualization)
       - [4. Throttle \& Debounce Events](#4-throttle--debounce-events)
   - [🧠 **Part 5: Ace Your Interview - Q\&A**](#-part-5-ace-your-interview---qa)
-    - [Top 10 Advanced DOM Interview Questions \& Answers](#top-10-advanced-dom-interview-questions--answers)
+    - [Top 20 Advanced DOM Interview Questions \& Answers](#top-20-advanced-dom-interview-questions--answers)
 
 ---
 
@@ -587,7 +587,7 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 ## 🧠 **Part 5: Ace Your Interview - Q&A**
 
-### Top 10 Advanced DOM Interview Questions & Answers
+### Top 20 Advanced DOM Interview Questions & Answers
 
 1.  **Describe the browser's rendering pipeline.**
   > It starts with parsing HTML and CSS into the DOM and CSSOM. These are combined into a Render Tree of visible elements. The browser then performs Layout (Reflow) to calculate geometry, followed by Paint to draw pixels, and finally Composite to assemble layers on screen.
