@@ -560,7 +560,7 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
 
 - **DocumentFragment:** When adding multiple elements to the DOM, it's more efficient to append them to a `DocumentFragment` first and then append the fragment to the DOM. This results in a single reflow and repaint, rather than one for each element.
 
-````javascript
+```js
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < 10000; i++) {
@@ -570,6 +570,8 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
   }
 
   document.getElementById('my-list').appendChild(fragment);
+
+```
 
 *   **Debouncing and Throttling:** For events that fire rapidly, like `scroll` or `resize`, use debouncing or throttling to limit the number of times your event handler function is called.
 
