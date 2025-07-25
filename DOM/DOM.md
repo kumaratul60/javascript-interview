@@ -718,7 +718,7 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 19.   **How would you efficiently update a large list of items with new data?**
 
-  >The most efficient way is to use a Virtual DOM library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
+  >The most efficient way is to use a [**Virtual DOM**](https://atulkawasthi.medium.com/what-is-the-dom-virtual-dom-afea2de36a00) library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
 
 ---
 
