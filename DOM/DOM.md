@@ -627,10 +627,10 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
    Difference between `querySelector` vs `getElementsByClassName`
 
-```text
+
 - `querySelector`: Returns the **first matching** element. Accepts **complex CSS selectors**.
 - `getElementsByClassName`: Returns **live HTMLCollection** of all elements with the class.
-```
+
 | Feature                   | querySelector       | getElementsByClassName     |
 |--------------------------|---------------------|-----------------------------|
 | Return type              | Single Element (first match) | Live HTMLCollection     |
@@ -640,15 +640,19 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 ---
 
-11. **What causes Reflow vs Repaint? How to optimize**?
+11.  **What causes Reflow vs Repaint? How to optimize**?
 
-```txt
+
 - **Reflow (Layout):**
+  ```
   Triggered by DOM structure/size changes → position/geometry recalculations.
+  ```
   Examples: Adding/removing elements, resizing, font changes.
 
 - **Repaint:**
+ ```js
   Triggered by style changes not affecting layout.
+  ```
   Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 
 ✅ Optimization Techniques:
@@ -657,11 +661,11 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 - Debounce resize/input listeners.
 - Avoid layout thrashing (reading after writing repeatedly).
 - Prefer `transform` & `opacity` for animation (GPU accelerated).
-```
+
 
 ---
 
-12. **How does Shadow DOM help in style encapsulation**?
+12.  **How does Shadow DOM help in style encapsulation**?
 
 - Creates scoped DOM subtree attached to a host element.
 - Styles inside Shadow DOM don’t leak out.
@@ -696,20 +700,20 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
     An `HTMLCollection` (returned by `getElementsByTagName` or `getElementsByClassName`) is "live," meaning it automatically updates when the underlying document is changed. A `NodeList` returned by `querySelectorAll` is "static," meaning it's a snapshot of the elements at the time it was created and does not update with subsequent DOM changes.
 ---
 
-17. **What causes "layout thrashing" and how can you avoid it?**
+16. **What causes "layout thrashing" and how can you avoid it?**
 
     Layout thrashing occurs when you alternate between reading a layout-sensitive property (like `offsetHeight` or `offsetWidth`) and writing to the DOM (changing a style). This forces the browser to perform a reflow with each iteration. To avoid it, batch your reads and then batch your writes.
 
 ---
 
-18. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
+17.  **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
 
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
     - `innerText`: Similar to `textContent`, but it is aware of the rendered appearance of the text. It won't return text from hidden elements and is significantly slower because it triggers a reflow.
 ---
 
-19.  **How would you efficiently update a large list of items with new data?**
+19.   **How would you efficiently update a large list of items with new data?**
 
     The most efficient way is to use a Virtual DOM library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
 
