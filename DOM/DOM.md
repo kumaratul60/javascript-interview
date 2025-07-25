@@ -143,8 +143,6 @@ console.log(document.URL); // The Current page's URL
 5. **Paint**: draw pixels
 6. **Composite**: assemble layers
 
-
-
 ---
 
 ## ⚙️ Reflow vs Repaint vs Composite
@@ -562,7 +560,7 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
 
 - **DocumentFragment:** When adding multiple elements to the DOM, it's more efficient to append them to a `DocumentFragment` first and then append the fragment to the DOM. This results in a single reflow and repaint, rather than one for each element.
 
-````javascript
+```js
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < 10000; i++) {
@@ -572,6 +570,8 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
   }
 
   document.getElementById('my-list').appendChild(fragment);
+
+```
 
 *   **Debouncing and Throttling:** For events that fire rapidly, like `scroll` or `resize`, use debouncing or throttling to limit the number of times your event handler function is called.
 
@@ -663,64 +663,60 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 12. **How does Shadow DOM help in style encapsulation**?
 
-```txt
 - Creates scoped DOM subtree attached to a host element.
 - Styles inside Shadow DOM don’t leak out.
 - External styles cannot affect internal content.
 - Enables reusable, style-safe components.
 - Supports `:host`, `::part`, `::slotted` for scoped targeting.
-```
 
 ---
 
 13. **Why is Event Delegation more performant**?
 
-```txt
 - Attaches single listener on parent instead of many on children.
 - Reduces memory usage.
 - Dynamically handles future children (great for dynamic lists).
 - Leverages event bubbling phase to intercept events.
 - Useful when rendering large, dynamic UIs.
-```
 
 ---
 
 14. **Explain how to render large lists efficiently**.
 
-```txt
 - Use **virtual scrolling / windowing** libraries like `react-window`, `virtual-scroller`, or custom logic.
 - Render only the items visible in viewport.
 - Batch DOM updates using `requestAnimationFrame`.
 - Use `DocumentFragment` for batch DOM insertions.
 - Avoid nested loops and deep hierarchies.
-```
 
 ---
 
 15. **What's the difference between a live `HTMLCollection` and a static `NodeList`?**
+
     An `HTMLCollection` (returned by `getElementsByTagName` or `getElementsByClassName`) is "live," meaning it automatically updates when the underlying document is changed. A `NodeList` returned by `querySelectorAll` is "static," meaning it's a snapshot of the elements at the time it was created and does not update with subsequent DOM changes.
+---
 
-    ***
+17. **What causes "layout thrashing" and how can you avoid it?**
 
-16. **What causes "layout thrashing" and how can you avoid it?**
     Layout thrashing occurs when you alternate between reading a layout-sensitive property (like `offsetHeight` or `offsetWidth`) and writing to the DOM (changing a style). This forces the browser to perform a reflow with each iteration. To avoid it, batch your reads and then batch your writes.
 
-    ***
+---
 
-17. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
+18. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
 
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
     - `innerText`: Similar to `textContent`, but it is aware of the rendered appearance of the text. It won't return text from hidden elements and is significantly slower because it triggers a reflow.
+---
 
-- ***
+19.  **How would you efficiently update a large list of items with new data?**
 
-1.  **How would you efficiently update a large list of items with new data?**
     The most efficient way is to use a Virtual DOM library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
 
 ---
 
-1.  **What is the purpose of the `requestAnimationFrame()` method?**
+20.  **What is the purpose of the `requestAnimationFrame()` method?**
+
     `requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
 
 ---
