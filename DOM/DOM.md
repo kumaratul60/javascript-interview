@@ -143,7 +143,7 @@ console.log(document.URL); // The Current page's URL
 5. **Paint**: draw pixels
 6. **Composite**: assemble layers
 
-<img target="_blank" src="rendertreee.png" alt="">
+<img target="_blank" src="rendertreee.png" alt="pipeLine">
 
 ---
 
@@ -713,16 +713,17 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
     - `innerText`: Similar to `textContent`, but it is aware of the rendered appearance of the text. It won't return text from hidden elements and is significantly slower because it triggers a reflow.
+
 ---
 
 19.   **How would you efficiently update a large list of items with new data?**
 
-    The most efficient way is to use a Virtual DOM library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
+  >The most efficient way is to use a Virtual DOM library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
 
 ---
 
 20.  **What is the purpose of the `requestAnimationFrame()` method?**
 
-    `requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
+  >`requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
 
 ---
