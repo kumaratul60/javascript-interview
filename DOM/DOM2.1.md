@@ -20,6 +20,9 @@ A complete, zero-to-hero guide on the DOM. From core fundamentals and browser re
   - [⚡ **Part 3: Mastering Events**](#-part-3-mastering-events)
     - [Event Propagation: Capturing vs. Bubbling](#event-propagation-capturing-vs-bubbling)
     - [The Power of Event Delegation](#the-power-of-event-delegation)
+    - [Stopping the Flow: `stopPropagation()` \& `stopImmediatePropagation()`](#stopping-the-flow-stoppropagation--stopimmediatepropagation)
+  - [🔬 **Part 4: Advanced DOM \& Performance**](#-part-4-advanced-dom--performance)
+    - [Shadow DOM: Style Encapsulation for Components](#shadow-dom-style-encapsulation-for-components)
       - [2. Avoid Layout Thrashing](#2-avoid-layout-thrashing)
       - [3. Efficiently Render Large Lists: Virtualization](#3-efficiently-render-large-lists-virtualization)
       - [4. Throttle \& Debounce Events](#4-throttle--debounce-events)
@@ -151,7 +154,8 @@ parentList.addEventListener('click', (event) => {
     console.log('List item clicked:', event.target.textContent);
   }
 });
-```**Benefits:** Better performance, less memory, and it automatically works for new items added to the list later!
+```
+**Benefits:** Better performance, less memory, and it automatically works for new items added to the list later!
 
 ### Stopping the Flow: `stopPropagation()` & `stopImmediatePropagation()`
 
