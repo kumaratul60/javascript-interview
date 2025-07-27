@@ -58,7 +58,10 @@ const h1Al2 = document.querySelector("heading"); // null
 const h1Al3 = document.querySelector("#heading"); //<h1 id="heading">"Learning Dom"</h1>
 console.log(h1All, h1All1, h1Al2, h1Al3, "::hall");
 
-// document.getElementsByName(elementName);
-// document.getElementsByTagNameNS(namespaceURI, localName);
-// document.getRootNode();
-// document.getSelection()
+// DOM Access methods:
+
+// 1. getElementById(id)
+// 2. getElementByClassName(className)
+// 3. getElementByTagName(tagName)
+// 4. querySelector(cssSelected) // return only the first matching element
+// 5. querySelectorAll(cssSelector) // return a NodeList inside that all the matching element

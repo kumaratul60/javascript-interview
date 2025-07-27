@@ -20,6 +20,7 @@ A complete, zero-to-hero guide on the DOM. From core fundamentals and browser re
     - [6. `querySelector()` vs `querySelectorAll()`](#6-queryselector-vs-queryselectorall)
     - [Comparison: Live vs Static Collections](#comparison-live-vs-static-collections)
     - [Special Accessors](#special-accessors)
+  - [Quick recap of DOM Access Methods](#quick-recap-of-dom-access-methods)
   - [🌐 DOM vs CSSOM vs BOM vs Render Tree](#-dom-vs-cssom-vs-bom-vs-render-tree)
     - [Browser Rendering Pipeline:](#browser-rendering-pipeline)
   - [⚙️ Reflow vs Repaint vs Composite](#️-reflow-vs-repaint-vs-composite)
@@ -122,6 +123,15 @@ console.log(document.URL); // The Current page's URL
 
 - `document.rootNode()` → Gets the root of DOM tree (useful for Shadow DOM)
 - `document.getSelection()` → Returns selected text on the page
+---
+
+## Quick recap of DOM Access Methods
+
+1.  getElementById(id)
+2.  getElementByClassName(className)
+3.  getElementByTagName(tagName)
+4.  querySelector(cssSelected) // return only the first matching element
+5.  querySelectorAll(cssSelector) // return a NodeList inside that all the matching element
 
 ---
 
@@ -563,19 +573,18 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
 - **DocumentFragment:** When adding multiple elements to the DOM, it's more efficient to append them to a `DocumentFragment` first and then append the fragment to the DOM. This results in a single reflow and repaint, rather than one for each element.
 
 ```js
-  const fragment = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < 10000; i++) {
-    const newItem = document.createElement('li');
-    newItem.textContent = `Item ${i + 1}`;
-    fragment.appendChild(newItem);
-  }
+for (let i = 0; i < 10000; i++) {
+  const newItem = document.createElement("li");
+  newItem.textContent = `Item ${i + 1}`;
+  fragment.appendChild(newItem);
+}
 
-  document.getElementById('my-list').appendChild(fragment);
-
+document.getElementById("my-list").appendChild(fragment);
 ```
 
-*   **Debouncing and Throttling:** For events that fire rapidly, like `scroll` or `resize`, use debouncing or throttling to limit the number of times your event handler function is called.
+- **Debouncing and Throttling:** For events that fire rapidly, like `scroll` or `resize`, use debouncing or throttling to limit the number of times your event handler function is called.
 
 ---
 
@@ -590,84 +599,96 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 ### Top 20 Advanced DOM Interview Questions & Answers
 
 1.  **Describe the browser's rendering pipeline.**
-  > It starts with parsing HTML and CSS into the DOM and CSSOM. These are combined into a Render Tree of visible elements. The browser then performs Layout (Reflow) to calculate geometry, followed by Paint to draw pixels, and finally Composite to assemble layers on screen.
+
+    > It starts with parsing HTML and CSS into the DOM and CSSOM. These are combined into a Render Tree of visible elements. The browser then performs Layout (Reflow) to calculate geometry, followed by Paint to draw pixels, and finally Composite to assemble layers on screen.
 
 2.  **What's the difference between a `NodeList` from `querySelectorAll` and an `HTMLCollection` from `getElementsByClassName`?**
-  > `HTMLCollection` is *live*—it automatically updates when the DOM changes. `NodeList` from `querySelectorAll` is *static*—it's a one-time snapshot and does not update.
+
+    > `HTMLCollection` is _live_—it automatically updates when the DOM changes. `NodeList` from `querySelectorAll` is _static_—it's a one-time snapshot and does not update.
 
 3.  **What is layout thrashing and how do you prevent it?**
-  > It's a performance bottleneck caused by repeatedly reading layout properties (like `offsetHeight`) and then writing styles in a loop, forcing a reflow on each iteration. Prevent it by batching all your reads first, then all your writes.
+
+    > It's a performance bottleneck caused by repeatedly reading layout properties (like `offsetHeight`) and then writing styles in a loop, forcing a reflow on each iteration. Prevent it by batching all your reads first, then all your writes.
 
 4.  **How does the Shadow DOM provide style encapsulation?**
-  > It creates a scoped DOM subtree where CSS rules defined inside don't leak out, and external styles don't leak in, preventing style conflicts. It's the foundation of Web Components.
+
+    > It creates a scoped DOM subtree where CSS rules defined inside don't leak out, and external styles don't leak in, preventing style conflicts. It's the foundation of Web Components.
 
 5.  **Why is Event Delegation more performant?**
-  > It reduces memory usage by requiring only one event listener on a parent element instead of many on its children. It also handles dynamically added children automatically.
+
+    > It reduces memory usage by requiring only one event listener on a parent element instead of many on its children. It also handles dynamically added children automatically.
 
 6.  **How would you efficiently render a list with 10,000 items?**
-  > Use virtualization (or windowing), a technique that only renders the handful of items currently visible in the viewport, recycling nodes as the user scrolls.
+
+    > Use virtualization (or windowing), a technique that only renders the handful of items currently visible in the viewport, recycling nodes as the user scrolls.
 
 7.  **What are the security risks of using `innerHTML`?**
-  > It's vulnerable to Cross-Site Scripting (XSS) attacks. If you insert untrusted user input containing a `<script>` tag, the script will be executed. `textContent` should be preferred.
+
+    > It's vulnerable to Cross-Site Scripting (XSS) attacks. If you insert untrusted user input containing a `<script>` tag, the script will be executed. `textContent` should be preferred.
 
 8.  **Explain `getRootNode()` in the context of the Shadow DOM.**
-  > When called on an element inside a shadow tree, it returns the `shadowRoot`. When called on a regular element, it returns the `document`. It helps determine an element's rendering context.
+
+    > When called on an element inside a shadow tree, it returns the `shadowRoot`. When called on a regular element, it returns the `document`. It helps determine an element's rendering context.
 
 9.  **How would you throttle DOM updates on window resize?**
-  > By wrapping the update logic in a function that uses `setTimeout` to delay execution. This ensures the logic doesn't run on every single pixel of the resize event, preventing performance issues.
+    > By wrapping the update logic in a function that uses `setTimeout` to delay execution. This ensures the logic doesn't run on every single pixel of the resize event, preventing performance issues.
 
-  ```javascript
-  let timeout;
-  window.addEventListener("resize", () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => { /* Perform layout update here */ }, 150);
-  });
-  ```
+```javascript
+let timeout;
+window.addEventListener("resize", () => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    /* Perform layout update here */
+  }, 150);
+});
+```
 
 10. **Explain the purpose of a `DocumentFragment`**.
-  > It's an in-memory, lightweight version of the DOM. You can append multiple elements to it without triggering any reflows, and then append the entire fragment to the real DOM in a single, efficient operation.
+    > It's an in-memory, lightweight version of the DOM. You can append multiple elements to it without triggering any reflows, and then append the entire fragment to the real DOM in a single, efficient operation.
 
-   Difference between `querySelector` vs `getElementsByClassName`
-
+Difference between `querySelector` vs `getElementsByClassName`
 
 - `querySelector`: Returns the **first matching** element. Accepts **complex CSS selectors**.
 - `getElementsByClassName`: Returns **live HTMLCollection** of all elements with the class.
 
-| Feature                   | querySelector       | getElementsByClassName     |
-|--------------------------|---------------------|-----------------------------|
-| Return type              | Single Element (first match) | Live HTMLCollection     |
-| Supports complex selectors | ✅                  | ❌                          |
-| Performance (simple case) | ⚠️ Slightly slower   | ✅ Faster                  |
-| Live vs Static           | Static               | Live            |
+| Feature                    | querySelector                | getElementsByClassName |
+| -------------------------- | ---------------------------- | ---------------------- |
+| Return type                | Single Element (first match) | Live HTMLCollection    |
+| Supports complex selectors | ✅                           | ❌                     |
+| Performance (simple case)  | ⚠️ Slightly slower           | ✅ Faster              |
+| Live vs Static             | Static                       | Live                   |
 
 ---
 
-11.  **What causes Reflow vs Repaint? How to optimize**?
-
+11. **What causes Reflow vs Repaint? How to optimize**?
 
 - **Reflow (Layout):**
+
   ```
   Triggered by DOM structure/size changes → position/geometry recalculations.
   ```
+
   Examples: Adding/removing elements, resizing, font changes.
 
 - **Repaint:**
- ```js
-  Triggered by style changes not affecting layout.
-  ```
-  Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
+
+```js
+ Triggered by style changes not affecting layout.
+```
+
+Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 
 ✅ Optimization Techniques:
+
 - Batch DOM reads/writes.
 - Use `DocumentFragment`.
 - Debounce resize/input listeners.
 - Avoid layout thrashing (reading after writing repeatedly).
 - Prefer `transform` & `opacity` for animation (GPU accelerated).
 
-
 ---
 
-12.  **How does Shadow DOM help in style encapsulation**?
+12. **How does Shadow DOM help in style encapsulation**?
 
 - Creates scoped DOM subtree attached to a host element.
 - Styles inside Shadow DOM don’t leak out.
@@ -700,6 +721,7 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 15. **What's the difference between a live `HTMLCollection` and a static `NodeList`?**
 
     An `HTMLCollection` (returned by `getElementsByTagName` or `getElementsByClassName`) is "live," meaning it automatically updates when the underlying document is changed. A `NodeList` returned by `querySelectorAll` is "static," meaning it's a snapshot of the elements at the time it was created and does not update with subsequent DOM changes.
+
 ---
 
 16. **What causes "layout thrashing" and how can you avoid it?**
@@ -708,7 +730,8 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 ---
 
-17.  **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
+17. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
+
 
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
@@ -716,14 +739,29 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 ---
 
-19.   **How would you efficiently update a large list of items with new data?**
+19. **How would you efficiently update a large list of items with new data?**
 
-  >The most efficient way is to use a [**Virtual DOM**](https://atulkawasthi.medium.com/what-is-the-dom-virtual-dom-afea2de36a00) library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
+> The most efficient way is to use a [**Virtual DOM**](https://atulkawasthi.medium.com/what-is-the-dom-virtual-dom-afea2de36a00) library (like React or Vue) that will "diff" the old and new states and only update the parts of the DOM that have actually changed. Manually, you would aim to minimize direct DOM manipulations by building the new list in a `DocumentFragment` and then replacing the old list.
 
 ---
 
-20.  **What is the purpose of the `requestAnimationFrame()` method?**
+20. **What is the purpose of the `requestAnimationFrame()` method?**
 
-  >`requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
+> `requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
+
+21. What is implicit attribute in HTML?
+    >In HTML, an implicit attribute refers to a default attribute value assumed by the browser even if it's not explicitly written in the code.
+   - Implicit attributes = default behavior/values assigned by the browser.
+   - style = not implicit, it's a global attribute that you must specify.
+    For example
+    
+    - <button> without a type attribute is implicitly treated as type="submit" by default.
+    - <p></p> tag, will have an attribute called **style**, this is an implicit attribute comes with HTML.
+
+| Term                   | Description                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------- |
+| **Implicit attribute** | Browser-assumed attribute or value, not written in the tag.                              |
+| **Global attribute**   | Can be applied to any tag, but must be explicitly written (e.g. `style`, `id`, `class`). |
+
 
 ---
