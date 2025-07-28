@@ -126,8 +126,9 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - Primitive vs Reference types
 - Shallow vs Deep copy
 - Strict mode
-- The `this` keyword
+- The `this`, `window` keyword
 - Closures, IIFE
+- call, bind, apply
 
 ### 2. Execution Model
 - Call Stack & Heap
