@@ -1,4 +1,4 @@
-# JavaScript Interview Preparation Kit
+# 🚀 Ultimate JavaScript Interview Playbook
 
 ![Made with JavaScript](https://img.shields.io/badge/Made%20with-JavaScript-yellow?logo=javascript)
 
