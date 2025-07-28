@@ -1,12 +1,12 @@
 # javascript-interview Preparation kit
 
-## Javascript is a dynamic typed, high-level, loosely-coupled, object oriented, prototype-based, Synchronous, Single threaded language.
+## JavaScript is a dynamic, typed, high-level, loosely-coupled, object-oriented, prototype-based, Synchronous, single-threaded language.
 
 <img target="_blank" src="1.png" alt="">
 
 ### JS Quiz practice
 
-- scopes: Global,Block, Local Scope (let, const) & function scope(let,var,const), Closures & lexical scope, module scope/script scope
+- scopes: Global, Block, Local Scope (let, const) & function scope(let, var, const), Closures & lexical scope, module scope/script scope
 
 - [JavaScript Scope Tutorial](https://www.wscubetech.com/resources/javascript/scope)
 - [Understanding JavaScript Scoping](https://blog.webdevsimplified.com/2022-10/js-scoping)
@@ -21,3 +21,4 @@
 - [JavaScript is Weird](https://jsisweird.com)
 - [Advanced JavaScript Quiz](https://server2client.com/jsquiz/jsadvancedquiz.html)
 - [JavaScript Questions by Lydia Hallie](https://github.com/lydiahallie/javascript-questions)
+- [JavaScript Date Master](https://jsdate.wtf)
