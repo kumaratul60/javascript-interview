@@ -250,6 +250,6 @@ We encourage open discussion—everyone’s contribution makes this kit better!
 >Want to help others **ace** their **JavaScript interviews**?
  Contributions in the form of questions, explanations, or improvements are welcome!
 
-Feel free to **contribute** questions, answers, explanations or improvements via **pull requests**.
+Feel free to **contribute** questions, answers, explanations or improvements via [**pull requests**](https://github.com/kumaratul60/javascript-interview/pull).
 
 Licensed under **MIT © Atul Kumar Awasthi**.
