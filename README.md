@@ -239,7 +239,7 @@ Have questions, or want to dive deeper? Use the [Issues](https://github.com/kuma
 
 📌 Suggest new topics or resources
 
-🐛 Report errors or typos
+🐛 Report errors
 
 💡 Propose improvements
 
