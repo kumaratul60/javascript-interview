@@ -6,7 +6,7 @@
 
 ## 🧠 What is JavaScript?
 
-**JavaScript** is a **high‑level**, **interpreted (JIT‑compiled)**, **dynamically & weakly typed**, **multi‑paradigm**, **prototype‑based**, **single‑threaded**, **event‑driven** language for building **web**, **mobile**, and **server‑side** applications.
+**JavaScript** is a **high‑level**, **interpreted (JIT‑compiled)**, **dynamically & weekly typed**, **multi‑paradigm**, **prototype‑based**, **single‑threaded**, **event‑driven** language for building **web**, **mobile**, and **server‑side** applications.
 
 It supports **object‑oriented**, **functional**, and **imperative** styles, and runs:
 - In browsers via engines like **V8**, **SpiderMonkey**, **JavaScriptCore**
@@ -48,7 +48,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 ## 🔧 Core Characteristics
 
 - **Dynamically Typed**: Variables are not bound to a specific type.
-- **Weakly Typed**: Type coercion is allowed between incompatible types.
+- **Weekly Typed**: Type coercion is allowed between incompatible types.
 - **Prototype-based Inheritance**: Objects can inherit directly from other objects.
 - **Single-threaded with Event Loop**: Uses **call stack**, **callback queue**/**task queue**/**macrotask queue**, and **microtask queue** to manage concurrency.
 - **Lexical Scoping & Closures**: Functions have access to the scope in which they were defined.
