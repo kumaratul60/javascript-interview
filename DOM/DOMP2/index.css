@@ -1,12 +1,14 @@
-ul {
-    list-style: none;
-    padding: 0;
+.info {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
 }
-li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.action {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-li.completed {
-    text-decoration: line-through;
+.hidden {
+    display: none;
 }

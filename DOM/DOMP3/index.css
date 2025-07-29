@@ -1,14 +1,12 @@
-.info {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
+ul {
+  list-style: none;
+  padding: 0;
 }
-.action {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
-.hidden {
-    display: none;
+li.completed {
+  text-decoration: line-through;
 }
