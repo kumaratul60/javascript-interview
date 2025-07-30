@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Form Builder</title>
+</head>
+<body>
+  <h2>Dynamic Form Builder</h2>
+
+  <label for="inputType">Select Input Type:</label>
+  <select id="inputType">
+    <option value="text">Text</option>
+    <option value="email">Email</option>
+    <option value="number">Number</option>
+  </select>
+  <button id="addInput">Add Field</button>
+
+  <form id="dynamicForm"></form>
+
+  <button id="submitBtn">Submit</button>
+  <button id="resetBtn">Reset</button>
+
+  <script>
+    const form = document.getElementById("dynamicForm");
+    const inputType = document.getElementById("inputType");
+    const addInputBtn = document.getElementById("addInput");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let fieldCount = 0;
+
+    addInputBtn.addEventListener("click", () => {
+      const type = inputType.value;
+      const input = document.createElement("input");
+      input.setAttribute("type", type);
+      input.setAttribute("name", `field${fieldCount}`);
+      input.setAttribute("placeholder", `Enter ${type}`);
+      form.appendChild(input);
+      form.appendChild(document.createElement("br"));
+      fieldCount++;
+    });
+
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const data = {};
+      const inputs = form.querySelectorAll("input");
+      inputs.forEach((input) => {
+        data[input.name] = input.value;
+      });
+      console.log(data);
+    });
+
+    resetBtn.addEventListener("click", () => {
+      form.innerHTML = "";
+      fieldCount = 0;
+    });
+  </script>
+</body>
+</html>

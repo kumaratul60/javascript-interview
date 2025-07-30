@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Table</title>
+</head>
+<body>
+  <h2>Dynamic Table</h2>
+
+  <input id="name" placeholder="Name" />
+  <input id="age" placeholder="Age" type="number" />
+  <input id="role" placeholder="Role" />
+  <button id="addRow">Add Row</button>
+
+  <br/><br/>
+  <input id="search" placeholder="Search by name..." />
+
+  <table border="1" id="dataTable">
+    <thead>
+      <tr><th>Name</th><th>Age</th><th>Role</th><th>Action</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const nameInput = document.getElementById("name");
+    const ageInput = document.getElementById("age");
+    const roleInput = document.getElementById("role");
+    const addRowBtn = document.getElementById("addRow");
+    const searchInput = document.getElementById("search");
+    const tbody = document.querySelector("#dataTable tbody");
+
+    addRowBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      const age = ageInput.value.trim();
+      const role = roleInput.value.trim();
+      if (!name || !age || !role) return;
+
+      const row = tbody.insertRow();
+      row.insertCell().textContent = name;
+      row.insertCell().textContent = age;
+      row.insertCell().textContent = role;
+
+      const actionCell = row.insertCell();
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.onclick = () => row.remove();
+      actionCell.appendChild(delBtn);
+
+      nameInput.value = ageInput.value = roleInput.value = "";
+    });
+
+    searchInput.addEventListener("keyup", () => {
+      const query = searchInput.value.toLowerCase();
+      Array.from(tbody.rows).forEach((row) => {
+        const name = row.cells[0].textContent.toLowerCase();
+        row.style.display = name.includes(query) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
