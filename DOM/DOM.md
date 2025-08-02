@@ -242,8 +242,8 @@ Understanding this pipeline is crucial for debugging and performance tuning.
 
 ## DOM Reflow vs Repaint
 
-- **Repaint**: Updating CSS
-- **Reflow**: Re-calculating Layouts- More expensive
+- **Repaint**: Updating CSS, (ex: textContent)
+- **Reflow**: Re-calculating Layouts- More expensive, (ex: innerText)
 
 | Operation                          | Triggers Reflow? | Triggers Repaint? |
 | ---------------------------------- | ---------------- | ----------------- |
@@ -769,11 +769,11 @@ Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 
 ---
 
-22.  find the position of any DOM element on the page ?
-> To find the position of any DOM element on the page (its position relative to the viewport or document), you can use these core methods:
-  `getBoundingClientRect()`: Returns the element’s position relative to the viewport (top-left corner of the visible).
+22. find the position of any DOM element on the page ?
+    > To find the position of any DOM element on the page (its position relative to the viewport or document), you can use these core methods:
+    > `getBoundingClientRect()`: Returns the element’s position relative to the viewport (top-left corner of the visible).
 
- >#### on each call getBoundingClientRect() browser trigger reflow.
+> #### on each call getBoundingClientRect() browser trigger reflow.
 
 ```js
   const elem = document.getElementById('myElement');
@@ -813,5 +813,3 @@ document.addEventListener('click', (e) => {
 });
 
 ```
-
-
