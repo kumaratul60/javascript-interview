@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Tab Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+    .tab.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    .output {
+      margin-top: 1rem;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tabs" id="tabContainer"></div>
+  <div class="output">
+    <div id="urlOutput"></div>
+    <img id="imageOutput" src="" alt="Selected Preview"/>
+  </div>
+
+  <script>
+    const tabs = [
+      { name: "Original", url: "https://ik.imagekit.io/ikmedia/docs_images/features/image-transformations/catdog.jpeg" },
+      { name: "croppingDog", url: "https://ik.imagekit.io/ikmedia/docs_images/features/image-transformations/catdog.jpeg?tr=fo-dog" },
+      { name: "croppingCat", url: "https://ik.imagekit.io/ikmedia/docs_images/features/image-transformations/catdog.jpeg?tr=fo-cat" },
+      { name: "croppingDog (1:1 aspect ratio)", url: "https://ik.imagekit.io/ikmedia/docs_images/features/image-transformations/catdog.jpeg?tr=fo-dog,ar-1_1" }
+    ];
+
+    const tabContainer = document.getElementById("tabContainer");
+    const urlOutput = document.getElementById("urlOutput");
+    const imageOutput = document.getElementById("imageOutput");
+
+    function renderTabs() {
+      tabs.forEach((tab, index) => {
+        const tabButton = document.createElement("div");
+        tabButton.className = "tab";
+        tabButton.innerText = tab.name;
+        tabButton.addEventListener("click", () => selectTab(index));
+        tabContainer.appendChild(tabButton);
+      });
+    }
+
+    function selectTab(index) {
+      // Set active tab
+      [...tabContainer.children].forEach((tab, i) => {
+        tab.classList.toggle("active", i === index);
+      });
+
+      // Show image and URL
+      const selected = tabs[index];
+      urlOutput.innerText = selected.url;
+      imageOutput.src = selected.url;
+    }
+
+    // Initialize
+    renderTabs();
+    selectTab(0); // default tab
+  </script>
+
+</body>
+</html>

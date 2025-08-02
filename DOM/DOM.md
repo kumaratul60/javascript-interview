@@ -123,6 +123,7 @@ console.log(document.URL); // The Current page's URL
 
 - `document.rootNode()` → Gets the root of DOM tree (useful for Shadow DOM)
 - `document.getSelection()` → Returns selected text on the page
+
 ---
 
 ## Quick recap of DOM Access Methods
@@ -240,6 +241,9 @@ Understanding this pipeline is crucial for debugging and performance tuning.
 6.  **Composite**: The browser assembles all the painted layers onto the screen in their correct order.
 
 ## DOM Reflow vs Repaint
+
+- **Repaint**: Updating CSS
+- **Reflow**: Re-calculating Layouts- More expensive
 
 | Operation                          | Triggers Reflow? | Triggers Repaint? |
 | ---------------------------------- | ---------------- | ----------------- |
@@ -732,7 +736,6 @@ Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 
 17. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
 
-
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
     - `innerText`: Similar to `textContent`, but it is aware of the rendered appearance of the text. It won't return text from hidden elements and is significantly slower because it triggers a reflow.
@@ -750,18 +753,65 @@ Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 > `requestAnimationFrame()` tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. This is more efficient than using `setTimeout` for animations because it allows the browser to optimize when the function is called, leading to smoother animations and better battery life.
 
 21. What is implicit attribute in HTML?
-    >In HTML, an implicit attribute refers to a default attribute value assumed by the browser even if it's not explicitly written in the code.
-   - Implicit attributes = default behavior/values assigned by the browser.
-   - style = not implicit, it's a global attribute that you must specify.
-    For example
-    
-    - <button> without a type attribute is implicitly treated as type="submit" by default.
-    - <p></p> tag, will have an attribute called **style**, this is an implicit attribute comes with HTML.
+    > In HTML, an implicit attribute refers to a default attribute value assumed by the browser even if it's not explicitly written in the code.
+
+- Implicit attributes = default behavior/values assigned by the browser.
+- style = not implicit, it's a global attribute that you must specify.
+  For example
+
+- <button> without a type attribute is implicitly treated as type="submit" by default.
+- <p></p> tag, will have an attribute called **style**, this is an implicit attribute comes with HTML.
 
 | Term                   | Description                                                                              |
 | ---------------------- | ---------------------------------------------------------------------------------------- |
 | **Implicit attribute** | Browser-assumed attribute or value, not written in the tag.                              |
 | **Global attribute**   | Can be applied to any tag, but must be explicitly written (e.g. `style`, `id`, `class`). |
 
-
 ---
+
+22.  find the position of any DOM element on the page ?
+> To find the position of any DOM element on the page (its position relative to the viewport or document), you can use these core methods:
+  `getBoundingClientRect()`: Returns the element’s position relative to the viewport (top-left corner of the visible).
+
+ >#### on each call getBoundingClientRect() browser trigger reflow.
+
+```js
+  const elem = document.getElementById('myElement');
+const rect = elem.getBoundingClientRect();
+console.log(rect.top, rect.left); // Y and X position in viewport
+
+// Returned rect object includes:
+
+{
+  top,     // Distance from top of viewport
+  left,    // Distance from left of viewport
+  right,   // Distance from left + width
+  bottom,  // Distance from top + height
+  width,   // Element width
+  height   // Element height
+}
+</hr>
+
+// Get position relative to entire document (not just viewport)
+const rect = elem.getBoundingClientRect();
+
+const absoluteTop = rect.top + window.scrollY;
+const absoluteLeft = rect.left + window.scrollX;
+
+console.log(absoluteTop, absoluteLeft); // Position relative to full page
+
+// Get center of element
+const rect = elem.getBoundingClientRect();
+const centerX = rect.left + rect.width / 2;
+const centerY = rect.top + rect.height / 2;
+
+console.log(centerX, centerY);
+
+// Want position on mouse click?
+document.addEventListener('click', (e) => {
+  console.log(`Mouse clicked at X=${e.clientX}, Y=${e.clientY}`);
+});
+
+```
+
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Shadow DOM</title>
+</head>
+<body>
+
+<user-profile-card highlighted>
+  <span slot="avatar">👤</span>
+  <span slot="name">Atul Awasthi</span>
+  <p>This is a web component with full shadow DOM support.</p>
+</user-profile-card>
+
+<script>
+  class UserProfileCard extends HTMLElement {
+    constructor() {
+      super();
+      const shadow = this.attachShadow({ mode: 'open' });
+
+      shadow.innerHTML = `
+        <style>
+          :host {
+            display: block;
+            font-family: sans-serif;
+            max-width: 300px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            background: white;
+            transition: border 0.3s;
+          }
+
+          :host([highlighted]) {
+            border-color: #4f46e5;
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+          }
+
+          .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+
+          ::slotted([slot="avatar"]) {
+            font-size: 2rem;
+          }
+
+          ::slotted([slot="name"]) {
+            font-weight: bold;
+            color: #333;
+          }
+
+          ::slotted(p) {
+            color: #666;
+            font-size: 0.95rem;
+          }
+        </style>
+
+        <div class="card" id="card">
+          <div class="header">
+            <slot name="avatar">🧑</slot>
+            <slot name="name">Anonymous</slot>
+          </div>
+          <div class="content">
+            <slot><p>No content provided.</p></slot>
+          </div>
+        </div>
+      `;
+
+      // Emit event on click
+      shadow.getElementById('card').addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('card-clicked', {
+          bubbles: true,
+          composed: true,
+          detail: { userId: 42 }
+        }));
+      });
+    }
+  }
+
+  customElements.define('user-profile-card', UserProfileCard);
+</script>
+
+<script>
+  document.querySelector('user-profile-card')
+    .addEventListener('card-clicked', (e) => {
+      console.log('Event received outside shadow DOM:', e.detail);
+    });
+</script>
+
+</body>
+</html>

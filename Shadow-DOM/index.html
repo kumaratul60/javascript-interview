@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shadow DOM - Basic</title>
+</head>
+<body>
+
+  <user-card>
+    <span slot="name">Atul Awasthi</span>
+    <span slot="email">atul@example.com</span>
+  </user-card>
+
+  <script>
+    class UserCard extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        shadow.innerHTML = `
+          <style>
+            .card {
+              padding: 1rem;
+              border-radius: 8px;
+              background: #f0f0f0;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+              font-family: sans-serif;
+            }
+
+            ::slotted([slot="name"]) {
+              font-weight: bold;
+              color: #333;
+            }
+
+            ::slotted([slot="email"]) {
+              color: #555;
+              font-size: 0.9em;
+            }
+          </style>
+          <div class="card">
+            <slot name="name"></slot><br />
+            <slot name="email"></slot>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define('user-card', UserCard);
+  </script>
+
+</body>
+</html>
