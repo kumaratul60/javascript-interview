@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("theme-toggle");
   const runBtn = document.getElementById("run-btn");
 
-  let runTriggeredBy = null;
-
   editor.focus();
   updateLineNumbers();
   toggleRunButton();
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   editor.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      runTriggeredBy = "keyboard";
       runCode();
     }
     requestAnimationFrame(() => {
@@ -53,15 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   runBtn.addEventListener("click", () => {
-    runTriggeredBy = "button";
     runCode();
   });
 
   function runCode() {
     const code = editor.innerText;
-    output.innerHTML = "";
-    const source = runTriggeredBy || "unknown";
 
+    // DOM Cleanup: Remove any elements outside of #output
+    // document.body
+    //   .querySelectorAll("body > *:not(script):not(.editor-wrapper):not(.controls):not(#output)")
+    //   .forEach((el) => el.remove());
+
+    output.innerHTML = ""; // Clear previous output
     try {
       const result = eval(code);
       if (result !== undefined) {
@@ -70,8 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       logOutput(err.message, true);
     }
-
-    runTriggeredBy = null;
   }
 
   function logOutput(msg, isError = false) {
