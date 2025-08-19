@@ -193,6 +193,7 @@ function isHappy(n) {
   return n === 1;
 }
 ```
+
 **Notes:** Unhappy numbers enter the cycle `4 -> 16 -> 37 -> 58 -> 89 -> 145 -> 42 -> 20 -> 4`.
 
 ### 3.5 Smith Numbers
@@ -282,21 +283,7 @@ function isArmstrong(n) {
   return n === digits.reduce((sum, d) => sum + Math.pow(Number(d), digits.length), 0);
 }
 ```
-
-### 3.12 Happy Numbers
-**Definition:** Numbers for which the sum of the squares of their digits eventually reaches 1. Examples: 19 (1^2 + 9^2 = 82, 8^2 + 2^2 = 68, 6^2 + 8^2 = 100, 1^2 + 0^2 + 0^2 = 1)
-```js
-function isHappy(n) {
-  const seen = new Set();
-  while (n !== 1 && !seen.has(n)) {
-    seen.add(n);
-    n = String(n).split('').reduce((sum, d) => sum + Math.pow(Number(d), 2), 0);
-  }
-  return n === 1;
-}
-```
-
-### 3.13 Lucky Numbers
+### 3.12 Lucky Numbers
 **Definition:** Numbers whose digits sum to 7. Examples: 7, 77, 777
 ```js
 function isLucky(n) {
@@ -304,7 +291,7 @@ function isLucky(n) {
 }
 ```
 
-### 3.14 Happy Lucky Numbers
+### 3.13 Happy Lucky Numbers
 **Definition:** Numbers that are both happy and lucky. Examples: 19, 121
 ```js
 function isHappyLucky(n) {
@@ -312,7 +299,7 @@ function isHappyLucky(n) {
 }
 ```
 
-### 3.15 Krishnamurthy/Peterson (Strong) Numbers
+### 3.14 Krishnamurthy/Peterson (Strong) Numbers
 **Definition:** Numbers equal to the sum of factorials of their digits. Examples: 145 = 1! + 4! + 5!
 
 ```js    
@@ -321,7 +308,7 @@ function isKrishnamurthy(n) {
   return n === digits.reduce((sum, d) => sum + factorial(Number(d)), 0);
 }
 ```  
-### 3.16 Ugly Numbers
+### 3.15 Ugly Numbers
 **Definition:** Numbers whose prime factors are only 2, 3, and 5. Examples: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12
 
 ```js
@@ -345,7 +332,7 @@ function isUgly(n) {
 }
 ```
 
-### 3.17 Mystery Numbers
+### 3.16 Mystery Numbers
 
 **Definition:** Number = sum of a number and its reverse.
 Example: 121 = 29 + 92.
@@ -470,9 +457,6 @@ function lucas(n) {
     return lucas(n - 1) + lucas(n - 2);
 }
 ```
-
-
-
 
 #### 4.2.3 Pell Numbers
 **Definition:** Sequence defined by `P(n) = 2*P(n-1) + P(n-2)`. Starts with `0` and `1`.
