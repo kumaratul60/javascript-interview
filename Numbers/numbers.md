@@ -1,7 +1,3 @@
-Of course! Here is the complete, all-in-one `README.md` file. You can copy and paste this directly into a file named `README.md` and it will render beautifully on platforms like GitHub.
-
----
-
 # The Ultimate Number Theory Cheat Sheet (JavaScript Edition)
 
 A comprehensive, beginner-to-advanced guide to various types of numbers, their definitions, and their implementations in JavaScript. This cheat sheet is perfect for students, competitive programmers, and math enthusiasts working with JavaScript.
