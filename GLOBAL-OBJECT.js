@@ -84,7 +84,7 @@ arr.toLocaleString(locales, options)                 // Returns a localized stri
 // Instance: iteration methods
 arr.entries()                                        // Returns a new Array Iterator object that contains the key/value pairs for each index in the array.
 arr.every(callback[, thisArg])                       // Returns true if every element in this array satisfies the provided testing function.
-arr.filter(callback[, thisArg])                      // Creates a new array with all of the elements of this array for which the provided filtering function returns true.
+arr.filter(callback[, thisArg])                      // Creates a new array with all the elements of this array for which the provided filtering function returns true.
 arr.find(callback[, thisArg])                        // Returns the found value in the array, if an element in the array satisfies the provided testing function or undefined if not found.
 arr.findIndex(callback[, thisArg])                   // Returns the found index in the array, if an element in the array satisfies the provided testing function or -1 if not found.
 arr.forEach(callback[, thisArg])                     // Calls a function for each element in the array.

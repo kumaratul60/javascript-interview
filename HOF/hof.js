@@ -53,7 +53,7 @@ console.log(radius.map(area));
 // here calculate fn is little behave like map function which is we created
 console.log(calculate(radius, area));
 
-// now here we using calculateAll fn
+// now here we're using calculateAll fn
 
 console.log(radius.calculateAll(radius, area));
 
