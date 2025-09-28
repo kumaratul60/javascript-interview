@@ -16,7 +16,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 
 ## 📚 Table of Contents
 
-- [JavaScript Interview Preparation Kit](#javascript-interview-preparation-kit)
+- [🚀 Ultimate JavaScript Interview Playbook](#-ultimate-javascript-interview-playbook)
   - [🧠 What is JavaScript?](#-what-is-javascript)
   - [📚 Table of Contents](#-table-of-contents)
   - [🔧 Core Characteristics](#-core-characteristics)
@@ -216,13 +216,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - Module vs Script scope
 
 ### 🔗 Links
-- [JavaScript Scope Tutorial](https://www.wscubetech.com/resources/javascript/scope)
-- [Understanding JavaScript Scoping](https://blog.webdevsimplified.com/2022-10/js-scoping)
-- [JavaScript Challenge #11](https://app.testdome.com/screening/challenge/11)
-- [JavaScript Challenge #13](https://app.testdome.com/screening/challenge/13)
-- [JavaScript Challenge #14](https://app.testdome.com/screening/challenge/14)
-- [JavaScript Challenge #15](https://app.testdome.com/screening/challenge/15)
-- [JavaScript Challenge #17](https://app.testdome.com/screening/challenge/17)
+- [JavaScript Tutorial](https://www.wscubetech.com/resources/javascript)
 - [JavaScript Interview Questions](https://javascript-questions.vercel.app)
 - [CodeChef JavaScript Skill Test](https://www.codechef.com/skill-test/javascript)
 - [TypeOfNaN JavaScript Quiz](https://quiz.typeofnan.dev)
@@ -230,6 +224,14 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - [Advanced JavaScript Quiz](https://server2client.com/jsquiz/jsadvancedquiz.html)
 - [JavaScript Questions by Lydia Hallie](https://github.com/lydiahallie/javascript-questions)
 - [JavaScript Date Master](https://jsdate.wtf)
+
+- [JavaScript Challenge #11](https://app.testdome.com/screening/challenge/11)
+- [JavaScript Challenge #13](https://app.testdome.com/screening/challenge/13)
+- [JavaScript Challenge #14](https://app.testdome.com/screening/challenge/14)
+- [JavaScript Challenge #15](https://app.testdome.com/screening/challenge/15)
+- [JavaScript Challenge #17](https://app.testdome.com/screening/challenge/17)
+
+
 
 ---
 
