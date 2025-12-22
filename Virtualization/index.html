@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+Chrome auto-translate behavior (IMPORTANT):
+
+1) translate="no"  (HTML attribute)
+   - Prevents Chrome from translating page content.
+   - STOPS the Google Translate network request:
+     https://translate-pa.googleapis.com/v1/translateHtml
+   - Does NOT guarantee the translate popup UI will never appear.
+   - Useful to avoid noise in Network tab during virtualization / frequent DOM updates.
+
+2) <meta name="google" content="notranslate">
+   - Strong hint to Chrome not to translate this page.
+   - Reduces chances of the translate popup.
+   - Still NOT a 100% guarantee (browser heuristic).
+
+3) Chrome browser setting (ONLY 100% solution)
+   - Translate popup → ⋮ → "Never translate this site"
+   - This is user-level control, outside application code.
+   - Developers cannot enforce this via HTML or JavaScript.
+
+Why translate popup may still appear:
+- Chrome detects language BEFORE fully honoring DOM hints.
+- Chrome remembers previous translation actions (especially on localhost / 127.0.0.1).
+- Language heuristics may override page attributes.
+- Popup UI is browser UX, not tied to network requests.
+
+When to ADD these tags:
+- Virtualized lists (frequent text updates)
+- Dashboards / admin panels
+- Dev tools / internal apps
+- Single-language applications
+
+When NOT to add:
+- Public content websites
+- Multilingual user-facing apps
+- Pages where browser translation helps accessibility
+
+Key takeaway:
+- HTML tags can STOP the API call.
+- HTML tags can REDUCE popup chances.
+- ONLY the browser setting can fully stop the popup.
+
+“translate="no" blocks Chrome’s translate API calls, but the translate popup is browser-controlled and cannot be fully disabled by code.”
+-->
+
+<html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
     <title>Vanilla JS Virtual List</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div id="viewport"></div>
 
