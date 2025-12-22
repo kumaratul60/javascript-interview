@@ -13,6 +13,24 @@ class Student extends Person {
     console.log(`${this.name} is a ${this.grade} in JavaScript.`);
   }
 }
-const student = new Student("Sumit", 38, "beginner");
+const student = new Student('Sumit', 38, 'beginner');
 student.greet(); // Output: 'Hello, my name is Sumit and I am 38 years old.'
 student.study(); // Output: 'Sumit is a beginner in JavaScript.'
+
+class Test {
+  talk() {
+    return 'Hello';
+  }
+}
+const me = new Test();
+const you = new Test();
+console.log({ me: me.talk(), you: you.talk() });
+
+const me2 = {};
+Object.setPrototypeOf(me2, Test);
+me2.talk();
+
+const me3 = {};
+Object.setPrototypeOf(me3, Test);
+me3.talk = me.talk.bind(me3);
+me3.talk();
