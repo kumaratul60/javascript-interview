@@ -34,3 +34,36 @@ const me3 = {};
 Object.setPrototypeOf(me3, Test);
 me3.talk = me.talk.bind(me3);
 me3.talk();
+
+class test {
+  talk() {
+    return 'mast';
+  }
+}
+
+const rf = new test();
+console.log(rf.talk());
+const tf = Object.create(test);
+tf.age = 78;
+console.log(tf);
+
+const ben = Object.create(rf);
+ben.name = 'll';
+console.log(ben.name, ben.talk);
+
+const Test = {
+  talk: 'mast',
+};
+
+const tf = Object.create(Test);
+tf.age = 78;
+console.log(tf);
+const ben = Object.create(tf);
+ben.name = 'll';
+console.log(ben.name, ben.talk);
+
+const newObj = {};
+const sortNew = new Object();
+
+const arr = []
+const newArr = new Array()
