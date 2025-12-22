@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vanilla JS Virtual List</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="viewport"></div>
+
+    <script src="index.js"></script>
+    <script>
+      initVirtualList({
+        viewportId: 'viewport',
+        totalItems: 10000,
+        itemHeight: 40,
+      });
+    </script>
+  </body>
+</html>

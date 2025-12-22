@@ -1,0 +1,15 @@
+#viewport {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  font-family: system-ui, sans-serif;
+}
+
+.v-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+}
