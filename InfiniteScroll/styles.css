@@ -1,0 +1,30 @@
+/* Universal reset:
+   - Remove default browser margins
+   - Use predictable box sizing
+*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base typography */
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+/* Individual list item */
+.item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Loading indicator */
+#loader {
+  padding: 16px;
+  text-align: center;
+  display: none;
+}
