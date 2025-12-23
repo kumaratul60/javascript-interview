@@ -13,3 +13,6 @@ const curry = (a) => {
   };
 };
 console.log(curry(1)(2));
+
+
+const test = [1, 3, "d",()=>{}]
