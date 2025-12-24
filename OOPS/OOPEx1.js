@@ -2,7 +2,7 @@
 
 // the total No. of items
 // the total cart value
-// the total discounted value(sum of dicounted values on each item) based on the given discount
+// the total discounted value(sum of discounted values on each item) based on the given discount
 // total tax amount (18% tax, calculated on total cart value)
 
 const cartItems = [
@@ -37,7 +37,7 @@ const cartItems = [
 ];
 
 function output(arr) {
-  console.log(arr.length, " Prodcts in cart");
+  console.log(arr.length, " Products in cart");
   let total = 0;
   let totaldiscout = 0;
 
