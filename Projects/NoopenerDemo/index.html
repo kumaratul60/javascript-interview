@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>noopener demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>target="_blank" demo</h1>
+
+    <!-- Unsafe -->
+    <a
+      href="child.html"
+      target="_blank"
+      class="link danger"
+    >
+      Open without noopener (unsafe)
+    </a>
+
+    <!--in child.html page inspect element window.opener.document.title  look like  Static template
+    window.opener.location.href = "url"
+    -->
+    </main>
+ <br/>
+    <!-- Safe -->
+    <a
+      href="child.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link safe"
+    >
+      Open with noopener (safe)
+    </a>
+
+    <!-- in child.html page inspect element window.opener shows as null and window.opener.document.title  look like  type error template -->
+  </main>
+</body>
+</html>
