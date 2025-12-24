@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Todo</h1>
+
+      <form id="todo-form">
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="What needs to be done?"
+          aria-label="Add todo"
+          autocomplete="off"
+          required
+        />
+      </form>
+
+      <ul id="todo-list"></ul>
+
+      <footer class="footer">
+        <div class="filters">
+          <button type="button" data-filter="all" class="active">All</button>
+          <button type="button" data-filter="active">Active</button>
+          <button type="button" data-filter="completed">Completed</button>
+        </div>
+        <button type="button" id="clear-completed">Clear Completed</button>
+      </footer>
+    </main>
+
+    <!-- <script type="module" src="index.js"></script> -->
+    <script type="module" src="indexDBTodo.js"></script>
+  </body>
+</html>

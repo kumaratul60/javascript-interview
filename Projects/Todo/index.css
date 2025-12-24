@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* ---------- App ---------- */
+.app {
+  width: 100%;
+  max-width: 420px;
+  background: #020617;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* ---------- Input ---------- */
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* ---------- List ---------- */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+/* ---------- Todo Content ---------- */
+.todo-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.todo-text {
+  cursor: pointer;
+}
+
+.todo-time {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ---------- Completed ---------- */
+li.completed .todo-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* ---------- Actions ---------- */
+.delete-btn {
+  background: none;
+  border: none;
+  color: #38bdf8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters button {
+  background: none;
+  border: none;
+  color: #38bdf8;
+  cursor: pointer;
+}
+
+.filters button.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* ---------- List Container Scroll ---------- */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  max-height: 400px; /* controls visible height */
+  overflow-y: auto; /* scroll INSIDE list */
+}
+
+/* optional: nicer scrollbar */
+ul::-webkit-scrollbar {
+  width: 6px;
+}
+ul::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.done-btn,
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.done-btn {
+  color: #22c55e;
+}
+
+.remove-btn {
+  color: #ef4444;
+}
+
+/* strike-through only text */
+li.completed .todo-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
