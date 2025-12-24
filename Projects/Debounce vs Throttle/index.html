@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debounce vs Throttle</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+
+      input {
+        padding: 8px;
+        width: 250px;
+        margin-bottom: 10px;
+      }
+
+      .box {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Debounce (fires after typing stops)</h3>
+    <input id="debounceInput" placeholder="Type here..." />
+    <div class="box" id="debounceOutput"></div>
+
+    <hr />
+
+    <h3>Throttle (fires at fixed interval)</h3>
+    <input id="throttleInput" placeholder="Type here..." />
+    <div class="box" id="throttleOutput"></div>
+
+    <script>
+      // DEBOUNCE: runs AFTER user stops typing
+      function debounce(fn, delay = 300) {
+        let timer;
+
+        return function (...args) {
+          clearTimeout(timer); // reset timer on each call
+          timer = setTimeout(() => {
+            fn.apply(this, args);
+          }, delay);
+        };
+      }
+
+      // THROTTLE: runs AT MOST once per interval
+      function throttle(fn, limit = 300) {
+        let inThrottle = false;
+
+        return function (...args) {
+          if (inThrottle) return;
+
+          fn.apply(this, args);
+          inThrottle = true;
+
+          setTimeout(() => {
+            inThrottle = false;
+          }, limit);
+        };
+      }
+
+      // Debounce demo
+      const debounceOutput = document.getElementById('debounceOutput');
+      document.getElementById('debounceInput').addEventListener(
+        'input',
+        debounce((e) => {
+          debounceOutput.textContent = 'Debounced: ' + e.target.value;
+        }, 500)
+      );
+
+      // Throttle demo
+      const throttleOutput = document.getElementById('throttleOutput');
+      document.getElementById('throttleInput').addEventListener(
+        'input',
+        throttle((e) => {
+          throttleOutput.textContent = 'Throttled: ' + e.target.value;
+        }, 500)
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Highlight</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+
+      input {
+        padding: 8px;
+        width: 250px;
+        margin-bottom: 12px;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      mark {
+        background: #fde047;
+        padding: 0 2px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Search with Highlight</h3>
+
+    <input id="search" placeholder="Search..." />
+
+    <ul id="list">
+      <li>JavaScript</li>
+      <li>TypeScript</li>
+      <li>React</li>
+      <li>Next.js</li>
+    </ul>
+
+    <script>
+      const input = document.getElementById('search');
+      const items = document.querySelectorAll('#list li');
+
+      input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+
+        items.forEach((item) => {
+          const text = item.textContent;
+
+          // EDGE CASE:
+          // Empty input → reset list item
+          if (!query) {
+            item.textContent = text;
+            return;
+          }
+
+          const matchIndex = text.toLowerCase().indexOf(query);
+
+          // MATCH FOUND → highlight
+          if (matchIndex !== -1) {
+            item.innerHTML =
+              text.slice(0, matchIndex) +
+              `<mark>${text.slice(matchIndex, matchIndex + query.length)}</mark>` +
+              text.slice(matchIndex + query.length);
+          } else {
+            // NO MATCH → restore original text
+            item.textContent = text;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

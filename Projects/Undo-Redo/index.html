@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Undo Redo</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+
+      button {
+        padding: 8px 14px;
+        margin-right: 6px;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      #output {
+        margin-top: 12px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Undo / Redo Example</h3>
+
+    <button id="undo">Undo</button>
+    <button id="redo">Redo</button>
+
+    <p id="output"></p>
+
+    <script>
+      const undoStack = [];
+      const redoStack = [];
+      const output = document.getElementById('output');
+      const undoBtn = document.getElementById('undo');
+      const redoBtn = document.getElementById('redo');
+
+      // Executes a new action
+      function execute(action) {
+        undoStack.push(action);
+
+        // EDGE CASE:
+        // New action invalidates redo history
+        redoStack.length = 0;
+
+        render();
+      }
+
+      function undo() {
+        // EDGE CASE:
+        // Nothing to undo
+        if (!undoStack.length) return;
+
+        // Move last action to redo stack
+        redoStack.push(undoStack.pop());
+        render();
+      }
+
+      function redo() {
+        // EDGE CASE:
+        // Nothing to redo
+        if (!redoStack.length) return;
+
+        // Move action back to undo stack
+        undoStack.push(redoStack.pop());
+        render();
+      }
+
+      function render() {
+        output.textContent = undoStack.join(' ') || '(empty)';
+
+        // Disable buttons when action not possible
+        undoBtn.disabled = !undoStack.length;
+        redoBtn.disabled = !redoStack.length;
+      }
+
+      // Demo actions
+      execute('A');
+      execute('B');
+      execute('C');
+
+      undoBtn.onclick = undo;
+      redoBtn.onclick = redo;
+    </script>
+  </body>
+</html>
