@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .content {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      .content.active {
+        display: block;
+      }
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+      }
+      .tab.active {
+        background: #007bff;
+        color: white;
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs" id="tabs-container">
+      <div class="tab-headers" id="tab-headers">
+        <button class="tab active" data-tab="1">Home</button>
+        <button class="tab" data-tab="2">About</button>
+        <button class="tab" data-tab="3">Contact</button>
+      </div>
+      <div class="tab-contents">
+        <div class="content active" data-tab="1">Welcome to Home</div>
+        <div class="content" data-tab="2">About us page here.</div>
+        <div class="content" data-tab="3">Contact info displayed here.</div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
+
+<!--
+Why this implementation works
+
+Event Delegation:
+Instead of attaching three individual click listeners to each button, we attached one listener to the .tab-headers parent. This is more memory-efficient and allows us to add more tabs dynamically in the future without adding new listeners.
+
+Custom Events:
+By dispatching tabChanged, other parts of an application (like a logging service or a analytics tracker) can "listen" to the tab container without being tightly coupled to the switching logic.
+
+Scalability:
+The switchToTab function uses data-tab attributes. This means the content and headers are linked by data rather than their position in an array, making the code less prone to breaking if the HTML order changes.
+
+stopPropagation():
+Inside the click listener, e.stopPropagation() ensures that if there are other click listeners on the body or window, the tab click doesn't trigger them unintentionally, keeping the tab interaction isolated.
+-->
