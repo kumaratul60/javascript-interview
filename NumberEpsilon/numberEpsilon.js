@@ -27,28 +27,6 @@ Up to 2^53 - 1 → every integer exists
 After that → integers are skipped
 JS silently rounds
 “Because JavaScript numbers can’t represent every integer above 2^53 − 1, both expressions round to the same floating-point value.”
-next:
-console.log(JSON.stringify({ a: NaN, b: Infinity });
-
-"{"a":null,"b":null}"
-why:
-Because JSON does not support NaN or Infinity.
-JSON is a language-independent data format
-Valid JSON numbers must be finite
-These are invalid in JSON:
-NaN
-Infinity
--Infinity
-So the JSON spec says:  If a value is not a valid JSON number, replace it with null
-JSON.stringify([NaN, Infinity]);
-// "[null,null]"
-JSON.stringify(data, (_, value) =>
-  typeof value === 'number' && !Number.isFinite(value)
-    ? String(value)
-    : value
-);
-{"a":"NaN","b":"Infinity"}
-Because JSON only supports finite numbers; NaN and Infinity are invalid, so JSON.stringify converts them to null by spec.
 
 */
 
@@ -92,9 +70,9 @@ console.log({ res1, res2 });
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label
 
-const num1 = 0.1+0.2
-if(num===0.3){
-console.log("equal")
+const num1 = 0.1 + 0.2;
+if (num === 0.3) {
+  console.log('equal');
 }
 
 const num = 1000.1 + 1000.2;
@@ -110,14 +88,12 @@ const test = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
 console.log(test.format(-2, 'month'));
 
-
 var map = {};
 var k1 = {};
 var k2 = {};
 map[k1] = 'xy';
 log(map[k1]);
 log(map[k2]);
-
 
 //input: [{name:"x",location:"y"}, {name:"p",location:"q"}] output: {y:[x], q:[p]}
 
@@ -128,3 +104,26 @@ const cat = {
   [test]: pat,
 };
 console.log(cat);
+
+/*
+"{"a":null,"b":null}"
+why:
+Because JSON does not support NaN or Infinity.
+JSON is a language-independent data format
+Valid JSON numbers must be finite
+These are invalid in JSON:
+NaN
+Infinity
+-Infinity
+So the JSON spec says:  If a value is not a valid JSON number, replace it with null
+JSON.stringify([NaN, Infinity]);
+// "[null,null]"
+JSON.stringify(data, (_, value) =>
+  typeof value === 'number' && !Number.isFinite(value)
+    ? String(value)
+    : value
+);
+{"a":"NaN","b":"Infinity"}
+Because JSON only supports finite numbers; NaN and Infinity are invalid, so JSON.stringify converts them to null by spec.
+*/
+console.log(JSON.stringify({ a: NaN, b: Infinity }));
