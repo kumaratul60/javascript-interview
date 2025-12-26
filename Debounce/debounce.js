@@ -14,14 +14,29 @@ const debounce1 = (func, delay) => {
   let timerId;
   return (...args) => {
     clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      func.apply(this, args), delay;
+    });
+  };
+};
+
+const debounce2 = (func, delay) => {
+  let timerId;
+  return (...args) => {
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    // }
+    clearTimeout(timerId);
     timerId = setTimeout(() => func(...args), delay);
   };
 };
 
-document.getElementById("myId").addEventListener(
-  "click",
+//debounce2 is correct. debounce1 is broken.
+
+document.getElementById('myId').addEventListener(
+  'click',
   debounce((e) => {
-    console.log("clicked");
+    console.log('clicked');
   }, 2000)
 );
 
