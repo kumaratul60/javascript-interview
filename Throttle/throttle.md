@@ -211,7 +211,7 @@ function throttle1(fn, delay = 500) {
 
 ---
 
-## 🛑 Universal Pitfalls (Applies to ALL versions)
+## Universal Pitfalls (Applies to ALL versions)
 
 ### 1. The React "Re-render" Trap
 
@@ -236,7 +236,7 @@ If you pass an arrow function into a throttle that uses `.apply(this)`, it still
 
 ---
 
-## 📊 Summary of Failures
+## Summary of Failures
 
 | Version             | UI Accuracy  | Arguments | Context (`this`) | Memory Usage |
 | :------------------ | :----------- | :-------- | :--------------- | :----------- |

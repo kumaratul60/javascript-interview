@@ -104,9 +104,9 @@ However, if you are looking for **pitfalls**—the specific reasons why a librar
 
 ---
 
-# ⚠️ Pitfalls of the "Best Practice" Debounce
+## ⚠️ Pitfalls of the "Best Practice" Debounce
 
-## 1. The "Dangling Timer" (Memory Leaks)
+### 1. The "Dangling Timer" (Memory Leaks)
 
 **The Problem:** If you trigger a debounced function (like an API call) and then the user navigates away or closes a modal, the `setTimeout` is still sitting in the browser's memory. When it finally fires, it might try to update a UI element that no longer exists.
 
@@ -118,7 +118,7 @@ This can trigger state updates after a component unmounts,leading to warnings an
 
 ---
 
-## 2. No "Leading Edge" Support
+### 2. No "Leading Edge" Support
 
 **The Problem:** Your current version is "Trailing Edge" only (it waits for the pause to fire).
 
@@ -129,7 +129,7 @@ This can trigger state updates after a component unmounts,leading to warnings an
 
 ---
 
-## 3. The "This" Redundancy (Minor)
+### 3. The "This" Redundancy (Minor)
 
 **The Observation:** In your code, you have:
 
@@ -144,7 +144,7 @@ timerId = setTimeout(() => {
 
 ---
 
-# The Library-Grade Debounce Version
+## The Library-Grade Debounce Version
 
 To avoid the pitfalls above, here is the version used in high-performance libraries. It adds a **cancel** method and an **immediate** (leading) option.
 
@@ -185,7 +185,7 @@ const debounce = (func, delay, immediate = false) => {
 
 ---
 
-## Updated Comparison (Final)
+### Updated Comparison (Final)
 
 | Version                            | Correct Delay | `this` Context | Cleanup/Cancel | Leading Edge |
 | :--------------------------------- | :-----------: | :------------: | :------------: | :----------: |
