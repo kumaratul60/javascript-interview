@@ -153,9 +153,9 @@ Here is the breakdown of pitfalls for each version in **.md** format.
 
 ---
 
-# ⚠️ Pitfalls of Throttle Implementations
+## ⚠️ Pitfalls of Throttle Implementations
 
-## 1. Version 1: The Flag/Timer Approach (`isTimerSet`)
+### 1. Version 1: The Flag/Timer Approach (`isTimerSet`)
 
 ```javascript
 function throttle(func, delay) {
@@ -178,7 +178,7 @@ function throttle(func, delay) {
 
 ---
 
-## 2. Version 2: The Timestamp Approach (`Date.now()`)
+### 2. Version 2: The Timestamp Approach (`Date.now()`)
 
 ```javascript
 function throttle1(fn, delay = 500) {
@@ -202,7 +202,7 @@ function throttle1(fn, delay = 500) {
 
 ---
 
-## 3. Version 3: The "Best Practice" (Leading + Trailing)
+### 3. Version 3: The "Best Practice" (Leading + Trailing)
 
 ### Pitfalls:
 
@@ -211,7 +211,7 @@ function throttle1(fn, delay = 500) {
 
 ---
 
-## Universal Pitfalls (Applies to ALL versions)
+### Universal Pitfalls (Applies to ALL versions)
 
 ### 1. The React "Re-render" Trap
 
