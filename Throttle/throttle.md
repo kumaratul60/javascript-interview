@@ -1,5 +1,11 @@
 # Throttle: Comparison & Best Practices
 
+> Mental model: “Throttle guarantees execution at most once every N ms.”
+
+> Throttle = control frequency
+
+> Debounce = control silence
+
 ## 1. Analysis of Your Functions
 
 ### `throttle` (The Flag/Timer Version)
@@ -12,6 +18,21 @@ function throttle(func, delay) {
       func.call(); // ❌ Problem: No context or arguments
       setTimeout(() => (isTimerSet = false), delay);
       isTimerSet = true;
+    }
+  };
+}
+```
+
+Batter version of above thrttle to avoid race condition
+
+```javascript
+function throttle(func, delay) {
+  let isTimerSet = false;
+  return function () {
+    if (!isTimerSet) {
+      isTimerSet = true;
+      func.call(); // ❌ Problem: No context or arguments
+      setTimeout(() => (isTimerSet = false), delay);
     }
   };
 }
@@ -125,7 +146,8 @@ function throttle(func, delay) {
 
 - **Debounce:** "Wait until I'm finished (pause) to fire."
 - **Throttle:** "Fire right now, then don't talk to me again for a few seconds."
-  Every implementation of Throttling has specific "traps" or pitfalls. Depending on which one you use, you might lose data, break your UI, or cause memory leaks.
+  Every implementation of Throttling has specific "traps" or pitfalls. Depending on which one you use, you might lose data, break your UI, or cause memory leaks(Temporary memory retention due to closures (released after timer completes)
+  ).
 
 Here is the breakdown of pitfalls for each version in **.md** format.
 
@@ -209,6 +231,8 @@ Throttled functions are a nightmare for unit tests (Jest/Mocha). If you don't us
 ### 3. "this" with Arrow Functions
 
 If you pass an arrow function into a throttle that uses `.apply(this)`, it still won't work as expected because arrow functions **cannot** have their context changed.
+
+> Arrow functions ignore `.call/.apply`, so `this` preservation is meaningless.
 
 ---
 
