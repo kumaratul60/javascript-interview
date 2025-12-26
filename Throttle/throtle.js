@@ -10,13 +10,24 @@ function throttle(func, delay) {
   };
 }
 
+function throttle1(fn, delay = 500) {
+  let lastCall = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+
 const wait = 3000;
-const logger = () => console.log("abc");
+const logger = () => console.log('abc');
 const throttled = throttle(logger, wait);
 
-console.log("test one");
+console.log('test one');
 throttled();
 throttled();
 throttled();
-console.log("test two");
+console.log('test two');
 setTimeout(throttled, 3500);
