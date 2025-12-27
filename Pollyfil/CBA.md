@@ -1,7 +1,5 @@
 # JavaScript Core: Function Borrowing & Prototypes
 
-A technical reference for `call`, `apply`, `bind`, and Prototypal Inheritance.
-
 ---
 
 ## 1. Function Borrowing (`call`, `apply`, `bind`)
@@ -59,7 +57,7 @@ Function.prototype.customApply = function (obj, args = []) {
 
 **Syntax:** `const newFn = fn.bind(thisArg, arg1)`
 
-**Polyfill (Interview-Safe):**
+**Polyfill:**
 Native `bind` has two critical features:
 
 1. **Partial Application:** It can pre-fill arguments.
