@@ -22,11 +22,11 @@ const printMyName2 = printName.myBind(name);
 
 Function.prototype.myBind1 = function (...args) {
   let obj = this,
-    // extracting the params from args by using slice() => it will remove the firt element from list and will return all the rest of element
+    // extracting the params from args by using slice() => it will remove the first element from list and will return all the rest of element
     params = args.slice(1);
   return function (...args2) {
     // obj.call(...args)
-    //  receving params in form of arry again so we can't pass an array as the second argument to the call method so instead of call method we use apply method to pass params as second argument.
+    //  receiving params in form of array again so we can't pass an array as the second argument to the call method so instead of call method we use apply method to pass params as second argument.
 
     // obj.call(...args[0],params) // wrong way
 

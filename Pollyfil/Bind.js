@@ -21,7 +21,7 @@ Function.prototype.myBind = function (...args) {
   let obj = this;
   return function () {
     obj.call(args[0]);
-    // args[0] is the reference to thename
+    // args[0] is the reference to the name
     // printName can be access bt this keyword
   };
 };
