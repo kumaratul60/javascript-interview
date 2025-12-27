@@ -1,7 +1,5 @@
 # JavaScript Core: Function Borrowing & Prototypes
 
----
-
 ## 1. Function Borrowing (`call`, `apply`, `bind`)
 
 Function borrowing allows an object to use methods from another object without duplicating code.
