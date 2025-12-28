@@ -1,6 +1,4 @@
-To understand when to use which, you have to look at **what you are starting with** and **what you want to achieve.**
-
-### 1. `flat()` vs. `flatMap()`: The Cheat Sheet
+### 1. `flat()` vs. `flatMap()`:
 
 | Method           | Starting Point                                                     | Goal                                  | Key Strength                                               |
 | :--------------- | :----------------------------------------------------------------- | :------------------------------------ | :--------------------------------------------------------- |
