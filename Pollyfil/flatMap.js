@@ -46,7 +46,7 @@ const activeIds = users.flatMap((u) => (u.active ? [u.id] : []));
  * Polyfill logic: Using reduce + concat.
  * concat() handles both arrays and primitive values seamlessly.
  */
-if (!Array.prototype.flatMap) {
+// if (!Array.prototype.flatMap) {
   Array.prototype.flatMap = function (callback, thisArg) {
     return this.reduce((acc, cur, i, arr) => {
       const res = callback.call(thisArg, cur, i, arr);
@@ -55,11 +55,11 @@ if (!Array.prototype.flatMap) {
       return acc.concat(res);
     }, []);
   };
-}
+// }
 
 // If you are working with very large arrays, a more performant (though slightly longer) polyfill uses a loop and push:
 
-if (!Array.prototype.flatMap) {
+// if (!Array.prototype.flatMap) {
   Array.prototype.flatMap = function (callback, thisArg) {
     const result = [];
     for (let i = 0; i < this.length; i++) {
@@ -72,7 +72,7 @@ if (!Array.prototype.flatMap) {
     }
     return result;
   };
-}
+// }
 
 // Usage:
 const arr = [1, 2, 3];
