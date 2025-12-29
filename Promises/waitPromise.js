@@ -370,3 +370,172 @@ const useAsTimeout = async () => {
  * 3. Future Proof: Native support for 'signal.reason' (Web Standard).
  * 4. Flexible: Seamless integration with Promise.all and Promise.race patterns.
  */
+
+/**
+ * ==========================================================================
+ * EXECUTING LOGIC AFTER DELAY (setTimeout replacement)
+ * ==========================================================================
+ */
+
+// 1. Basic Function Execution
+// Traditional: setTimeout(() => { sayHi("John"); }, 1000);
+const runFunction = async (name) => {
+  await waitFinal(1000);
+  console.log(`Hi ${name}!`); // This runs after 1s
+};
+
+// 2. Passing Variables and Calculating Data
+const calculateLater = async (a, b) => {
+  const sum = a + b; // Variable is captured in the scope
+
+  await waitFinal(2000);
+
+  // Logic after the wait
+  const result = sum * 2;
+  console.log('Calculated Result after 2s:', result);
+};
+
+/**
+ * 3. EXECUTING LOOPS (The "Sequential" Pattern)
+ * This is where waitFinal is MUCH better than setTimeout.
+ * Use this to stagger actions (e.g., sending emails one by one).
+ */
+const staggeredLoop = async (items) => {
+  console.log('Starting staggered loop...');
+
+  for (const item of items) {
+    // Wait 1 second BEFORE each item
+    await waitFinal(1000);
+
+    // Execute logic
+    console.log(`Processing: ${item} at ${new Date().toLocaleTimeString()}`);
+  }
+
+  console.log('All items processed.');
+};
+
+/**
+ * 4. THE "DELAYED EXECUTOR" UTILITY
+ * If you want a reusable wrapper that looks exactly like setTimeout
+ * but uses our safe waitFinal logic.
+ */
+const delayExec = async (fn, ms, ...args) => {
+  try {
+    await waitFinal(ms);
+    return fn(...args); // Execute the function with passed variables
+  } catch (err) {
+    if (err.name !== 'AbortError') throw err;
+  }
+};
+
+// Usage of delayExec:
+delayExec(
+  (name, city) => {
+    console.log(`Hello ${name} from ${city}`);
+  },
+  1500,
+  'Alice',
+  'New York'
+);
+
+/**
+ * 5. ADVANCED: Loop with Cancellation
+ * If the user clicks "Cancel", the loop stops immediately.
+ */
+const cancellableLoop = async (signal) => {
+  const tasks = [1, 2, 3, 4, 5];
+
+  try {
+    for (const task of tasks) {
+      await waitFinal(1000, signal);
+      console.log(`Finished Task ${task}`);
+    }
+  } catch (err) {
+    console.log('Loop stopped because:', err);
+  }
+};
+
+/*
+─────────────────────────────────────────────────────────────────────────────
+SUMMARY OF DIFFERENCES:
+─────────────────────────────────────────────────────────────────────────────
+
+1. VARIABLE SCOPE:
+   In `setTimeout`, you often deal with closure issues. In `await waitFinal`,
+   your variables stay in the same linear block, making them easier to debug.
+
+2. ORDER OF OPERATIONS:
+   With `setTimeout`, if you have a loop, all timers start at once (Parallel).
+   With `waitFinal`, each iteration waits for the previous one (Sequential).
+
+3. READABILITY:
+   No more "Pyramid of Doom" (nesting). Your code reads like a list of
+   instructions: "Do this, wait, then do that."
+─────────────────────────────────────────────────────────────────────────────
+*/
+
+//----------------------------------------------------------------------------
+
+/**
+ * ==========================================================================
+ * PROMISE-BASED TIMERS: EVOLUTION & PITFALLS
+ * ==========================================================================
+ *
+ * A comparison of three common implementation strategies.
+ * Focus: Memory safety, error handling, and production readiness.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. waitBestBugFree (The "Naive" Implementation): waitLeaky                 */
+/* -------------------------------------------------------------------------- */
+/**
+ * USE CASE: Small scripts or one-off CLI tools where the process dies quickly.
+ *
+ * PITFALLS:
+ * SUCCESS LEAK: Even with { once: true }, the listener remains attached if
+ *    the timer finishes first. Reusing a signal causes memory growth.
+ *  STRING REJECTION: Rejecting with 'aborted' (a string) provides no stack
+ *    trace, making enterprise-level debugging impossible.
+ *  NO TYPE SAFETY: Vulnerable to NaN or non-number inputs.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 2. waitBest (The "Verbose" Implementation): waitNaive                      */
+/* -------------------------------------------------------------------------- */
+/**
+ * USE CASE: Almost never. It is simply a wordier version of the naive approach.
+ *
+ * PITFALLS:
+ * REDUNDANT: Adds complexity without fixing the "Success Leak" bug.
+ * INCOMPLETE: Fails to remove event listeners on successful resolution.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 3. waitFinal (The "Gold Standard" Implementation): waitSafe                */
+/* -------------------------------------------------------------------------- */
+/**
+ * USE CASE: Production apps, React components, and long-running Node.js servers.
+ *
+ * WHY IT WINS:
+ * ZERO MEMORY LEAKS: Manually removes listeners on BOTH success and failure.
+ * STANDARDIZED: Rejects with DOMException('AbortError') to match fetch() behavior.
+ * CUSTOM REASONS: Supports 'signal.reason' for descriptive cancellation logs.
+ * DEFENSIVE: Validates input to ensure 'ms' is a finite, non-negative number.
+ */
+
+/* ==========================================================================
+   SUMMARY COMPARISON TABLE
+   ==========================================================================
+
+   FEATURE              | Naive / Verbose | waitFinal
+   ---------------------|-----------------|----------------------
+   Abort Cleanup        | Yes             | Yes
+   Success Cleanup      | NO (Leak!)      | YES (Clean)
+   Type Validation      | No              | Yes
+   Error Objects        | No (String)     | Yes (DOMException)
+   Production Ready?    | No              | YES
+
+   FINAL VERDICT:
+   "Success Leaks" are silent killers in large apps.
+   Always use waitFinal as waitSafe to ensure your event-listener count stays at zero.
+   ========================================================================== */
