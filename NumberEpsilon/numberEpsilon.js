@@ -75,6 +75,16 @@ if (num === 0.3) {
   console.log('equal');
 }
 
+/*
+const num = 1000.1+1000.2
+if(Math.abs(num-2000.3)<2000*Number.EPSILON){
+ if(Math.abs(num-2000.3)<0.00099){
+ if(Math.abs(num-2000.3)<0.01){
+ 0.01,0.0000999
+console.log("equal")
+}
+*/
+
 const num = 1000.1 + 1000.2;
 if (Math.abs(num - 2000.3) < 2000 * Number.EPSILON) {
   // if(Math.abs(num-2000.3)<0.00099){
