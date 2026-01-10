@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f6f7f9;
+}
+
+#viewport {
+  height: 400px; /* visible window */
+  /* width: 360px; */
+  overflow-y: auto;
+  position: relative;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+}
+
+/* Fake full height lives here */
+#spacer {
+  position: relative;
+  width: 100%;
+}
+
+/* Actual rendered items */
+#items {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
+
+/* Row style */
+.row,
+.v-item {
+  height: 32px; /* matches ROW_HEIGHT */
+  line-height: 32px;
+  padding: 0 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+}
+
+/* Visual separation */
+.row:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Sentinels (invisible but measurable) */
+#top-sentinel,
+#bottom-sentinel {
+  height: 1px;
+}

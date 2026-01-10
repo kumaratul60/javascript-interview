@@ -1,3 +1,12 @@
+// Scroll-based list virtualization (recreate-on-scroll version)
+/*
+Scroll listener
+Fixed row height
+Overscan buffer
+DOM recreate strategy
+
+*/
+
 function initVirtualList({ viewportId, totalItems, itemHeight, buffer = 5 }) {
   // Get the scrollable container
   const viewport = document.getElementById(viewportId);

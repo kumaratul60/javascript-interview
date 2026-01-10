@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #viewport {
+        height: 400px;
+        overflow-y: auto;
+        position: relative;
+        border: 1px solid #ddd;
+      }
+
+      #spacer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+      }
+
+      #items {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="viewport">
+      <div id="spacer"></div>
+      <div id="items"></div>
+    </div>
+    <script>
+      const viewport = document.getElementById('viewport');
+      const spacer = document.getElementById('spacer');
+      const itemsEl = document.getElementById('items');
+
+      const TOTAL = 100_00;
+      const ROW_HEIGHT = 32;
+      const OVERSCAN = 5;
+
+      spacer.style.height = `${TOTAL * ROW_HEIGHT}px`;
+
+      function render() {
+        const scrollTop = viewport.scrollTop;
+        const viewportHeight = viewport.clientHeight;
+
+        const startIndex = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN);
+
+        const endIndex = Math.min(TOTAL, Math.ceil((scrollTop + viewportHeight) / ROW_HEIGHT) + OVERSCAN);
+
+        itemsEl.style.transform = `translateY(${startIndex * ROW_HEIGHT}px)`;
+        itemsEl.innerHTML = '';
+
+        for (let i = startIndex; i < endIndex; i++) {
+          const row = document.createElement('div');
+          row.style.height = `${ROW_HEIGHT}px`;
+          row.textContent = `Row ${i}`;
+          itemsEl.appendChild(row);
+        }
+      }
+
+      viewport.addEventListener('scroll', render, { passive: true });
+      render();
+    </script>
+  </body>
+</html>
