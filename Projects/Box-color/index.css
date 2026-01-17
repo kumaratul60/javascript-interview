@@ -1,0 +1,17 @@
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 12px;
+  margin: 40px;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 2px solid #333;
+  transition: background-color 0.3s;
+}
