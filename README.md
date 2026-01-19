@@ -43,6 +43,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
     - [🔗 Beginner Resources](#-beginner-resources)
     - [🔗 Intermediate Resources](#-intermediate-resources)
     - [🔗 Advanced Resources](#-advanced-resources)
+    - [Design Patterns](#design-patterns)
     - [🔗 React \& Framework Resources](#-react--framework-resources)
   - [💬 Discussion \& Issues](#-discussion--issues)
   - [🙌 Contribution \& License](#-contribution--license)
@@ -251,6 +252,10 @@ Practice these key concepts to solidify your understanding:
 - [JavaScript Challenge #14](https://app.testdome.com/screening/challenge/14) - TestDome challenge
 - [JavaScript Challenge #15](https://app.testdome.com/screening/challenge/15) - TestDome challenge
 - [JavaScript Challenge #17](https://app.testdome.com/screening/challenge/17) - TestDome challenge
+
+### Design Patterns
+
+- [Design Patterns](https://github.com/kumaratul60/design-patterns)
 
 ### 🔗 React & Framework Resources
 
