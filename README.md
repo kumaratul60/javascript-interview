@@ -252,6 +252,8 @@ Practice these key concepts to solidify your understanding:
 - [JavaScript Challenge #14](https://app.testdome.com/screening/challenge/14) - TestDome challenge
 - [JavaScript Challenge #15](https://app.testdome.com/screening/challenge/15) - TestDome challenge
 - [JavaScript Challenge #17](https://app.testdome.com/screening/challenge/17) - TestDome challenge
+- [JavaScript engines zoo](https://github.com/ivankra/javascript-zoo)
+- [risingstars js](https://risingstars.js.org/)
 
 ### Design Patterns
 
