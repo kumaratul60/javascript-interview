@@ -1,32 +1,28 @@
-//   closures => A function with its lexical environment bind together form a closures.
-//  leaxical environment ->  function/varable surrouding state  or function/variable scope or local memory along with reference to the lexical environment of parent.
+// This file demonstrates a key aspect of closures: capturing a reference to an outer variable.
+// For a comprehensive guide on closures, including definitions, use cases, and interview questions, please refer to `closure.js` in this directory.
 
-//  lexical parent => where axctually that function sits inside the code.
-
-// function x() {
-//   var a = 7;
-//   //   const y = () => {
-//   return function y() {
-//     console.log(a);
-//   };
-//   //   y();
-//   //   return y;
-// }
-// var z = x();
-// console.log(z); // return function y() itself
-// z(); // 7
+/*
+Closures:
+A function with its lexical environment bound together forms a closure.
+Lexical environment: The surrounding state of a function/variable, including its local memory and references to the lexical environment of its parent.
+Lexical parent: Where the function is physically located in the code.
+*/
 
 function x() {
-  var a = 7;
+  var a = 7; // 'a' is part of the lexical environment of 'y'
 
   function y() {
-    console.log(a); // a is reference not a value
+    console.log("Value of 'a' inside y():", a); // 'a' is a reference, not a value copy
   }
-  a = 100;
-  return y;
+  a = 100; // 'a' is reassigned before 'y' is called
+  return y; // 'y' forms a closure over 'x's scope
 }
-var z = x();
-console.log(z); // return function y() itself
-z(); // 100
+var z = x(); // 'z' now holds the function 'y' and its closure over 'x's scope
+console.log("Returned function z:", z); // Output: [Function: y]
+z(); // Output: Value of 'a' inside y(): 100
 
-//  now when executing z, it will try to findout the reference of a and reeference of a is pointing to 100 that means 100 is still in memory preserved because of closure and when x is gone it was not garbage collected because it has use latter so it giving 100
+// Explanation:
+// When `x()` is called, it returns `y()`. At this point, `a` has been updated to `100`.
+// The closure `z` (which is `y`) remembers the *reference* to `a` from its lexical parent's scope.
+// So, when `z()` is executed later, it accesses the *current* value of `a`, which is `100`.
+// This demonstrates that closures capture variables by reference.
