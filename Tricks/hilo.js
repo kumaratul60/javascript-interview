@@ -21,6 +21,16 @@ function twoSum(x, y) {
   const lo = y - (hi - x);
   return { hi, lo };
 }
+
+//
+
+function dekkerTwoSum(x, y) {
+  const hi = x + y;
+  const z = hi - x; // Virtual split point
+  const lo = x - (hi - z) + (y - z); // Recovers error from BOTH sides
+  return { hi, lo };
+}
+
 // This technique is commonly used in numerical computing to reduce floating-point precision loss.
 
 /*
