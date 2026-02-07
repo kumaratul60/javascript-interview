@@ -227,3 +227,91 @@ Boolean([])             // true
 Boolean(Symbol())       // true
 !!Symbol()              // true
 Boolean(function () { })  // true
+
+// =================================================================================================
+// Comparison Operators (0 to 100)
+// =================================================================================================
+
+console.log('// ===============================================');
+console.log('// == (Loose Equality)');
+console.log('// ===============================================');
+// The loose equality operator compares two values for equality, after converting both values to a common type (type coercion).
+
+console.log(1 == 1); // true
+console.log('hello' == 'hello'); // true
+console.log('1' == 1); // true
+console.log(0 == false); // true
+console.log(null == undefined); // true
+console.log(0 == null); // false
+console.log(0 == undefined); // false
+
+// With objects and arrays
+console.log([] == false); // true -> [].toString() is '', which is converted to 0. 0 == 0 is true.
+console.log([1] == true); // true -> [1].toString() is '1', which is converted to 1. 1 == 1 is true.
+console.log([1,2] == '1,2'); // true -> [1,2].toString() is '1,2'. '1,2' == '1,2' is true.
+console.log({} == '[object Object]'); // false, this is tricky. The object is coerced, but not in a way that matches the string here.
+console.log([] == ![]); // true. ![] is false. [] == false is true.
+
+console.log('// ===============================================');
+console.log('// === (Strict Equality)');
+console.log('// ===============================================');
+// The strict equality operator compares two values for equality. Neither value is implicitly converted to some other value before being compared.
+// If the values have different types, the values are considered unequal.
+// If both are objects, they are equal only if they reference the same object.
+
+console.log(1 === 1); // true
+console.log('hello' === 'hello'); // true
+console.log('1' === 1); // false
+console.log(0 === false); // false
+console.log(null === undefined); // false
+
+// With objects and arrays
+console.log({} === {}); // false (two different objects)
+console.log([] === []); // false (two different arrays)
+const arr = [];
+const arrRef = arr;
+console.log(arr === arrRef); // true (both reference the same array)
+
+// Special Cases
+console.log(NaN === NaN); // false
+
+console.log('// ===============================================');
+console.log('// Object.is()');
+console.log('// ===============================================');
+// The Object.is() method determines whether two values are the same value.
+// It is similar to the strict equality operator (===) but with two key differences:
+// 1. NaN is considered equal to NaN.
+// 2. -0 and +0 are considered not equal.
+
+console.log(Object.is(1, 1)); // true
+console.log(Object.is('hello', 'hello')); // true
+console.log(Object.is('1', 1)); // false
+console.log(Object.is({}, {})); // false
+const arr2 = [];
+console.log(Object.is(arr2, arr2)); // true
+
+// Key differences from ===
+console.log(Object.is(NaN, NaN)); // true
+console.log(Object.is(-0, +0)); // false
+
+console.log('// ===============================================');
+console.log('// Summary of Comparison Operators');
+console.log('// ===============================================');
+console.log('Value 1 | Operator | Value 2 | Result');
+console.log('-------------------------------------------');
+console.log(`'5'     | ==       | 5       | ${'5' == 5}`);
+console.log(`'5'     | ===      | 5       | ${'5' === 5}`);
+console.log(`''      | ==       | false   | ${'' == false}`);
+console.log(`''      | ===      | false   | ${'' === false}`);
+console.log(`0       | ==       | false   | ${0 == false}`);
+console.log(`0       | ===      | false   | ${0 === false}`);
+console.log(`null    | ==       | undefined| ${null == undefined}`);
+console.log(`null    | ===      | undefined| ${null === undefined}`);
+console.log(`NaN     | ==       | NaN     | ${NaN == NaN}`);
+console.log(`NaN     | ===      | NaN     | ${NaN === NaN}`);
+console.log(`Object.is(NaN, NaN)          | ${Object.is(NaN, NaN)}`);
+console.log(`-0      | ==       | 0       | ${-0 == 0}`);
+console.log(`-0      | ===      | 0       | ${-0 === 0}`);
+console.log(`Object.is(-0, 0)             | ${Object.is(-0, 0)}`);
+console.log(`{}      | ==       | {}      | ${{} == {}}`);
+console.log(`{}      | ===      | {}      | ${{} === {}}`);
