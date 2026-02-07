@@ -9,17 +9,17 @@ Shadow DOM is a core part of Web Components that provides encapsulation for HTML
 **Shadow DOM** is a way to **encapsulate DOM and CSS** within a component so that it doesn't interfere with the rest of the page (and vice versa). Think of it as a "mini-DOM" scoped inside an element.
 
 ```js
-const shadowRoot = element.attachShadow({ mode: "open" });
+const shadowRoot = element.attachShadow({ mode: 'open' });
 ```
 
 ---
 
 ## ✅ Why Shadow DOM?
 
-* **Style encapsulation**: Avoid global CSS pollution.
-* **DOM isolation**: JS/HTML is scoped inside the component.
-* **Maintainability**: Build self-contained components.
-* **Composition**: Enables powerful UI abstractions.
+- **Style encapsulation**: Avoid global CSS pollution.
+- **DOM isolation**: JS/HTML is scoped inside the component.
+- **Maintainability**: Build self-contained components.
+- **Composition**: Enables powerful UI abstractions.
 
 ---
 
@@ -38,14 +38,14 @@ const shadowRoot = element.attachShadow({ mode: "open" });
 
 When creating a shadow root, you can choose between:
 
-* **`mode: "open"`** – shadow root is accessible via `element.shadowRoot`.
-* **`mode: "closed"`** – shadow root is not accessible from outside the element.
+- **`mode: "open"`** – shadow root is accessible via `element.shadowRoot`.
+- **`mode: "closed"`** – shadow root is not accessible from outside the element.
 
 ```js
-const openShadow = el.attachShadow({ mode: "open" });
+const openShadow = el.attachShadow({ mode: 'open' });
 console.log(el.shadowRoot); // returns shadowRoot
 
-const closedShadow = el.attachShadow({ mode: "closed" });
+const closedShadow = el.attachShadow({ mode: 'closed' });
 console.log(el.shadowRoot); // returns null
 ```
 
@@ -62,7 +62,7 @@ You don't always need to use a constructor; you can also attach shadow DOM manua
 <script>
   const wrapper = document.getElementById('wrapper');
   const box = document.createElement('div');
-  box.textContent = "Hello from shadow";
+  box.textContent = 'Hello from shadow';
 
   const shadowRoot = wrapper.attachShadow({ mode: 'open' });
   shadowRoot.appendChild(box);
@@ -75,16 +75,16 @@ You don't always need to use a constructor; you can also attach shadow DOM manua
 
 Use Shadow DOM when:
 
-* You want to create **reusable components** with isolated DOM/CSS.
-* You are building **design systems** or **UI libraries**.
-* You want to **prevent external styles from leaking in**.
-* You are developing **widgets or third-party embeds**.
-* You need to scope styles (e.g. inside a modal, tooltip, dropdown).
+- You want to create **reusable components** with isolated DOM/CSS.
+- You are building **design systems** or **UI libraries**.
+- You want to **prevent external styles from leaking in**.
+- You are developing **widgets or third-party embeds**.
+- You need to scope styles (e.g. inside a modal, tooltip, dropdown).
 
 Avoid it if:
 
-* You rely heavily on global styling or themes.
-* You need full React/Vue/Angular integration without wrappers.
+- You rely heavily on global styling or themes.
+- You need full React/Vue/Angular integration without wrappers.
 
 ---
 
@@ -138,7 +138,7 @@ A pseudo-selector to style light DOM content projected into slots.
 class UserCard extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: "open" });
+    const shadow = this.attachShadow({ mode: 'open' });
     shadow.innerHTML = `
       <style>
         :host {
@@ -163,7 +163,7 @@ class UserCard extends HTMLElement {
     `;
   }
 }
-customElements.define("user-card", UserCard);
+customElements.define('user-card', UserCard);
 ```
 
 ---
@@ -173,13 +173,13 @@ customElements.define("user-card", UserCard);
 React doesn’t support Shadow DOM natively, but you can integrate it:
 
 ```tsx
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 
 function ShadowWrapper({ children }) {
   const hostRef = useRef();
 
   useEffect(() => {
-    const shadowRoot = hostRef.current.attachShadow({ mode: "open" });
+    const shadowRoot = hostRef.current.attachShadow({ mode: 'open' });
     shadowRoot.appendChild(children);
   }, []);
 
@@ -193,40 +193,42 @@ function ShadowWrapper({ children }) {
 
 ## 🔥 Advanced: Fallback Content, Events, Isolation
 
-* **Fallback** in slot:
+- **Fallback** in slot:
 
   ```html
   <slot>Default content</slot>
   ```
-* **Events from Shadow DOM:**
+
+- **Events from Shadow DOM:**
 
   ```js
-  this.dispatchEvent(new CustomEvent("clicked", { composed: true }));
+  this.dispatchEvent(new CustomEvent('clicked', { composed: true }));
   ```
-* **Style isolation**: Global styles can't affect your component unless exposed.
+
+- **Style isolation**: Global styles can't affect your component unless exposed.
 
 ---
 
 ## ❌ Limitations
 
-* `::slotted()` cannot style deep nested content.
-* Shadow DOM is harder to theme globally (use CSS custom properties or `part` API).
-* React doesn't render directly into Shadow DOM unless using portals.
+- `::slotted()` cannot style deep nested content.
+- Shadow DOM is harder to theme globally (use CSS custom properties or `part` API).
+- React doesn't render directly into Shadow DOM unless using portals.
 
 ---
 
 ## 🛠️ Tooling & Debugging
 
-* In Chrome DevTools: Enable **"Show user agent shadow DOM"**.
-* Inspect shadowRoot via `$0.shadowRoot`.
-* Use [Web Component Dev Tools](https://chromewebstore.google.com/detail/web-components-devtools/) for better inspection.
+- In Chrome DevTools: Enable **"Show user agent shadow DOM"**.
+- Inspect shadowRoot via `$0.shadowRoot`.
+- Use [Web Component Dev Tools](https://chromewebstore.google.com/detail/web-components-devtools/) for better inspection.
 
 ---
 
 ## 📦 Resources
 
-* [MDN - Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)
-* [Web Components - Google Developers](https://developers.google.com/web/fundamentals/web-components/shadowdom)
+- [MDN - Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)
+- [Web Components - Google Developers](https://developers.google.com/web/fundamentals/web-components/shadowdom)
 
 ---
 
@@ -245,10 +247,9 @@ function ShadowWrapper({ children }) {
 
 ## 🚀 Explore some examples like:
 
-* [ ] Build a modal dialog using Shadow DOM + slots
-* [ ] Create themeable web components with CSS variables
-* [ ] Use Tailwind inside a shadow root (with inline styles or static style injection)
-* [ ] Use Shadow DOM with Lit or Stencil
+- [ ] Build a modal dialog using Shadow DOM + slots
+- [ ] Create themeable web components with CSS variables
+- [ ] Use Tailwind inside a shadow root (with inline styles or static style injection)
+- [ ] Use Shadow DOM with Lit or Stencil
 
 ---
-

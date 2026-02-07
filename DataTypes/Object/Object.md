@@ -4,17 +4,17 @@
 
 `Object` is a **non-primitive (reference) data type**. This is a foundational concept in JavaScript and crucial for understanding memory management and how variables interact.
 
-*   **Primitives (Undefined, Null, Boolean, Number, String, Symbol, BigInt)**:
-    *   **Value-based**: Variables hold the actual value.
-    *   **Immutable**: The value itself cannot be changed (any operation creates a new value).
-    *   **Stack Allocation**: Typically stored directly on the call stack.
-    *   **Comparison**: Compared by value (`===` checks if values are identical).
+- **Primitives (Undefined, Null, Boolean, Number, String, Symbol, BigInt)**:
+  - **Value-based**: Variables hold the actual value.
+  - **Immutable**: The value itself cannot be changed (any operation creates a new value).
+  - **Stack Allocation**: Typically stored directly on the call stack.
+  - **Comparison**: Compared by value (`===` checks if values are identical).
 
-*   **Non-Primitives (Objects)**:
-    *   **Reference-based**: Variables hold a *reference* (memory address/pointer) to the actual object data. The object data itself resides in the heap.
-    *   **Mutable**: The object's properties can be changed without changing its memory address.
-    *   **Heap Allocation**: Stored in the heap memory.
-    *   **Comparison**: Compared by reference (`===` checks if two variables point to the exact same object in memory).
+- **Non-Primitives (Objects)**:
+  - **Reference-based**: Variables hold a _reference_ (memory address/pointer) to the actual object data. The object data itself resides in the heap.
+  - **Mutable**: The object's properties can be changed without changing its memory address.
+  - **Heap Allocation**: Stored in the heap memory.
+  - **Comparison**: Compared by reference (`===` checks if two variables point to the exact same object in memory).
 
 ```js
 // Reference vs. Value Example
@@ -30,8 +30,8 @@ console.log(obj1.value); // 20
 
 ### Memory Allocation (Heap vs. Stack)
 
-*   **Stack**: When a variable is declared and assigned an object, the variable itself (e.g., `user` in `const user = {...}`) is stored on the **call stack**. This variable holds the *memory address* (reference) of where the actual object data is located.
-*   **Heap**: The actual object data, including its properties and their values (or references to other objects/primitives), is stored in the **heap memory**. The heap is a larger, less organized region of memory used for dynamic memory allocation.
+- **Stack**: When a variable is declared and assigned an object, the variable itself (e.g., `user` in `const user = {...}`) is stored on the **call stack**. This variable holds the _memory address_ (reference) of where the actual object data is located.
+- **Heap**: The actual object data, including its properties and their values (or references to other objects/primitives), is stored in the **heap memory**. The heap is a larger, less organized region of memory used for dynamic memory allocation.
 
 ```
 +-----------+       +-------------------------+
@@ -45,6 +45,7 @@ console.log(obj1.value); // 20
 |           |       | }                       |
 +-----------+       +-------------------------+
 ```
+
 When `user.name` is accessed, JavaScript follows the reference from the stack to the heap to retrieve the object, and then accesses the `name` property within that object.
 
 ---
@@ -83,7 +84,7 @@ This **prototype chain** is how JavaScript implements inheritance.
 - **`[[Prototype]]`**: An internal, hidden property on an object that links to its prototype.
 - **`Object.getPrototypeOf(obj)`**: The standard, reliable way to get an object's prototype.
 - **`__proto__` (dunder proto)**: A non-standard, legacy getter/setter for `[[Prototype]]`. Avoid using it in modern code, but you will see it and must understand it.
-- **`Object.create(proto)`**: As seen in section 1, this is the primary way to create an object with a *specific* prototype.
+- **`Object.create(proto)`**: As seen in section 1, this is the primary way to create an object with a _specific_ prototype.
 
 ### How the Chain Ends
 
@@ -102,7 +103,7 @@ console.log(endOfChain); // null
 ### Why It Matters (Staff-Level Insight)
 
 - **Performance**: Accessing properties deep in the prototype chain is slower than accessing an object's own properties. A long prototype chain can be a performance bottleneck.
-- **`in` vs `hasOwn`**: The `in` operator traverses the prototype chain, while `Object.hasOwn()` does not. This is why `hasOwn()` is preferred for checking if an object *itself* has a property, avoiding accidental checks for things like `toString` on `Object.prototype`.
+- **`in` vs `hasOwn`**: The `in` operator traverses the prototype chain, while `Object.hasOwn()` does not. This is why `hasOwn()` is preferred for checking if an object _itself_ has a property, avoiding accidental checks for things like `toString` on `Object.prototype`.
 
 ---
 
@@ -174,7 +175,7 @@ user = { age: 30 }; // ❌ TypeError: Assignment to constant variable.
 
 ### 1. Pass-by-Reference vs. Pass-by-Value
 
-A critical concept for interviews. Objects are "passed by reference" (or more accurately, "pass-by-sharing" where the reference is passed by value) to functions. This means the function receives a copy of the *reference*, not a copy of the object itself. Changes made to the object *inside* the function will affect the original object outside.
+A critical concept for interviews. Objects are "passed by reference" (or more accurately, "pass-by-sharing" where the reference is passed by value) to functions. This means the function receives a copy of the _reference_, not a copy of the object itself. Changes made to the object _inside_ the function will affect the original object outside.
 
 ```js
 function modifyObject(obj) {
@@ -187,60 +188,64 @@ modifyObject(myObject);
 console.log(myObject); // { originalProp: 'value', newProp: 'added' }
 // The original object was modified, but not replaced by the assignment inside the function
 ```
+
 **Implication**: Be mindful when modifying objects received as function arguments, as it can lead to unintended side effects.
 
 ### 2. Shallow vs. Deep Copying
 
-Due to reference semantics, simply assigning one object to another (`obj2 = obj1`) creates a shallow copy where both variables point to the *same* object. For truly independent copies:
+Due to reference semantics, simply assigning one object to another (`obj2 = obj1`) creates a shallow copy where both variables point to the _same_ object. For truly independent copies:
 
-*   **Shallow Copy**: Creates a new object, but nested objects still share references.
-    *   `{ ...originalObject }` (Spread syntax)
-    *   `Object.assign({}, originalObject)`
-    ```js
-    let original = { a: 1, b: { c: 2 } };
-    let shallowCopy = { ...original };
-    shallowCopy.a = 10;
-    shallowCopy.b.c = 20; // This modifies the nested object in `original` too!
-    console.log(original); // { a: 1, b: { c: 20 } }
-    ```
-*   **Deep Copy**: Creates a new object and recursively copies all nested objects, ensuring complete independence.
-    *   `JSON.parse(JSON.stringify(originalObject))` (Simple, but has limitations: loses functions, `undefined`, `Symbol`, `Date` objects become strings, etc.)
-    *   Structured Clone Algorithm (`structuredClone()` in modern browsers/Node.js)
-    *   Dedicated deep copy libraries (e.g., Lodash's `cloneDeep`)
-    ```js
-    let original = { a: 1, b: { c: 2 }, d: new Date() };
-    let deepCopy = JSON.parse(JSON.stringify(original));
-    deepCopy.b.c = 20;
-    console.log(original); // { a: 1, b: { c: 2 }, d: '2023-10-27T...' } (original.b.c is still 2)
-    console.log(original.d); // Date object
-    console.log(deepCopy.d); // String
-    ```
-**Implication**: Choose your copying method carefully based on whether nested objects need to be independent.
+- **Shallow Copy**: Creates a new object, but nested objects still share references.
+  - `{ ...originalObject }` (Spread syntax)
+  - `Object.assign({}, originalObject)`
+  ```js
+  let original = { a: 1, b: { c: 2 } };
+  let shallowCopy = { ...original };
+  shallowCopy.a = 10;
+  shallowCopy.b.c = 20; // This modifies the nested object in `original` too!
+  console.log(original); // { a: 1, b: { c: 20 } }
+  ```
+- **Deep Copy**: Creates a new object and recursively copies all nested objects, ensuring complete independence.
+  _ `JSON.parse(JSON.stringify(originalObject))` (Simple, but has limitations: loses functions, `undefined`, `Symbol`, `Date` objects become strings, etc.)
+  _ Structured Clone Algorithm (`structuredClone()` in modern browsers/Node.js) \* Dedicated deep copy libraries (e.g., Lodash's `cloneDeep`)
+  `js
+let original = { a: 1, b: { c: 2 }, d: new Date() };
+let deepCopy = JSON.parse(JSON.stringify(original));
+deepCopy.b.c = 20;
+console.log(original); // { a: 1, b: { c: 2 }, d: '2023-10-27T...' } (original.b.c is still 2)
+console.log(original.d); // Date object
+console.log(deepCopy.d); // String
+`
+  **Implication**: Choose your copying method carefully based on whether nested objects need to be independent.
 
 ### 3. Property Enumeration Order
 
 The order of properties when iterating over an object (e.g., `for...in`, `Object.keys()`, `JSON.stringify()`) used to be non-guaranteed for non-integer keys.
 **Modern ES2015+ Guarantee**:
+
 1.  Integer-like keys (e.g., "1", "2") in ascending numerical order.
 2.  String keys (non-integer) in insertion order.
 3.  Symbol keys in insertion order.
-**Pitfall**: Relying on enumeration order for older environments or unusual keys.
+    **Pitfall**: Relying on enumeration order for older environments or unusual keys.
 
 ### 4. `Object.prototype` Pollution
 
-Modifying `Object.prototype` (e.g., `Object.prototype.myCustomMethod = function(){...}`) adds that property/method to *all* objects, including built-in ones, which can lead to unexpected behavior and bugs, especially in libraries.
+Modifying `Object.prototype` (e.g., `Object.prototype.myCustomMethod = function(){...}`) adds that property/method to _all_ objects, including built-in ones, which can lead to unexpected behavior and bugs, especially in libraries.
 **Fix**: Never modify `Object.prototype`. Use utility functions or classes instead.
 
 ### 5. Type Checking `typeof` for Objects
 
 `typeof` is unreliable for distinguishing between different types of objects.
+
 ```js
 console.log(typeof {}); // "object"
 console.log(typeof []); // "object"
-console.log(typeof function(){}); // "function" (special case, but functions are objects)
+console.log(typeof function () {}); // "function" (special case, but functions are objects)
 console.log(typeof null); // "object" (historical bug)
 ```
+
 **Fix**: Use `Array.isArray()` for arrays, `instanceof` for custom classes, or `Object.prototype.toString.call(value)` for a more reliable internal `[[Class]]` property.
+
 ```js
 console.log(Array.isArray([])); // true
 class MyClass {}
@@ -255,15 +260,15 @@ console.log(Object.prototype.toString.call(new Date())); // "[object Date]"
 
 The `this` keyword is one of the most powerful and misunderstood parts of JavaScript. Its value is determined entirely by **how the function is called** (its "call-site").
 
-| Context of `this`           | How It's Determined                                                                        | Example                                                                          |
-| :-------------------------- | :----------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| **Global Context**          | In non-strict mode, `this` refers to the global object (`window` in browsers). In strict mode, it's `undefined`. | `console.log(this);`                                                             |
-| **As an Object Method**     | `this` is the object the method was called on (the part before the dot).                     | `user.sayHi()` -> `this` is `user`.                                              |
-| **As a Simple Function**    | Same as Global Context (global object or `undefined` in strict mode). This is a common bug source. | `const fn = user.sayHi; fn();` -> `this` is `window` or `undefined`.             |
-| **Arrow Function**          | `this` is **lexically inherited** from the surrounding scope. It does *not* get its own `this`. | See Q4 in the interview section. It inherits `this` from the scope where it was defined. |
-| **`call`, `apply`, `bind`** | You can **explicitly set** `this`. `bind` creates a new function with a bound `this`.        | `fn.call(user, arg1, arg2)`                                                      |
-| **DOM Event Handler**       | `this` is the element that the event was fired on.                                         | `button.addEventListener('click', function() { console.log(this) });` -> the button |
-| **As a Constructor**        | When a function is called with `new`, `this` refers to the brand new object being created. | `new User()` -> `this` is the new user instance.                                 |
+| Context of `this`           | How It's Determined                                                                                              | Example                                                                                  |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| **Global Context**          | In non-strict mode, `this` refers to the global object (`window` in browsers). In strict mode, it's `undefined`. | `console.log(this);`                                                                     |
+| **As an Object Method**     | `this` is the object the method was called on (the part before the dot).                                         | `user.sayHi()` -> `this` is `user`.                                                      |
+| **As a Simple Function**    | Same as Global Context (global object or `undefined` in strict mode). This is a common bug source.               | `const fn = user.sayHi; fn();` -> `this` is `window` or `undefined`.                     |
+| **Arrow Function**          | `this` is **lexically inherited** from the surrounding scope. It does _not_ get its own `this`.                  | See Q4 in the interview section. It inherits `this` from the scope where it was defined. |
+| **`call`, `apply`, `bind`** | You can **explicitly set** `this`. `bind` creates a new function with a bound `this`.                            | `fn.call(user, arg1, arg2)`                                                              |
+| **DOM Event Handler**       | `this` is the element that the event was fired on.                                                               | `button.addEventListener('click', function() { console.log(this) });` -> the button      |
+| **As a Constructor**        | When a function is called with `new`, `this` refers to the brand new object being created.                       | `new User()` -> `this` is the new user instance.                                         |
 
 ---
 
@@ -320,10 +325,10 @@ To speed up property access, JavaScript engines like V8 use a concept called **H
 
 ```javascript
 const user1 = { name: 'Atul' }; // V8 creates Hidden Class C0
-user1.age = 25;                // V8 creates C1, which links to C0
+user1.age = 25; // V8 creates C1, which links to C0
 
 const user2 = { name: 'Rahul' }; // V8 reuses C0
-user2.age = 30;                 // V8 reuses C1
+user2.age = 30; // V8 reuses C1
 ```
 
 **Why It Matters (Staff-Level Insight):**
@@ -355,25 +360,25 @@ delete Object.getPrototypeOf(person).height; // Success
 
 A plain `Object` is often used as a dictionary or hash map, but since ES6, the `Map` object is often a better choice. A Staff-level engineer knows the trade-offs.
 
-| Feature                      | `Object`                                                                  | `Map`                                                                          |
-| :--------------------------- | :------------------------------------------------------------------------ | :----------------------------------------------------------------------------- |
-| **Keys**                     | **Strings or Symbols only**. Other types are stringified.                 | **Any type**, including objects, functions, etc. Retains original type.        |
-| **Key Order**                | Not guaranteed (though modern engines are consistent).                    | **Guaranteed** to be in insertion order.                                       |
-| **Size**                     | No direct way. Must be calculated manually (`Object.keys().length`).      | Easy and direct: `map.size`.                                                   |
-| **Performance**              | Fast for static structures. Slows down if keys are added/deleted often.   | **Highly optimized** for frequent additions and deletions of keys.             |
-| **Prototype & Collisions**   | Inherits from `Object.prototype`. Can lead to accidental key collisions. | No prototype issues. A clean dictionary.                                       |
-| **Iteration**                | Requires methods like `Object.keys()` or `for...in`.                      | Directly iterable (e.g., `for...of map`).                                      |
+| Feature                    | `Object`                                                                 | `Map`                                                                   |
+| :------------------------- | :----------------------------------------------------------------------- | :---------------------------------------------------------------------- |
+| **Keys**                   | **Strings or Symbols only**. Other types are stringified.                | **Any type**, including objects, functions, etc. Retains original type. |
+| **Key Order**              | Not guaranteed (though modern engines are consistent).                   | **Guaranteed** to be in insertion order.                                |
+| **Size**                   | No direct way. Must be calculated manually (`Object.keys().length`).     | Easy and direct: `map.size`.                                            |
+| **Performance**            | Fast for static structures. Slows down if keys are added/deleted often.  | **Highly optimized** for frequent additions and deletions of keys.      |
+| **Prototype & Collisions** | Inherits from `Object.prototype`. Can lead to accidental key collisions. | No prototype issues. A clean dictionary.                                |
+| **Iteration**              | Requires methods like `Object.keys()` or `for...in`.                     | Directly iterable (e.g., `for...of map`).                               |
 
 ### The Verdict
 
 - **Use `Object` when:**
-    - You have a simple, fixed collection of properties known at creation time.
-    - You are creating a specific "thing" or entity (e.g., a `user`, a `config`).
+  - You have a simple, fixed collection of properties known at creation time.
+  - You are creating a specific "thing" or entity (e.g., a `user`, a `config`).
 - **Use `Map` when:**
-    - You need a dictionary for dynamic key-value storage.
-    - Keys are not strings or symbols.
-    - You need to preserve insertion order.
-    - You perform a lot of additions/deletions and need high performance.
+  - You need a dictionary for dynamic key-value storage.
+  - Keys are not strings or symbols.
+  - You need to preserve insertion order.
+  - You perform a lot of additions/deletions and need high performance.
 
 ---
 
@@ -389,9 +394,9 @@ Objects are the backbone of almost all complex data structures and configuration
       price: 1200,
       specifications: {
         cpu: 'Intel i7',
-        ram: '16GB'
+        ram: '16GB',
       },
-      tags: ['electronics', 'computers']
+      tags: ['electronics', 'computers'],
     };
     ```
 2.  **Configuration Objects**: Passing multiple settings to functions or components.
@@ -423,9 +428,9 @@ Objects are the backbone of almost all complex data structures and configuration
 5.  **Look-up Tables/Dictionaries**: Mapping keys to values.
     ```js
     const statusMap = {
-      'pending': '⏳',
-      'completed': '✅',
-      'failed': '❌'
+      pending: '⏳',
+      completed: '✅',
+      failed: '❌',
     };
     console.log(statusMap.pending);
     ```
@@ -434,7 +439,7 @@ Objects are the backbone of almost all complex data structures and configuration
 
 ## 11. Tricky Interview Questions (Logic Lab)
 
-### 🧠 Q1: The "Object as Key" Trap
+### Q1: The "Object as Key" Trap
 
 ```javascript
 const a = {};
@@ -447,7 +452,7 @@ console.log(a[b]); // Output: 456
 
 **Reason:** Objects are stringified to `"[object Object]"` when used as keys. Both `a[b]` and `a[c]` target `a["[object Object]"]`.
 
-### 🧠 Q2: Comparison
+### Q2: Comparison
 
 ```javascript
 console.log({} === {}); // false
@@ -455,7 +460,7 @@ console.log({} === {}); // false
 
 **Reason:** Every object literal creates a new reference in memory. No two distinct objects are ever equal.
 
-### 🧠 Q3: Duplicate Keys
+### Q3: Duplicate Keys
 
 ```javascript
 const obj = { a: 'one', b: 'two', a: 'three' };
@@ -464,7 +469,7 @@ console.log(obj); // { a: "three", b: "two" }
 
 **Reason:** LIFO (Last In First Out). The later key overwrites the earlier one.
 
-### 🧠 Q4: Self-Referencing `this`
+### Q4: Self-Referencing `this`
 
 ```javascript
 const obj = {
@@ -515,17 +520,17 @@ function multiplyNumeric(obj) {
 
 ## Summary Cheat Sheet
 
-| Feature            | Description                                                    |
-| :----------------- | :------------------------------------------------------------- |
-| **Concept**        | Collection of key-value pairs; fundamental non-primitive type. |
-| **Type**           | Non-Primitive (Reference Type).                                |
-| **Mutable**        | Yes. Properties can be changed after creation.                 |
-| **`typeof`**       | Returns `"object"` (except for functions). Unreliable for specific object types. |
-| **Memory**         | Variable on **Stack** holds **Heap** reference to object data. |
-| **Comparison**     | By reference (`===` checks if same memory location).           |
-| **Property Access**| Dot notation (`obj.prop`), bracket notation (`obj['prop']`).  |
-| **Creation**       | Object literal (`{}`), `new Object()`, `Object.create()`.     |
-| **Pitfall**        | Pass-by-reference semantics, shallow vs. deep copy, `typeof` for objects, `Object.prototype` pollution. |
+| Feature             | Description                                                                                             |
+| :------------------ | :------------------------------------------------------------------------------------------------------ |
+| **Concept**         | Collection of key-value pairs; fundamental non-primitive type.                                          |
+| **Type**            | Non-Primitive (Reference Type).                                                                         |
+| **Mutable**         | Yes. Properties can be changed after creation.                                                          |
+| **`typeof`**        | Returns `"object"` (except for functions). Unreliable for specific object types.                        |
+| **Memory**          | Variable on **Stack** holds **Heap** reference to object data.                                          |
+| **Comparison**      | By reference (`===` checks if same memory location).                                                    |
+| **Property Access** | Dot notation (`obj.prop`), bracket notation (`obj['prop']`).                                            |
+| **Creation**        | Object literal (`{}`), `new Object()`, `Object.create()`.                                               |
+| **Pitfall**         | Pass-by-reference semantics, shallow vs. deep copy, `typeof` for objects, `Object.prototype` pollution. |
 
 ---
 
@@ -543,10 +548,10 @@ function multiplyNumeric(obj) {
 
 ### Final Decision: When to use?
 
-*   **To group related data and functionality**: ✅ ALWAYS. This is the primary use for plain objects and more complex data structures.
-*   **For configuration options**: ✅ YES.
-*   **As a lookup table (dictionary/map)**: ✅ YES (though `Map` might be preferred for arbitrary keys).
-*   **To create instances of custom classes**: ✅ YES.
-*   **When passing data to functions, requiring modification of the original**: ✅ YES (understanding pass-by-reference).
-*   **When creating independent copies of objects**: ✅ Use spread syntax or `Object.assign()` for shallow copies, `structuredClone()` or libraries for deep copies.
-*   **For comparing objects**: ❌ AVOID `===` if you mean "same content"; use deep comparison logic or compare specific properties instead.
+- **To group related data and functionality**: ✅ ALWAYS. This is the primary use for plain objects and more complex data structures.
+- **For configuration options**: ✅ YES.
+- **As a lookup table (dictionary/map)**: ✅ YES (though `Map` might be preferred for arbitrary keys).
+- **To create instances of custom classes**: ✅ YES.
+- **When passing data to functions, requiring modification of the original**: ✅ YES (understanding pass-by-reference).
+- **When creating independent copies of objects**: ✅ Use spread syntax or `Object.assign()` for shallow copies, `structuredClone()` or libraries for deep copies.
+- **For comparing objects**: ❌ AVOID `===` if you mean "same content"; use deep comparison logic or compare specific properties instead.

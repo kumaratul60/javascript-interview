@@ -10,27 +10,27 @@ The `Error` object serves as the base class for several built-in error types, al
 
 ### Key Characteristics
 
-*   **Non-Primitive (Reference Type)**: `Error` instances are objects.
-*   **Built-in Types**: JavaScript provides several standard error types that inherit from `Error` (e.g., `TypeError`, `ReferenceError`, `SyntaxError`, `RangeError`, `URIError`, `EvalError`).
-*   **Properties**: `Error` objects typically have at least two main properties:
-    *   `message`: A human-readable description of the error.
-    *   `name`: The name of the error type (e.g., "Error", "TypeError").
-    *   `stack`: (Non-standard but widely supported) A string representing the call stack at the time the error was thrown, useful for debugging.
-*   **Throwing and Catching**: Errors are `throw`n to interrupt normal program flow and are `catch`ed in `try...catch` blocks to gracefully handle exceptions.
-*   **`typeof` Operator**: For `Error` objects, `typeof` returns `"object"`.
-    ```js
-    const myError = new Error('Test');
-    console.log(typeof myError); // "object"
-    ```
+- **Non-Primitive (Reference Type)**: `Error` instances are objects.
+- **Built-in Types**: JavaScript provides several standard error types that inherit from `Error` (e.g., `TypeError`, `ReferenceError`, `SyntaxError`, `RangeError`, `URIError`, `EvalError`).
+- **Properties**: `Error` objects typically have at least two main properties:
+  - `message`: A human-readable description of the error.
+  - `name`: The name of the error type (e.g., "Error", "TypeError").
+  - `stack`: (Non-standard but widely supported) A string representing the call stack at the time the error was thrown, useful for debugging.
+- **Throwing and Catching**: Errors are `throw`n to interrupt normal program flow and are `catch`ed in `try...catch` blocks to gracefully handle exceptions.
+- **`typeof` Operator**: For `Error` objects, `typeof` returns `"object"`.
+  ```js
+  const myError = new Error('Test');
+  console.log(typeof myError); // "object"
+  ```
 
 ### Syntax & Examples
 
 ```js
 // 1. Creating a generic Error object
 const myError = new Error('Something went wrong!');
-console.log(myError.name);    // "Error"
+console.log(myError.name); // "Error"
 console.log(myError.message); // "Something went wrong!"
-console.log(myError.stack);   // Stack trace (implementation-dependent)
+console.log(myError.stack); // Stack trace (implementation-dependent)
 
 // 2. Throwing and Catching Errors
 function divide(a, b) {
@@ -45,7 +45,7 @@ try {
   console.log('Result:', result); // This line won't be reached
 } catch (error) {
   console.error('Caught an error:', error.message); // Caught an error: Division by zero is not allowed.
-  console.error('Error type:', error.name);         // Error type: Error
+  console.error('Error type:', error.name); // Error type: Error
 } finally {
   console.log('Finally block always executes.');
 }
@@ -77,7 +77,7 @@ try {
 class CustomValidationError extends Error {
   constructor(message, field) {
     super(message); // Call parent Error constructor
-    this.name = "CustomValidationError"; // Set a specific name
+    this.name = 'CustomValidationError'; // Set a specific name
     this.field = field; // Add custom property
   }
 }
@@ -106,12 +106,12 @@ try {
 
 `Error` is a **non-primitive (reference) data type**.
 
-*   **Primitives**: Value-based, immutable, stack-allocated, compared by value.
-*   **Non-Primitives (Objects, Arrays, Functions, Error, etc.)**:
-    *   **Reference-based**: Variables hold a *reference* (memory address/pointer) to the actual data.
-    *   **Mutable**: The `Error` object itself (its properties like `message`, `stack`) can be modified, though this is rarely done outside of specific error handling patterns.
-    *   **Heap Allocation**: Stored in the heap memory.
-    *   **Comparison**: Compared by reference (`===` checks if two variables point to the exact same `Error` object in memory).
+- **Primitives**: Value-based, immutable, stack-allocated, compared by value.
+- **Non-Primitives (Objects, Arrays, Functions, Error, etc.)**:
+  - **Reference-based**: Variables hold a _reference_ (memory address/pointer) to the actual data.
+  - **Mutable**: The `Error` object itself (its properties like `message`, `stack`) can be modified, though this is rarely done outside of specific error handling patterns.
+  - **Heap Allocation**: Stored in the heap memory.
+  - **Comparison**: Compared by reference (`===` checks if two variables point to the exact same `Error` object in memory).
 
 ```js
 // Reference vs. Value Example
@@ -127,8 +127,8 @@ console.log(err3 === err4); // false (different Error objects in memory)
 
 ### Memory Allocation (Heap vs. Stack)
 
-*   **Stack**: When an `Error` object is created (e.g., `new Error(...)`), the variable that holds the error instance is stored on the **call stack**. This variable contains a reference (memory address) to the actual `Error` object.
-*   **Heap**: The actual `Error` object, including its `message`, `name`, and generated `stack` trace, is stored in the **heap memory**. The stack trace itself can contain references to other objects (e.g., function contexts), which also reside in the heap.
+- **Stack**: When an `Error` object is created (e.g., `new Error(...)`), the variable that holds the error instance is stored on the **call stack**. This variable contains a reference (memory address) to the actual `Error` object.
+- **Heap**: The actual `Error` object, including its `message`, `name`, and generated `stack` trace, is stored in the **heap memory**. The stack trace itself can contain references to other objects (e.g., function contexts), which also reside in the heap.
 
 ---
 
@@ -188,7 +188,8 @@ Error handling is critical for building robust and resilient applications.
 
 ### 1. Catching All Errors vs. Specific Errors
 
-A `catch` block catches *any* error thrown within its `try` block. While convenient, it can mask unexpected errors.
+A `catch` block catches _any_ error thrown within its `try` block. While convenient, it can mask unexpected errors.
+
 ```js
 try {
   // Potential network error
@@ -199,7 +200,9 @@ try {
   console.error('An error occurred:', e.message);
 }
 ```
+
 **Fix**: Use `instanceof` to check for specific error types, or implement custom errors for clearer distinctions.
+
 ```js
 try {
   // ...
@@ -216,23 +219,26 @@ try {
 
 ### 2. `Error` vs. Throwing Strings/Primitives
 
-While you *can* throw any value in JavaScript (`throw 'Error!'`), it's highly recommended to *always throw `Error` objects*.
+While you _can_ throw any value in JavaScript (`throw 'Error!'`), it's highly recommended to _always throw `Error` objects_.
+
 ```js
 try {
   throw 'Simple string error';
 } catch (e) {
-  console.log(e);        // "Simple string error"
-  console.log(e.name);   // undefined
+  console.log(e); // "Simple string error"
+  console.log(e.name); // undefined
   console.log(e.message); // undefined
-  console.log(e.stack);  // undefined (no stack trace)
+  console.log(e.stack); // undefined (no stack trace)
 }
 ```
+
 **Pitfall**: Throwing primitives loses valuable debugging information like `name` and `stack` trace.
 **Fix**: `throw new Error('Your custom message');` or `throw new TypeError('Invalid type');`.
 
 ### 3. Asynchronous Error Handling
 
-`try...catch` blocks only work for synchronous code. They *do not* catch errors from asynchronous operations unless the asynchronous operation itself is wrapped in an `async` function and `await`ed.
+`try...catch` blocks only work for synchronous code. They _do not_ catch errors from asynchronous operations unless the asynchronous operation itself is wrapped in an `async` function and `await`ed.
+
 ```js
 try {
   setTimeout(() => {
@@ -243,7 +249,9 @@ try {
 }
 // Output: Uncaught Error: Async error! (in browsers)
 ```
+
 **Fix**: Handle asynchronous errors using Promise `.catch()` handlers or `try...catch` within `async/await` functions.
+
 ```js
 async function doAsyncStuff() {
   try {
@@ -258,6 +266,7 @@ doAsyncStuff();
 ### 4. Custom Error Types and `instanceof`
 
 For custom error types, ensure proper inheritance from `Error` to make `instanceof` checks reliable and to get the full `Error` object benefits (like `stack`).
+
 ```js
 // Correct way (ES6 classes)
 class MyCustomError extends Error {
@@ -281,26 +290,26 @@ Catching an error and then doing nothing with it (swallowing the error) can lead
 
 ## Summary Cheat Sheet
 
-| Feature            | Description                                                    |
-| :----------------- | :------------------------------------------------------------- |
-| **Concept**        | Object representing an abnormal program event/problem.         |
-| **Type**           | Non-Primitive (Reference Type).                                |
-| **Properties**     | `message`, `name`, `stack` (non-standard).                     |
-| **Inheritance**    | Base class for specific error types (e.g., `TypeError`).       |
-| **`typeof`**       | Returns `"object"`.                                            |
-| **Memory**         | Variable on **Stack** holds **Heap** reference to Error object (with stack trace). |
-| **Handling**       | `throw`, `try...catch`, Promise `.catch()`, `async/await` `try...catch`. |
-| **Creation**       | `new Error()`, `new TypeError()`, etc.                         |
-| **Pitfall**        | Catching generic errors, throwing primitives, async error handling, suppressing errors. |
+| Feature         | Description                                                                             |
+| :-------------- | :-------------------------------------------------------------------------------------- |
+| **Concept**     | Object representing an abnormal program event/problem.                                  |
+| **Type**        | Non-Primitive (Reference Type).                                                         |
+| **Properties**  | `message`, `name`, `stack` (non-standard).                                              |
+| **Inheritance** | Base class for specific error types (e.g., `TypeError`).                                |
+| **`typeof`**    | Returns `"object"`.                                                                     |
+| **Memory**      | Variable on **Stack** holds **Heap** reference to Error object (with stack trace).      |
+| **Handling**    | `throw`, `try...catch`, Promise `.catch()`, `async/await` `try...catch`.                |
+| **Creation**    | `new Error()`, `new TypeError()`, etc.                                                  |
+| **Pitfall**     | Catching generic errors, throwing primitives, async error handling, suppressing errors. |
 
 ---
 
 ### Final Decision: When to use?
 
-*   **To signal an unexpected or unrecoverable situation in your code**: ✅ ALWAYS.
-*   **For robust program flow control when problems occur**: ✅ ALWAYS.
-*   **To provide clear, debuggable information when something goes wrong**: ✅ ALWAYS, by throwing `Error` objects (or their descendants) with descriptive messages.
-*   **For handling asynchronous operation failures**: ✅ Use Promise `.catch()` or `async/await` `try...catch`.
-*   **Throwing strings or other primitives as errors**: ❌ NEVER. Always throw `Error` objects.
-*   **Suppressing errors without logging or handling**: ❌ NEVER. This makes debugging impossible.
-*   **Creating custom error types for specific application scenarios**: ✅ YES, by extending the base `Error` class.
+- **To signal an unexpected or unrecoverable situation in your code**: ✅ ALWAYS.
+- **For robust program flow control when problems occur**: ✅ ALWAYS.
+- **To provide clear, debuggable information when something goes wrong**: ✅ ALWAYS, by throwing `Error` objects (or their descendants) with descriptive messages.
+- **For handling asynchronous operation failures**: ✅ Use Promise `.catch()` or `async/await` `try...catch`.
+- **Throwing strings or other primitives as errors**: ❌ NEVER. Always throw `Error` objects.
+- **Suppressing errors without logging or handling**: ❌ NEVER. This makes debugging impossible.
+- **Creating custom error types for specific application scenarios**: ✅ YES, by extending the base `Error` class.

@@ -18,7 +18,7 @@ const sym2 = Symbol();
 // Each call to Symbol() returns a new, unique Symbol value.
 
 console.log(sym1 === sym2); // false (Always unique)
-console.log(typeof sym1);   // "symbol"
+console.log(typeof sym1); // "symbol"
 
 // 2. With Description (for debugging only)
 const idA = Symbol('id');
@@ -54,8 +54,8 @@ console.log(user[id]); // 1234
 
 `Symbol` is a **primitive** data type.
 
-*   **Primitives (Undefined, Null, Boolean, Number, String, Symbol, BigInt)**: Stored directly in the call stack. When a primitive value is assigned to a variable, the variable directly holds that value. When assigned to another variable, a copy of the value is made.
-*   **Non-Primitives (Objects)**: Stored in the heap, and variables hold references (pointers) to these objects in the heap.
+- **Primitives (Undefined, Null, Boolean, Number, String, Symbol, BigInt)**: Stored directly in the call stack. When a primitive value is assigned to a variable, the variable directly holds that value. When assigned to another variable, a copy of the value is made.
+- **Non-Primitives (Objects)**: Stored in the heap, and variables hold references (pointers) to these objects in the heap.
 
 This distinction is crucial for understanding how values are passed and manipulated in JavaScript.
 
@@ -101,6 +101,7 @@ for (let key in config) {
 console.log(Object.keys(config)); // ['env']
 console.log(JSON.stringify(config)); // {"env":"production"} (Symbol is stripped!)
 ```
+
 **Use Case**: Extending third-party objects with your own data without fear of overwriting their properties, or attaching internal state that isn't meant for general iteration.
 
 ### 2. React Security and Library Context (React Specific)
@@ -138,6 +139,7 @@ const injectedProps = { isLoading: true };
 const IS_LOADING = Symbol('isLoading');
 const injectedProps = { [IS_LOADING]: true };
 ```
+
 **Use Case**: Preventing prop-name collisions when building libraries or injecting meta-data into components.
 
 ---

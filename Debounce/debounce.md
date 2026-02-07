@@ -16,7 +16,7 @@ const debounce1 = (func, delay) => {
   return (...args) => {
     clearTimeout(timerId);
     timerId = setTimeout(() => {
-      func.apply(this, args), delay; // Logic Error
+      (func.apply(this, args), delay); // Logic Error
     });
   };
 };
