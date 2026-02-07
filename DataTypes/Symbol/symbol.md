@@ -18,6 +18,7 @@ const sym2 = Symbol();
 // Each call to Symbol() returns a new, unique Symbol value.
 
 console.log(sym1 === sym2); // false (Always unique)
+console.log(typeof sym1);   // "symbol"
 
 // 2. With Description (for debugging only)
 const idA = Symbol('id');
@@ -49,73 +50,72 @@ console.log(user[id]); // 1234
 
 ---
 
-## Practical Usage & "Soft" Privacy
+## Primitive vs. Non-Primitive
 
-Symbols are primarily used as **object keys**. Because they are unique, they don't clash with string keys.
+`Symbol` is a **primitive** data type.
 
-### 1. Collision-Free Keys
+*   **Primitives (Undefined, Null, Boolean, Number, String, Symbol, BigInt)**: Stored directly in the call stack. When a primitive value is assigned to a variable, the variable directly holds that value. When assigned to another variable, a copy of the value is made.
+*   **Non-Primitives (Objects)**: Stored in the heap, and variables hold references (pointers) to these objects in the heap.
 
-Imagine adding metadata to a user object created by a third-party library. If you add `user.id = 5`, you might overwrite existing data.
+This distinction is crucial for understanding how values are passed and manipulated in JavaScript.
+
+### Memory Allocation (Stack)
+
+For primitive values like `Symbol`, the value itself is typically stored directly on the **call stack**. Each `Symbol()` call creates a new, unique primitive value.
+
+When you declare `const sym1 = Symbol();`, a space is reserved on the stack for `sym1`, and it holds the unique Symbol value. No complex memory allocation on the heap is needed for the value itself, as Symbol values are immutable and don't contain other data structures in the way objects do.
+
+---
+
+## Use Cases & Real-time Applications
+
+Symbols are primarily used as **object keys**. Because they are unique, they don't clash with string keys, allowing for "soft privacy" and collision-free extensions.
+
+### 1. Collision-Free Object Keys & "Soft" Privacy
+
+Symbols enable adding properties to objects without the risk of name collisions with existing or future string keys. They also provide a form of "soft privacy" as they are not easily discoverable through standard enumeration.
 
 ```javascript
 const METADATA = Symbol('metadata');
-
 const user = {
   name: 'Alice',
   id: 42, // Existing ID
 };
 
-// Safe extension
+// Safe extension: using a Symbol as a key
 user[METADATA] = { lastLogin: Date.now() };
 
 console.log(user[METADATA]); // { lastLogin: ... }
-console.log(user.METADATA); // undefined (dot notation doesn't work!)
-```
+console.log(user.METADATA); // undefined (dot notation doesn't work for Symbol keys!)
 
-### 2. Enumeration Behavior (Hiding Data)
-
-Symbols do not show up in standard loops. This is called "Soft Privacy".
-
-```javascript
+// Symbols do not show up in standard loops, providing "soft privacy"
 const apiKey = Symbol('apiKey');
-
 const config = {
   env: 'production',
   [apiKey]: '12345-SECRET',
 };
 
-// Standard loops ignore Symbols
 for (let key in config) {
   console.log(key); // Only prints "env"
 }
-
 console.log(Object.keys(config)); // ['env']
 console.log(JSON.stringify(config)); // {"env":"production"} (Symbol is stripped!)
 ```
+**Use Case**: Extending third-party objects with your own data without fear of overwriting their properties, or attaching internal state that isn't meant for general iteration.
 
-**⚠️ Warning:** It is not _truly_ private. You can access it via:
+### 2. React Security and Library Context (React Specific)
 
-```javascript
-Object.getOwnPropertySymbols(config); // [ Symbol(apiKey) ]
-```
+Symbols play a critical role in the React ecosystem for both framework internals and advanced application patterns.
 
----
+#### React Security (The `$$typeof` Security Hole Fix)
 
-## ⚛️ React Use Cases & Applications
+React uses a global symbol to tag React Elements.
 
-Symbols play a critical role in the React ecosystem, both for the framework internals and advanced application patterns.
+**The Problem:** If a server accepts JSON and renders it directly, a hacker could send a fake JSON object that looks like a React component, triggering an XSS attack.
 
-### 1. React Security (The `$$typeof` Security Hole Fix)
+**The Solution:** React elements look like this internally:
 
-This is the most famous use case. React uses a global symbol to tag React Elements.
-
-**The Problem:**
-If a server accepts JSON and renders it directly, a hacker could send a fake JSON object that looks like a React component, triggering an XSS attack.
-
-**The Solution:**
-React elements look like this internally:
-
-```javascript
+```js
 {
   $$typeof: Symbol.for('react.element'),
   type: 'div',
@@ -124,11 +124,11 @@ React elements look like this internally:
 }
 ```
 
-**Why Symbol?** JSON **cannot** store Symbols. If a hacker sends a malicious JSON blob from an API, the `$$typeof` property will be missing (or a string). React checks if `$$typeof` is the specific Symbol. If not, it refuses to render.
+**Why Symbol?** JSON **cannot** store Symbols. If a hacker sends a malicious JSON blob from an API, the `$$typeof` property will be missing (or a string). React checks if `$$typeof` is the specific Symbol. If not, it refuses to render. This effectively prevents XSS attacks via JSON injection of fake React elements.
 
-### 2. Custom Hooks & Library Context
+#### Custom Hooks & Library Context
 
-If you are building a complex React library (like a data grid or form library) that injects props into a user's component, using Strings is risky.
+If you are building a complex React library (like a data grid or form library) that injects props into a user's component, using Strings is risky due to potential name collisions.
 
 ```javascript
 // ❌ Risky: Might overwrite user's 'isLoading' prop
@@ -138,6 +138,7 @@ const injectedProps = { isLoading: true };
 const IS_LOADING = Symbol('isLoading');
 const injectedProps = { [IS_LOADING]: true };
 ```
+**Use Case**: Preventing prop-name collisions when building libraries or injecting meta-data into components.
 
 ---
 
@@ -218,7 +219,7 @@ Sometimes you need a Symbol to be the same across different files, iframes, or s
 | `Symbol('foo')`     | Unique every time.                                                             |
 | `Symbol.for('foo')` | Checks the **Global Registry**. If 'foo' exists, return it. If not, create it. |
 
-```javascript
+```js
 // File A
 const tokenA = Symbol.for('app.token');
 
@@ -238,7 +239,7 @@ console.log(tokenA === tokenB); // true
 
 Symbols are completely ignored by `JSON.stringify()`.
 
-```javascript
+```js
 const obj = {
   id: 1,
   [Symbol('hidden')]: 'secret',
@@ -259,7 +260,7 @@ Symbols created with `Symbol.for()` are kept in the global registry forever. The
 
 Don't rely on Symbols for security.
 
-```javascript
+```js
 // A hacker can still find your keys
 const hiddenKeys = Object.getOwnPropertySymbols(obj);
 const value = obj[hiddenKeys[0]];
