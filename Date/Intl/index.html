@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intl.DateTimeFormat Examples</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 0.5rem;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Intl API Guide</h1>
+    <p>Check the browser console (F12) for detailed outputs for each script.</p>
+    <ul>
+      <li>
+        <a href="#" onclick="loadScript('01-Formatting-Basics.js')">1. Formatting Basics</a>
+        <p>Locales, dateStyle, timeStyle, and performance tips.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('02-Advanced-Options.js')">2. Advanced Options</a>
+        <p>Custom parts, formatToParts, hourCycle, and calendars.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('03-TimeZones.js')">3. Timezones</a>
+        <p>IANA zones, DST, and timezone offsets.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('04-Range-and-Relative.js')">4. Range & Relative</a>
+        <p>formatRange and RelativeTimeFormat.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('05-Interview-Questions.js')">5. Interview Challenges</a>
+        <p>Common interview problems and edge cases.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('06-Expert-Level-Intl.js')">6. Expert Level Features</a>
+        <p>resolvedOptions, fractionalSeconds, and dayPeriod mastery.</p>
+      </li>
+    </ul>
+
+    <script>
+      function loadScript(src) {
+        console.clear();
+        console.log(`--- Running ${src} ---`);
+        const script = document.createElement('script');
+        script.src = src;
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
