@@ -6,23 +6,41 @@ This comprehensive guide covers common UI component patterns, their intended use
 
 1.  [Understanding Common UI Components & Their Characteristics](#1-understanding-common-ui-components--their-characteristics)
     1.1 [Side Panel (Drawer)](#11-side-panel-drawer)
+
     1.2 [Modal](#12-modal)
+
     1.3 [Dialog](#13-dialog)
+
     1.4 [Popover](#14-popover)
+
     1.5 [Tooltip](#15-tooltip)
+
     1.6 [Dropdown](#16-dropdown)
+
     1.7 [Bottom Sheet (Mobile)](#17-bottom-sheet-mobile)
+
 2.  [Quick Decision Rules: When to Use Which Component](#2-quick-decision-rules-when-to-use-which-component)
+
 3.  [Architectural & Implementation Best Practices (JavaScript & CSS)](#3-architectural--implementation-best-practices-javascript--css)
+
     3.1 [The `z-index` Scale & Stacking Contexts](#31-the-z-index-scale--stacking-contexts)
+
     3.2 [Portal Rendering (Escaping CSS Constraints)](#32-portal-rendering-escaping-css-constraints)
+
     3.3 [Accessibility (ARIA) & Focus Management with JavaScript](#33-accessibility-aria--focus-management-with-javascript)
+
     3.4 [Event Delegation & Bubbling for Component Interaction](#34-event-delegation--bubbling-for-component-interaction)
+
     3.5 [Avoid `MutationObserver` for Layering Issues](#35-avoid-mutationobserver-for-layering-issues)
+
 4.  [Common JavaScript Implementation Patterns for UI Components](#4-common-javascript-implementation-patterns-for-ui-components)
+
     4.1 [State Management (Open/Closed, Selected)](#41-state-management-openclosed-selected)
+
     4.2 [Composition vs. Inheritance](#42-composition-vs-inheritance)
+
     4.3 [Separation of Concerns (HTML, CSS, JS)](#43-separation-of-concerns-html-css-js)
+
 5.  [Interview Questions & Discussion Points](#5-interview-questions--discussion-points)
 
 ---
