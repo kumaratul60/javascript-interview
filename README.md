@@ -31,6 +31,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
     - [🔄 Asynchronous JavaScript](#-asynchronous-javascript)
     - [🏗️ Object System](#️-object-system)
     - [📅 Date \& Time](#-date--time)
+    - [📦 Web Storage APIs](#-web-storage-apis)
     - [🌐 Browser APIs](#-browser-apis)
     - [🖥️ Node.js Concepts](#️-nodejs-concepts)
   - [🚀 Advanced Level](#-advanced-level)
@@ -127,13 +128,21 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - ES6 Classes vs constructor functions
 - Inheritance patterns: classical vs prototypal
 
-### 📅 Date & Time
+### 📅 Date & Time Mastery
 
 - **Core Date Object**: 4 creation ways, Epoch time, Unix timestamps.
 - **Getters/Setters**: The 0‑indexed month trap, day‑of‑week logic.
 - **Date Arithmetic**: Adding/subtracting time (DST awareness), leap years.
 - **Internationalization (Intl)**: `Intl.DateTimeFormat`, `RelativeTimeFormat`, `formatRange`, `formatToParts`.
 - **Best Practices**: Storing UTC (ISO‑8601) vs. Rendering Local time.
+
+### 📦 Web Storage APIs
+
+- **LocalStorage**: Persistent storage, 5‑10MB capacity, same‑origin.
+- **SessionStorage**: Tab‑based storage, cleared on close.
+- **Cookies**: Expiry, Secure/HttpOnly flags, auto‑sent with HTTP.
+- **IndexedDB**: Asynchronous NoSQL database for large structured data.
+- **Comparison**: Capacity, lifetime, and use cases.
 
 ### 🌐 Browser APIs
 
@@ -247,6 +256,7 @@ Practice these key concepts to solidify your understanding:
 - [Prep](https://www.frontprep.com/javascript-coding) - Coding interview prep
 - [FrontendGeeks](https://www.frontendgeek.com/frontend-interview/javascript-interview) - Frontend interview questions
 - [Date & Time Mastery Guide](./Date/README.md) - **(Internal)** Full 0-100 masterclass.
+- [Web Storage Guide](./WebStorage/README.md) - **(Internal)** LocalStorage, Cookies, and IndexedDB.
 - [JavaScript Interview Questions](https://javascript-questions.vercel.app) - Curated questions
 - [JavaScript Questions by Lydia Hallie](https://github.com/lydiahallie/javascript-questions) - In-depth explanations
 - [CodeChef JavaScript Skill Test](https://www.codechef.com/skill-test/javascript) - Skill assessment

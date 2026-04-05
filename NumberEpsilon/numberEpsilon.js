@@ -2,7 +2,7 @@ console.log(0.1 + 0.2); // 0.30000000000000004
 console.log(0.1 + 0.2 == 0.3); // false
 
 /*
-Numbers in JavaScript are all treated with floating point precision, and as such, may not always yield the expected results.”
+Numbers in JavaScript are all treated with floating point precision, and as such, may not always yield the expected results.
 
 A typical solution is to compare the absolute difference between two numbers with the special constant Number.EPSILON:
 */
@@ -26,7 +26,7 @@ The gap between representable numbers is 2
 Up to 2^53 - 1 → every integer exists
 After that → integers are skipped
 JS silently rounds
-“Because JavaScript numbers can’t represent every integer above 2^53 − 1, both expressions round to the same floating-point value.”
+"Because JavaScript numbers can't represent every integer above 2^53 − 1, both expressions round to the same floating-point value."
 
 */
 

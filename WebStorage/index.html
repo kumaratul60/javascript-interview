@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Storage APIs - Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 0.5rem;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Browser Storage APIs Guide</h1>
+    <p>Open the browser console (F12) to see these examples in action.</p>
+    <ul>
+      <li>
+        <a href="#" onclick="loadScript('01-Local-vs-Session.js')">1. LocalStorage vs SessionStorage</a>
+        <p>Comparing persistent and session-based storage.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('02-Cookies.js')">2. Browser Cookies</a>
+        <p>Handling cookies, expiry, and security.</p>
+      </li>
+      <li>
+        <a href="#" onclick="loadScript('03-IndexedDB.js')">3. IndexedDB</a>
+        <p>A deep dive into advanced, asynchronous storage.</p>
+      </li>
+    </ul>
+
+    <script>
+      function loadScript(src) {
+        console.clear();
+        console.log(`--- Running ${src} ---`);
+        const script = document.createElement('script');
+        script.src = src;
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
