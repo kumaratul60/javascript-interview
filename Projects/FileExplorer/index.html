@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Explorer Tree</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="explorer-container">
+      <div class="header">
+        <h2>File Explorer</h2>
+        <div class="root-actions">
+          <input type="text" id="tree-search" placeholder="Search files..." class="search-input" />
+          <button onclick="handleAdd('root', 'folder')" title="New Folder">📁+</button>
+          <button onclick="handleAdd('root', 'file')" title="New File">📄+</button>
+        </div>
+      </div>
+      <!-- The tree will be injected here -->
+      <div id="file-tree" class="tree-root"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
