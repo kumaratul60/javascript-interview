@@ -40,12 +40,11 @@ console.log('Day Name:', days[d.getDay()]);
 // 4. How to Parse & Validate Dates Properly
 // Expert Logic: Check if it is a Date instance AND the time is not NaN.
 function isValidDate(input) {
-    const d = input instanceof Date ? input : new Date(input);
-    return d instanceof Date && !isNaN(d);
+  const d = input instanceof Date ? input : new Date(input);
+  return d instanceof Date && !isNaN(d);
 }
 
-console.log("\n--- Validation ---");
+console.log('\n--- Validation ---');
 console.log("Is 'hello' a date?", isValidDate('hello')); // false
 console.log("Is Date('2026-03-15') a date?", isValidDate(new Date('2026-03-15'))); // true
 console.log("Is '2026-03-15' a date?", isValidDate('2026-03-15')); // true (it parses correctly)
-
