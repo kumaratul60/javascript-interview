@@ -30,6 +30,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
   - [⚡ Intermediate Level](#-intermediate-level)
     - [🔄 Asynchronous JavaScript](#-asynchronous-javascript)
     - [🏗️ Object System](#️-object-system)
+    - [📅 Date \& Time](#-date--time)
     - [🌐 Browser APIs](#-browser-apis)
     - [🖥️ Node.js Concepts](#️-nodejs-concepts)
   - [🚀 Advanced Level](#-advanced-level)
@@ -126,6 +127,14 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - ES6 Classes vs constructor functions
 - Inheritance patterns: classical vs prototypal
 
+### 📅 Date & Time
+
+- **Core Date Object**: 4 creation ways, Epoch time, Unix timestamps.
+- **Getters/Setters**: The 0‑indexed month trap, day‑of‑week logic.
+- **Date Arithmetic**: Adding/subtracting time (DST awareness), leap years.
+- **Internationalization (Intl)**: `Intl.DateTimeFormat`, `RelativeTimeFormat`, `formatRange`, `formatToParts`.
+- **Best Practices**: Storing UTC (ISO‑8601) vs. Rendering Local time.
+
 ### 🌐 Browser APIs
 
 - DOM traversal & manipulation
@@ -199,6 +208,7 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - **Classes** (syntactic over prototypes)
 - **Optional chaining** (`?.`), **nullish coalescing** (`??`)
 - **BigInt**, **globalThis**, **WeakRef**, **Promise.allSettled**, etc.
+- **Temporal API** (Modern date handling proposal)
 
 ---
 
@@ -236,6 +246,7 @@ Practice these key concepts to solidify your understanding:
 
 - [Prep](https://www.frontprep.com/javascript-coding) - Coding interview prep
 - [FrontendGeeks](https://www.frontendgeek.com/frontend-interview/javascript-interview) - Frontend interview questions
+- [Date & Time Mastery Guide](./Date/README.md) - **(Internal)** Full 0-100 masterclass.
 - [JavaScript Interview Questions](https://javascript-questions.vercel.app) - Curated questions
 - [JavaScript Questions by Lydia Hallie](https://github.com/lydiahallie/javascript-questions) - In-depth explanations
 - [CodeChef JavaScript Skill Test](https://www.codechef.com/skill-test/javascript) - Skill assessment
