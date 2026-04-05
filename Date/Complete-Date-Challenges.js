@@ -305,9 +305,12 @@ const dateCalc = {
  * Task 20 — Mini Date Formatting Library
  */
 const dateUtils = {
-  isValid: (v) => !isNaN(new Date(v).getTime()),
-  addDays: (d, n) => addDays(d, n),
-  format: (d, loc, s) => new Intl.DateTimeFormat(loc, { dateStyle: s }).format(d),
+    isValid: (v) => {
+        const d = v instanceof Date ? v : new Date(v);
+        return d instanceof Date && !isNaN(d);
+    },
+    addDays: (d, n) => addDays(d, n),
+    format: (d, loc, s) => new Intl.DateTimeFormat(loc, { dateStyle: s }).format(d)
 };
 
 // --- CONSOLIDATED TESTING SUITE ---
