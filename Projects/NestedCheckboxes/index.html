@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nested Checkbox Tree</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Nested Checkbox Tree</h1>
+      <p>Check a parent to select all children. Indeterminate state (-) handles partial selection.</p>
+
+      <div class="actions">
+        <button id="get-selected">Get Selected Leaves</button>
+        <button id="reset-tree">Reset</button>
+      </div>
+
+      <!--
+        ACCESSIBILITY TIP:
+        A <ul> or <ol> must ONLY directly contain <li>, <script>, or <template>.
+        Placing <div>, <p>, or plain text (like "...") directly inside a <ul>
+        breaks the parent-child relationship. Screen readers rely on this
+        structure to announce the correct item count to blind users.
+      -->
+      <ul id="checkbox-tree" class="tree-root">
+        <li>
+          <input type="checkbox" id="electronics" />
+          <label for="electronics">Electronics</label>
+          <ul>
+            <li>
+              <input type="checkbox" id="laptops" />
+              <label for="laptops">Laptops</label>
+              <ul>
+                <li><input type="checkbox" id="macbook" value="MacBook" /><label for="macbook">MacBook</label></li>
+                <li><input type="checkbox" id="dell" value="Dell XPS" /><label for="dell">Dell XPS</label></li>
+                <li>
+                  <input type="checkbox" id="old-laptop" value="Oldie" disabled />
+                  <label for="old-laptop">Old Laptop (Disabled)</label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <input type="checkbox" id="phones" />
+              <label for="phones">Phones</label>
+              <ul>
+                <li><input type="checkbox" id="iphone" /><label for="iphone">iPhone</label></li>
+                <li><input type="checkbox" id="pixel" /><label for="pixel">Google Pixel</label></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <input type="checkbox" id="furniture" />
+          <label for="furniture">Furniture</label>
+          <ul>
+            <li><input type="checkbox" id="tables" /><label for="tables">Tables</label></li>
+            <li><input type="checkbox" id="chairs" /><label for="chairs">Chairs</label></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
