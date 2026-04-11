@@ -1,24 +1,42 @@
 let timeouts = [];
 
-timeouts.push(setTimeout(() => { console.log("hello") }, 2000))
-timeouts.push(setTimeout(() => { console.log("hello1") }, 3000))
-timeouts.push(setTimeout(() => { console.log("hello2") }, 4000))
-timeouts.push(setTimeout(() => { console.log("hello3") }, 5000))
-
-
+timeouts.push(
+  setTimeout(() => {
+    console.log('hello');
+  }, 2000),
+);
+timeouts.push(
+  setTimeout(() => {
+    console.log('hello1');
+  }, 3000),
+);
+timeouts.push(
+  setTimeout(() => {
+    console.log('hello2');
+  }, 4000),
+);
+timeouts.push(
+  setTimeout(() => {
+    console.log('hello3');
+  }, 5000),
+);
 
 function clearAllTimeout() {
-    // timeouts.forEach(clearTimeout);
-    // timeouts=[]
+  // timeouts.forEach(clearTimeout);
+  // timeouts=[]
 
-    // or
+  // or
 
-    // timeouts.forEach(id => clearTimeout(id));
+  // timeouts.forEach(id => clearTimeout(id));
 
+  while (timeouts.length) {
+    // 1.
+    // clearTimeout(timeouts.pop());
 
-    while (timeouts.length) {
-        clearTimeout(timeouts.pop())
-    }
+    // 2.
+    const id = timeouts.pop();
+    if (id !== undefined) clearTimeout(id);
+  }
 }
 
-clearAllTimeout()
+clearAllTimeout();

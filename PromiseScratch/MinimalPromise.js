@@ -1,3 +1,23 @@
+/**
+ * @file MinimalPromise.js
+ * @description Phase 3: Chaining and Async Microtasks
+ * @level Intermediate
+ * 
+ * PROBLEM STATEMENT:
+ * Implement a Promise that supports chaining, error handling, and behaves 
+ * asynchronously according to the spec (using microtasks).
+ * 
+ * KEY FEATURES:
+ * - `.then()` returns a NEW MyPromise (enables chaining).
+ * - `.catch()` and `.finally()` support.
+ * - `queueMicrotask` for async execution: ensures `.then()` is always async.
+ * - Error propagation through chains.
+ * 
+ * USE CASE:
+ * A solid polyfill for mid-level interview questions. It demonstrates 
+ * understanding of microtasks and the requirement that `.then` returns a promise.
+ */
+
 class MyPromise {
     constructor(executor) {
         this.state = "pending";
@@ -6,6 +26,7 @@ class MyPromise {
         this.onRejectedCallbacks = [];
 
         const resolve = (value) => {
+            // Move into a microtask to ensure it's always async
             queueMicrotask(() => {
                 if (this.state !== "pending") return;
                 this.state = "fulfilled";
@@ -30,10 +51,15 @@ class MyPromise {
         }
     }
 
+    /**
+     * Enables chaining by returning a new MyPromise.
+     */
     then(onFulfilled, onRejected) {
         return new MyPromise((resolve, reject) => {
+            // Helper for processing success
             const fulfilledHandler = (value) => {
                 try {
+                    // If onFulfilled is not a function, just pass through the value
                     if (typeof onFulfilled === "function") {
                         resolve(onFulfilled(value));
                     } else {
@@ -44,11 +70,14 @@ class MyPromise {
                 }
             };
 
+            // Helper for processing error
             const rejectedHandler = (reason) => {
                 try {
                     if (typeof onRejected === "function") {
+                        // If we handle the error, the new promise should resolve
                         resolve(onRejected(reason));
                     } else {
+                        // Otherwise, keep the rejection chain going
                         reject(reason);
                     }
                 } catch (err) {
@@ -85,23 +114,27 @@ class MyPromise {
     }
 }
 
+// --- EXAMPLES ---
 
-const myPromise = new MyPromise((resolve, reject) => {
-    console.log("Executor runs immediately");
-    setTimeout(() => reject("MyPromise Failed"), 2000);
+// 1. Chaining and async behavior
+const p1 = new MyPromise((resolve) => {
+    resolve(10);
 });
 
-myPromise
-    .then((res) => {
-        console.log("First then:", res);
-        return res + " processed";
-    })
-    .catch((err) => {
-        console.error("Caught error:", err);
-        return "Recovered value";
-    })
-    .then((res) => {
-        console.log("After catch then:", res);
-        return "Final result";
-    })
-    .finally(() => console.log("Cleanup done"));
+p1.then((val) => val * 2)
+  .then((val) => val + 5)
+  .then((val) => {
+      console.log("P1 Chained Result:", val); // 25
+  });
+
+// 2. Catching Errors
+const p2 = new MyPromise((_, reject) => {
+    reject("Initial Error");
+});
+
+p2.then((val) => val)
+  .catch((err) => {
+      console.log("Caught:", err);
+      return "Recovered";
+  })
+  .then((val) => console.log("Post-catch:", val));

@@ -1,11 +1,11 @@
-// A Promise is an Object which represents eventual complition or failure of an asynchronous operation
+// A Promise is an Object which represents eventual completion or failure of an asynchronous operation
 // Promise State: Pending, Fulfilled, failure
 
-// Call back hell -> code increses horizontly -> Pyramid of Doom
+// Call back hell -> code increase horizontally -> Pyramid of Doom
 // to avoid call back hell or pyramid of Doom problem, we return a promise from top level created promise and we handle it in the next level of the chain like passing thing down to other,... ex: crateOrder(cart) promise
 
 // passing promise:= pass function in to a function as parameter is callback
-// Attaching:= get result of that promise by chaning it is attching a promise
+// Attaching:= get result of that promise by chaining it is attaching a promise
 
 const cart = ["tablet", "mobile", "laptop"];
 
@@ -77,7 +77,7 @@ function createOrder(cart) {
 
 function proceedToPay(orderId) {
   return new Promise(function (resolve, reject) {
-    resolve("Payment successfull");
+    resolve("Payment successful");
   });
 }
 

@@ -19,7 +19,7 @@ let order = (fruit_name, call_production) => {
 //   // blank for now
 // };
 
-// // Trigger 👇
+// // Trigger 
 // order(0, production);
 
 // let production = () => {
