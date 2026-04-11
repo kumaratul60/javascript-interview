@@ -187,19 +187,19 @@ console.log(document.URL); // The Current page's URL
 
 ```js
 // By ID
-const el = document.getElementById("heading");
+const el = document.getElementById('heading');
 
 // By class
-const items = document.getElementsByClassName("info");
+const items = document.getElementsByClassName('info');
 
 // By tag
-const paras = document.getElementsByTagName("p");
+const paras = document.getElementsByTagName('p');
 
 // Query selector (first match)
-const para = document.querySelector("p.info");
+const para = document.querySelector('p.info');
 
 // Query selector all (NodeList)
-const allParas = document.querySelectorAll("p.info");
+const allParas = document.querySelectorAll('p.info');
 ```
 
 ---
@@ -208,19 +208,19 @@ const allParas = document.querySelectorAll("p.info");
 
 ```js
 // Text content
-el.textContent = "New text";
+el.textContent = 'New text';
 
 // Inner HTML
-el.innerHTML = "<span>Hello</span>";
+el.innerHTML = '<span>Hello</span>';
 
 // Attributes
-el.setAttribute("id", "box");
+el.setAttribute('id', 'box');
 
 // Styles
-el.style.backgroundColor = "blue";
+el.style.backgroundColor = 'blue';
 
 // Create & append
-const div = document.createElement("div");
+const div = document.createElement('div');
 document.body.appendChild(div);
 
 // Remove
@@ -254,12 +254,12 @@ Understanding this pipeline is crucial for debugging and performance tuning.
 
 ```js
 // ❌ Bad:
-el.style.width = "100px";
+el.style.width = '100px';
 console.log(el.offsetHeight);
 
 // ✅ Good:
-el.style.width = "100px";
-el.style.height = "200px";
+el.style.width = '100px';
+el.style.height = '200px';
 const h = el.offsetHeight;
 ```
 
@@ -328,12 +328,12 @@ This is a classic interview question!
 
 ```javascript
 // 1. Create a new element in memory
-const newPara = document.createElement("p");
+const newPara = document.createElement('p');
 
 // 2. Add content and attributes
 newPara.textContent = "I'm a new paragraph!";
-newPara.classList.add("info", "highlight"); // Add multiple classes
-newPara.setAttribute("data-id", "123");
+newPara.classList.add('info', 'highlight'); // Add multiple classes
+newPara.setAttribute('data-id', '123');
 
 // 3. Append it to the DOM (this triggers a reflow/repaint)
 document.body.appendChild(newPara);
@@ -377,10 +377,10 @@ newPara.remove();
 
 ```js
 // Replacing content only
-el.innerHTML = "<b>Hi</b>";
+el.innerHTML = '<b>Hi</b>';
 
 // Replacing full element
-el.outerHTML = "<section>New</section>";
+el.outerHTML = '<section>New</section>';
 
 // Safe text insertion
 const text = document.createTextNode(userInput);
@@ -396,9 +396,9 @@ el.appendChild(text);
 ```
 
 ```js
-const tpl = document.getElementById("card-template");
+const tpl = document.getElementById('card-template');
 const clone = tpl.content.cloneNode(true);
-clone.querySelector(".name").textContent = "Atul";
+clone.querySelector('.name').textContent = 'Atul';
 document.body.appendChild(clone);
 ```
 
@@ -427,13 +427,13 @@ Event delegation is a pattern where you attach a single event listener to a pare
 
 ```javascript
 // Get the parent list
-const list = document.getElementById("myList");
+const list = document.getElementById('myList');
 
 // Add a single event listener to the parent
-list.addEventListener("click", function (event) {
+list.addEventListener('click', function (event) {
   // Check if the clicked element is a list item
-  if (event.target && event.target.tagName === "LI") {
-    console.log("Clicked list item:", event.target.textContent);
+  if (event.target && event.target.tagName === 'LI') {
+    console.log('Clicked list item:', event.target.textContent);
   }
 });
 ```
@@ -450,12 +450,12 @@ list.addEventListener("click", function (event) {
 Instead of adding hundreds of event listeners to child elements, add **one** listener to their parent. This is a huge performance win.
 
 ```javascript
-const parentList = document.getElementById("my-list");
+const parentList = document.getElementById('my-list');
 
-parentList.addEventListener("click", (event) => {
+parentList.addEventListener('click', (event) => {
   // Check if the actual clicked element is an LI with the class 'item'
-  if (event.target && event.target.matches("li.item")) {
-    console.log("List item clicked:", event.target.textContent);
+  if (event.target && event.target.matches('li.item')) {
+    console.log('List item clicked:', event.target.textContent);
   }
 });
 ```
@@ -478,8 +478,8 @@ Sometimes you don't want an event to bubble up and trigger parent listeners.
 - A **scoped**, encapsulated DOM subtree attached to an element
 
 ```js
-const host = document.createElement("div");
-const shadow = host.attachShadow({ mode: "open" });
+const host = document.createElement('div');
+const shadow = host.attachShadow({ mode: 'open' });
 shadow.innerHTML = `<style>p {color: red}</style><p>Hello Shadow</p>`;
 document.body.appendChild(host);
 ```
@@ -505,8 +505,8 @@ This **encapsulation** means:
 This is crucial for creating reusable components, like those in Web Components.
 
 ```javascript
-const host = document.getElementById("my-component");
-const shadow = host.attachShadow({ mode: "open" }); // 'open' allows access via JS
+const host = document.getElementById('my-component');
+const shadow = host.attachShadow({ mode: 'open' }); // 'open' allows access via JS
 
 shadow.innerHTML = `
   <style> p { color: blue; } </style> <!-- This style is scoped -->
@@ -514,15 +514,15 @@ shadow.innerHTML = `
 `;
 
 // getRootNode helps identify the context
-shadow.querySelector("p").getRootNode(); // Returns the shadowRoot instance
+shadow.querySelector('p').getRootNode(); // Returns the shadowRoot instance
 ```
 
 ```javascript
 // Get the host element
-const host = document.getElementById("shadow-host");
+const host = document.getElementById('shadow-host');
 
 // Create a shadow root
-const shadowRoot = host.attachShadow({ mode: "open" });
+const shadowRoot = host.attachShadow({ mode: 'open' });
 
 // Add content to the shadow DOM
 shadowRoot.innerHTML = `
@@ -536,8 +536,8 @@ shadowRoot.innerHTML = `
 ```
 
 ```js
-const container = document.createElement("div");
-const shadowRoot = container.attachShadow({ mode: "open" });
+const container = document.createElement('div');
+const shadowRoot = container.attachShadow({ mode: 'open' });
 shadowRoot.innerHTML = `<style>p {color: red;}</style><p>Shadow DOM content</p>`;
 document.body.appendChild(container);
 ```
@@ -552,10 +552,10 @@ To avoid multiple reflows when adding many elements, use a `DocumentFragment`—
 
 ```javascript
 const fragment = document.createDocumentFragment();
-const list = document.getElementById("user-list");
+const list = document.getElementById('user-list');
 
 for (let i = 0; i < 1000; i++) {
-  const item = document.createElement("li");
+  const item = document.createElement('li');
   item.textContent = `User ${i}`;
   fragment.appendChild(item); // No reflow happens here
 }
@@ -580,12 +580,12 @@ To render 10,000+ items without crashing the browser, use **virtualization** (or
 const fragment = document.createDocumentFragment();
 
 for (let i = 0; i < 10000; i++) {
-  const newItem = document.createElement("li");
+  const newItem = document.createElement('li');
   newItem.textContent = `Item ${i + 1}`;
   fragment.appendChild(newItem);
 }
 
-document.getElementById("my-list").appendChild(fragment);
+document.getElementById('my-list').appendChild(fragment);
 ```
 
 - **Debouncing and Throttling:** For events that fire rapidly, like `scroll` or `resize`, use debouncing or throttling to limit the number of times your event handler function is called.
@@ -639,7 +639,7 @@ For frequent events like `resize` or `scroll`, wrap your handlers in `throttle` 
 
 ```javascript
 let timeout;
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
     /* Perform layout update here */
@@ -735,7 +735,6 @@ Examples: Changing `color`, `background`, `visibility`, `box-shadow`.
 ---
 
 17. **Explain `innerText` vs. `textContent` vs. `innerHTML`.**
-
     - `innerHTML`: Parses and renders HTML content. It's slower and can be a security risk (XSS) if you're not careful with the input.
     - `textContent`: Gets or sets the raw text content of an element and its descendants. It's faster than `innerHTML` and is not a security risk.
     - `innerText`: Similar to `textContent`, but it is aware of the rendered appearance of the text. It won't return text from hidden elements and is significantly slower because it triggers a reflow.
