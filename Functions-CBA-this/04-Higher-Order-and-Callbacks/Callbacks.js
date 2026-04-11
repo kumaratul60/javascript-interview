@@ -3,4 +3,4 @@ function para(user, age) {
     console.log(user, age);
   }, 3000);
 }
-para("a", 10);
+para('a', 10);

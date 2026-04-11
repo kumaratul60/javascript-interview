@@ -2,38 +2,36 @@
 
 // Call, Apply, Bind from call.js
 let person1 = {
-  name: "Adam",
+  name: 'Adam',
   age: 25,
 };
 
 let showDetails = function (city, car) {
-  console.log(
-    `${this.name} is ${this.age} yeals old, lives in ${city} with ${car}`
-  );
+  console.log(`${this.name} is ${this.age} yeals old, lives in ${city} with ${car}`);
 };
 
 let person2 = {
-  name: "Mdam",
+  name: 'Mdam',
   age: 26,
 };
 
-showDetails.call(person2, "BRH", "TESLA"); // call with external arguments
+showDetails.call(person2, 'BRH', 'TESLA'); // call with external arguments
 
-showDetails.apply(person2, ["BRH", "TESLA X class"]);
+showDetails.apply(person2, ['BRH', 'TESLA X class']);
 
-let showDetailsBind = showDetails.bind(person2, "BRH", "TESLA y class");
+let showDetailsBind = showDetails.bind(person2, 'BRH', 'TESLA y class');
 showDetailsBind();
 
 // Bind Polyfill from Bind Polyfill with function Prototype2.js
 let personal1 = {
-  name: "Adam",
+  name: 'Adam',
   age: 25,
 };
 let showDetailsBindPoly = function (city, state) {
   console.log(this.name, this.age, city, state);
 };
-let showDetailsBindPolyfill = showDetailsBindPoly.bind(personal1, "BRH");
-showDetailsBindPolyfill("UP");
+let showDetailsBindPolyfill = showDetailsBindPoly.bind(personal1, 'BRH');
+showDetailsBindPolyfill('UP');
 
 Function.prototype.myBind = function (...args) {
   let object = this;
@@ -43,8 +41,8 @@ Function.prototype.myBind = function (...args) {
   };
 };
 
-let showDetailsMyBind = showDetailsBindPoly.myBind(personal1, "LKO");
-showDetailsMyBind("UP");
+let showDetailsMyBind = showDetailsBindPoly.myBind(personal1, 'LKO');
+showDetailsMyBind('UP');
 
 // Function Currying from Function currying with bind method.js
 function add(a, b) {
@@ -69,13 +67,13 @@ function car(brand, model, color) {
   this.Color = color;
 
   this.drive = function () {
-    console.log("I will drive", this.Brand, this.Model);
+    console.log('I will drive', this.Brand, this.Model);
   };
 }
-let car1 = new car("Tesla", "x", "blue");
-let car2 = new car("Tesla", "Y", "black");
-car1.Brand = "BMW";
-car2.Color = "Green";
+let car1 = new car('Tesla', 'x', 'blue');
+let car2 = new car('Tesla', 'Y', 'black');
+car1.Brand = 'BMW';
+car2.Color = 'Green';
 console.log(car1);
 console.log(car2);
 car1.drive();
@@ -111,7 +109,7 @@ console.log(sum);
 // Max Character from maxCharacter.js
 function maxChar(str) {
   const charMap = {};
-  str.split("").forEach(function (char) {
+  str.split('').forEach(function (char) {
     if (charMap[char]) {
       charMap[char]++;
     } else {
@@ -120,7 +118,7 @@ function maxChar(str) {
   });
   return charMap;
 }
-const outputMax = maxChar("java");
+const outputMax = maxChar('java');
 console.log(outputMax);
 
 // Min Max from minMax.js

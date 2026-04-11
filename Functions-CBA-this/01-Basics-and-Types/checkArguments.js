@@ -5,4 +5,4 @@ function isTwoPassed() {
 
 isTwoPassed(1, 4); //false
 isTwoPassed(5, 3, 1, 2); //true
-console.log(typeof arguments)
+console.log(typeof arguments);

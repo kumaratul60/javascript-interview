@@ -1,5 +1,5 @@
 const loggerFunc = () => {
-  console.count("Throttled Function");
+  console.count('Throttled Function');
 };
 
 const throttle = (func, limit) => {
@@ -24,11 +24,11 @@ Why we use closure here -> because we don't reinitialize flag again-2 on each fu
 
 const betterLoggerFunction = throttle(loggerFunc, 1000);
 
-console.log("test one");
+console.log('test one');
 betterLoggerFunction();
 betterLoggerFunction();
 betterLoggerFunction();
-console.log("test two");
+console.log('test two');
 setTimeout(betterLoggerFunction, 3500);
 
 // window.addEventListener("resize", betterLoggerFunction);

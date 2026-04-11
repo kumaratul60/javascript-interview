@@ -2,7 +2,7 @@ var counter = 0;
 const getData = () => {
   //  calls an API and get Data
 
-  console.log("fetching data-call", counter++);
+  console.log('fetching data-call', counter++);
 };
 
 //  When we type something the event fired and from this it will consume a lot of browser memory when data calling from API so this will reduce the performance of web-app, so to fix that problem and improve the performance the web-app we used debouncing.

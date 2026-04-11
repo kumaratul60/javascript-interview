@@ -9,4 +9,3 @@ function withLog(fn) {
 const add = (a, b) => a + b;
 const logRes = withLog(add);
 logRes(2, 3);
- 

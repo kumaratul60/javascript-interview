@@ -1,12 +1,12 @@
 const memoize = (fn) => {
   let cache = {};
   return (...args) => {
-    let cacheKey = args.map((n) => n.toString() + "+").join("");
+    let cacheKey = args.map((n) => n.toString() + '+').join('');
     if (cacheKey in cache) {
-      console.log("Fetching from cache");
+      console.log('Fetching from cache');
       return cache[cacheKey];
     } else {
-      console.log("Calculating result");
+      console.log('Calculating result');
       let result = args.reduce((acc, curr) => fn(acc, curr), 0);
       cache[cacheKey] = result;
       return result;

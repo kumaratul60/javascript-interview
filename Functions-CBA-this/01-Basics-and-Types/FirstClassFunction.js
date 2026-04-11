@@ -5,7 +5,7 @@
 // function statement are hoisted but expression are not hoisted
 
 function a() {
-  console.log("this is a function declaration as well function statement");
+  console.log('this is a function declaration as well function statement');
 }
 a();
 
@@ -13,14 +13,14 @@ a();
 // if we use let & const instead of var so they treat as same // no hoisting (temporal dead-zone )
 
 var b = function () {
-  console.log("function expression");
+  console.log('function expression');
 };
 b();
 
 // Named function expression: when we declared a function with name and assign to value is known as Named function expression
 
 var c = function xyz() {
-  console.log("function  named expression");
+  console.log('function  named expression');
 };
 c();
 
@@ -49,10 +49,10 @@ d(function () {});
 
 var e = function (param2) {
   console.log(param2);
-  console.log("efn");
+  console.log('efn');
 };
 function xyd() {
-  console.log("xyd");
+  console.log('xyd');
 }
 e(xyd);
 
@@ -60,7 +60,7 @@ e(xyd);
 
 var f = function (param) {
   return function xyr() {
-    console.log("xyr");
+    console.log('xyr');
   };
 };
 console.log(f());

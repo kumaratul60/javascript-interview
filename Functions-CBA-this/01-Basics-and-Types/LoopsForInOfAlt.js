@@ -57,7 +57,7 @@ function printArrOf4(arr4) {
 }
 console.log(printArrOf4(arrOf));
 
-const name = "Megan";
+const name = 'Megan';
 for (const alphabet of name) {
   console.log(alphabet);
 }
@@ -82,15 +82,11 @@ function printArrOf1(arr1) {
 // 5
 
 const obj = {
-  name: "Megan",
-  age: "do the Math",
-  role: "front-end developer",
+  name: 'Megan',
+  age: 'do the Math',
+  role: 'front-end developer',
 };
 Object.entries(obj);
 Object.values(obj);
 Object.keys(obj);
-// [
-// [ ‘name’, ‘Megan’ ],
-// [ ‘age’, ‘do the Math’ ],
-// [ ‘role’, ‘front-end developer’ ]
-// ]
+// [ [ 'name', 'Megan' ],[ 'age', 'do the Math' ],[ 'role', 'front-end developer' ] ]

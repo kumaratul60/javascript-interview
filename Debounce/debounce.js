@@ -15,7 +15,7 @@ const debounce1 = (func, delay) => {
   return (...args) => {
     clearTimeout(timerId);
     timerId = setTimeout(() => {
-      func.apply(this, args), delay;
+      (func.apply(this, args), delay);
     });
   };
 };
@@ -37,7 +37,7 @@ document.getElementById('myId').addEventListener(
   'click',
   debounce((e) => {
     console.log('clicked');
-  }, 2000)
+  }, 2000),
 );
 
 // document.getElementById("myId").addEventListener("click", () => {

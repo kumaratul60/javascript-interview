@@ -9,6 +9,6 @@ function Car(color) {
   this.color = color;
 }
 
-const redCar = new Car("red");
+const redCar = new Car('red');
 redCar instanceof Car; // => true
 console.log(redCar);

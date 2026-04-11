@@ -1,10 +1,10 @@
 let counter = 0;
 const getData = () => {
   // alert(counter + 1);
-  console.log("alert", counter++);
+  console.log('alert', counter++);
 };
 
-const debounce = (fun, delay)=> {
+const debounce = (fun, delay) => {
   let timer;
   return function () {
     clearTimeout(timer);

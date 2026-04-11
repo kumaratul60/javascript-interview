@@ -11,12 +11,12 @@ function throttle(func, delay) {
 }
 
 const wait = 3000;
-const logger = () => console.log("abc");
+const logger = () => console.log('abc');
 const throttled = throttle(logger, wait);
 
-console.log("test one");
+console.log('test one');
 throttled();
 throttled();
 throttled();
-console.log("test two");
+console.log('test two');
 setTimeout(throttled, 3500);

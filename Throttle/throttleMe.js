@@ -1,10 +1,10 @@
 const clickMe = () => {
-  console.log("button clicked");
+  console.log('button clicked');
 };
 
 const throttle = (fn, delay) => {
   return function () {
-    document.getElementById("myId").disabled = true;
+    document.getElementById('myId').disabled = true;
     setTimeout(() => {
       fn();
     }, delay);
@@ -12,6 +12,6 @@ const throttle = (fn, delay) => {
 };
 
 const myThrottle = throttle(() => {
-  document.getElementById("myId").disabled = false;
+  document.getElementById('myId').disabled = false;
   clickMe();
 }, 2000);

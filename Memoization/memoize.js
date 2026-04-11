@@ -9,7 +9,7 @@ add(1, 2); //3
 const propNameFromArg = (fnToAdd, args) => {
   let propKey = [];
   propKey = propKey.concat(fnToAdd.name, args); // ["add",1,2]
-  return propKey.join("|");
+  return propKey.join('|');
   // ("add|1|2")
 };
 
@@ -27,7 +27,7 @@ const memoize = (fnToAdd) => {
       memoCache[propName] = fnToAdd(...args);
     } else {
       //  if present the just return that value
-      console.log("from cache");
+      console.log('from cache');
     }
     return memoCache[propName];
   };
