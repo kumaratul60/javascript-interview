@@ -91,6 +91,24 @@ Choosing the right UI component is crucial for user experience and accessibility
   - **Show/Hide Logic**: Toggling `class` or `hidden` attribute. Dismissing on blur, click outside, or `Escape` key.
   - **Accessibility**: Managing `aria-expanded` on the trigger, `aria-haspopup` to indicate a popover.
 
+#### **Popover API vs. Dialog Element: The Key Differences**
+
+While both components overlay content, the fundamental difference is **modality**—whether the rest of the page remains interactive.
+
+| Feature           | Popover API (`popover` attribute)                             | Dialog Element (`<dialog>`)                              |
+| :---------------- | :------------------------------------------------------------ | :------------------------------------------------------- |
+| **Modality**      | **Non-modal** by default. Background stays interactive.       | **Modal** (via `showModal()`). Blocks background.        |
+| **Light Dismiss** | ✅ **Yes**. Closes on click-outside or `Esc` automatically.   | ❌ **No**. Requires custom JS to close on click-outside. |
+| **Focus Trap**    | ❌ **No**. Tab key can move focus to the background.          | ✅ **Yes**. Focus is locked inside the dialog.           |
+| **Scroll Lock**   | ❌ **No**. Page behind can still be scrolled.                 | ✅ **Yes**. Prevents background scrolling.               |
+| **Top Layer**     | ✅ **Yes**. Appears in the "Top Layer" (above all `z-index`). | ✅ **Yes**. (Only when opened via `showModal()`).        |
+| **Use Cases**     | Tooltips, menus, togglable settings, toasts.                  | Confirmations, complex forms, critical alerts.           |
+| **API Control**   | Declarative HTML (`popover`, `popovertarget`).                | Requires JS (`dialog.showModal()`, `dialog.close()`).    |
+
+> **Interview Tip**: If asked why you'd choose one over the other, focus on **Inertness**. Use `<dialog>` when you need the user to stop what they are doing and address the overlay. Use the Popover API for transient, non-disruptive information.
+
+---
+
 ### 1.5 Tooltip
 
 - **What**: A tiny, non-interactive hint that appears on hover or focus, explaining an icon or label.
