@@ -225,12 +225,22 @@ console.log(result);
 // Output: "User <span class=\"hl\">Atul</span> is a <span class=\"hl\">Developer</span>."
 ```
 
-### Q: When to use them?
+### Q: Real-World Use Cases of Tagged Template Literals
 
-1.  **Sanitization:** Automatically escaping HTML to prevent XSS (e.g., `html`<p>${userInput}</p>``).
-2.  **Localization/i18n:** Translating strings while preserving dynamic values.
-3.  **Styled Components:** In libraries like `styled-components`, it's used to write CSS inside JavaScript.
-4.  **SQL Queries:** Preventing SQL injection by parameterizing inputs automatically.
+1.  **Styled-components (`css` / `styled`):**
+    - **Usage:** `` const Button = styled.button`color: red;` ``
+    - **Benefit:** Allows writing actual CSS inside JS (CSS-in-JS) while maintaining dynamic logic.
+2.  **GraphQL (`gql`):**
+    - **Usage:** `` const GET_USER = gql`query { user { name } }` ``
+    - **Benefit:** Parses query strings into a type-safe Abstract Syntax Tree (AST).
+3.  **LitHTML (`html`):**
+    - **Usage:** `` html`<div>${content}</div>` ``
+    - **Benefit:** High-performance HTML templating engine for Web Components.
+4.  **SQL Safe Queries (`sql`):**
+    - **Usage:** `` sql`SELECT * FROM users WHERE id = ${userId}` ``
+    - **Benefit:** Automatically prevents SQL Injection by parameterizing inputs.
+5.  **Localization/i18n:**
+    - **Benefit:** Translating strings while preserving place-holders for dynamic data safely.
 
 ---
 
@@ -286,27 +296,30 @@ myTag`Hello ${user.name}!`; // Invokes myTag with parts of the string
   console.log('IIFE for', name);
 })('Atul');
 
-// Tagged Template Literal EX
+/**
+ * Tagged Template Literal: The "Highlight" pattern
+ * 💡 Interview Tip: Remember that strings.length is always values.length + 1.
+ * We must handle the last empty string to avoid appending 'undefined'.
+ */
 function highlight(strings, ...values) {
-  let str = '';
-  strings.forEach((string, i) => {
-    str += string + values[i];
-  });
-  return str;
+  return strings.reduce((acc, str, i) => {
+    return `${acc}${str}${values[i] || ''}`;
+  }, '');
 }
 
-const name = 'Snickers';
-const age = '100';
-const sentence = highlight`My dog's name is ${name} and he is ${age} years old`;
+const dogName = 'Snickers';
+const dogAge = '100';
+const sentence = highlight`My dog's name is ${dogName} and he is ${dogAge} years old`;
 console.log(sentence);
 
 /*
+How it works under the hood:
 highlight`Hi ${name} age ${age}`
-become:
+becomes:
 highlight(
-  ["Hi ", " age ", ""],
-  name,
-  age
+  ["Hi ", " age ", ""], // Strings (Note the trailing empty string)
+  name,                 // Value 1
+  age                   // Value 2
 );
 */
 ```

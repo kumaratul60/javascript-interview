@@ -24,6 +24,12 @@ A comprehensive roadmap to mastering JavaScript functions, from basic syntax to 
 - **Key Files:** `03-Currying-and-Closures/`, `04-Higher-Order-and-Callbacks/`
 - **Goal:** Understand memory persistence (Closures) and function transformation (Currying).
 
+### Advanced Machine Coding
+
+- **Concepts:** Debouncing, Throttling, Memoization, Recursion, Pipe/Compose.
+- **Key Files:** `05-Machine-Coding-Challenges/`
+- **Goal:** Solve real-world performance problems and build utility libraries.
+
 ---
 
 ## 🚦 Strategic Usage Guide
