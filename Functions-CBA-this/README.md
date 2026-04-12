@@ -1,10 +1,10 @@
-# JavaScript Functions: The 0-100 Interview Guide
+# JavaScript Functions
 
 A comprehensive roadmap to mastering JavaScript functions, from basic syntax to advanced architectural patterns.
 
 ---
 
-## 📑 Roadmap
+## Roadmap
 
 ### The Foundations
 

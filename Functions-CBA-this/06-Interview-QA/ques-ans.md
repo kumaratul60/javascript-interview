@@ -4,7 +4,7 @@ This document consolidates key concepts, interview questions, and practical code
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Core Definitions & First-Class Functions](#1-core-definitions--first-class-functions)
 2. [Function Types & Syntax (Declaration vs. Expression vs. Arrow)](#2-function-types--syntax)
