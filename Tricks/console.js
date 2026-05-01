@@ -191,3 +191,32 @@ console.log(equality); // true
   delete n;
   return n;
 })(2);
+
+// ==========================================
+// ADVANCED CONSOLE METHODS FOR DEBUGGING
+// ==========================================
+
+// 1. console.count(): Tracking iterations or calls
+console.count("User Login Attempt"); // User Login Attempt: 1
+console.count("User Login Attempt"); // User Login Attempt: 2
+console.count("User Login Attempt"); // User Login Attempt: 3
+
+// 2. console.assert(): Conditional logging (logs ONLY if condition is false)
+const userAge = 19;
+console.assert(userAge > 21, "Validation Failed: User must be 21+"); 
+// Assertion failed: Validation Failed: User must be 21+
+
+// 3. console.time() & console.timeEnd(): Performance profiling
+console.time("Heavy Operation");
+setTimeout(() => {
+  console.timeEnd("Heavy Operation"); // Heavy Operation: 1000ms (approx)
+}, 1000);
+
+// 4. console.table(): Visualizing data structures
+const sampleUsers = [
+  { first_name: "Atul", city: "Delhi", country: "India" },
+  { first_name: "John", city: "Athens", country: "Greece" },
+  { first_name: "Sandor", city: "Mthatha", country: "South Africa" },
+];
+// You can pass an optional array of columns to display
+console.table(sampleUsers, ["first_name", "city"]);

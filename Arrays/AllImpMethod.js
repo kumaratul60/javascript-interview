@@ -204,6 +204,22 @@ If return < 0: leave a and b unchanged.
 If return = 0: leave a and b unchanged.
 */
 
+// Advanced Sort Pattern: Sorting based on a custom order
+const customCategoryOrder = ["MEAT", "VEGETABLES", "FRUIT", "SNACKS"];
+const groceryItems = [
+  { name: "peppers", type: "VEGETABLES", price: 2.39 },
+  { name: "apples", type: "FRUIT", price: 3.99 },
+  { name: "chocolate", type: "SNACKS", price: 3.45 },
+  { name: "pork", type: "MEAT", price: 6 },
+  { name: "ham", type: "MEAT", price: 4 },
+];
+
+groceryItems.sort((a, b) => {
+  return customCategoryOrder.indexOf(a.type) - customCategoryOrder.indexOf(b.type);
+});
+console.log('\n--- Custom Order Sort ---');
+console.table(groceryItems, ["type", "name", "price"]);
+
 /* fill(): Fills elements with a static value. */
 const filledArray = [1, 2, 3, 4].fill(0, 1, 3); // Fill with 0 from index 1 to 3 (exclusive)
 console.log('Fill example:', filledArray);
