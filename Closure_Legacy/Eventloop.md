@@ -1,6 +1,8 @@
 # 🌀 The Event Loop Masterclass: Browser vs. Node.js
 
 > _Unmasking the single-threaded myth and mastering the asynchronous orchestration of JavaScript._
+>
+> **Note:** For Engine internals (V8, Hidden Classes) and Memory Management (Closures, GC), see [Closure.md](./Closure.md).
 
 ---
 
@@ -12,6 +14,7 @@ Despite their differences, both environments share these core principles:
 2.  **Offloading Work:** Both rely on the host (Browser APIs or Libuv) to handle slow tasks (network, timers, disk) in the background.
 3.  **The Queue Concept:** When background work finishes, a callback is pushed into a queue waiting for the main thread to be free.
 4.  **Microtask Priority:** In both modern browsers and Node.js (v11+), the microtask queue must be **completely emptied** before moving to the next major task or phase.
+5.  **Control Yielding:** Both environments now support yielding control back to the loop to prevent UI/I/O starvation (e.g., `setTimeout(0)` or the modern **`scheduler.yield()`**).
 
 ---
 
@@ -74,13 +77,22 @@ The browser's event loop is orchestrated around the screen. Its goal is to ensur
 
 ### ❓ The Structure: The "Turn"
 
-A single "turn" or tick of the browser loop follows a strict order:
+A single "turn" or tick of the browser loop follows a strict order, but with a critical nuance: **Microtasks run whenever the call stack becomes empty.**
 
-1.  **Run ONE Macrotask:** The engine takes the oldest task (e.g., `setTimeout` callback, click handler) and runs it to completion.
-2.  **Drain Microtasks:** Once the stack is empty, it processes **all** pending microtasks (Promises). If a microtask schedules another, it runs immediately—the loop won't move on until the queue is dry.
-3.  **Render (Maybe):** The browser synchronizes with the display refresh (VSync).
+1.  **Run ONE Macrotask:** The engine takes the oldest task (e.g., `setTimeout` callback, click handler, initial script execution) and runs it.
+2.  **Drain Microtasks:** As soon as the stack is empty (even mid-task or after a macrotask), it processes **all** pending microtasks (Promises).
+    - **Nuance:** If a microtask schedules another, it runs immediately—the loop won't move on until the queue is dry.
+3.  **Starvation Hazard:**
+    ```javascript
+    function loop() {
+      Promise.resolve().then(loop);
+    }
+    loop(); // Starves the event loop!
+    ```
+    The engine will stay in the Microtask phase forever, meaning the browser **never reaches the Render phase**. The UI freezes.
+4.  **Render (Maybe):** The browser synchronizes with the display refresh (VSync).
     - **If it's time to render:** It executes `requestAnimationFrame` -> Style -> Layout -> Paint.
-4.  **Loop:** Return to Step 1.
+5.  **Loop:** Return to Step 1.
 
 ### 📊 Browser Loop Visualization
 
@@ -122,12 +134,15 @@ Unlike the browser, Node moves through distinct sequential phases:
 - **Risk:** Recursively calling `nextTick` will starve the event loop entirely.
 
 ### ❓ `process.nextTick` vs. `queueMicrotask` (Final Boss Level)
+
 While both are for "asynchronous" execution, they have different priorities in Node.js:
-*   **`process.nextTick`**: The "Super Microtask." It always runs **first**, before the microtask queue (Promises) and even before the loop moves to the next phase.
-*   **`queueMicrotask` (and Promises)**: Standard microtasks. They run after the current operation finishes but **after** the `nextTick` queue has been drained.
-*   **Starvation:** You can starve the event loop (and even Promises) by recursively calling `process.nextTick`.
+
+- **`process.nextTick`**: The "Super Microtask." It always runs **first**, before the microtask queue (Promises) and even before the loop moves to the next phase.
+- **`queueMicrotask` (and Promises)**: Standard microtasks. They run after the current operation finishes but **after** the `nextTick` queue has been drained.
+- **Starvation:** You can starve the event loop (and even Promises) by recursively calling `process.nextTick`.
 
 ### ❓ `setImmediate` vs. `setTimeout(..., 0)`
+
 - **At Startup:** Order is non-deterministic (depends on CPU).
 - **Inside I/O Callback:** `setImmediate` **always** runs first because the "Check" phase follows the "Poll" phase.
 
@@ -181,14 +196,14 @@ graph TD
 
 ## ⚖ Part 5: The Comparison Matrix
 
-| Feature                | Browser Event Loop                | Node.js Event Loop         |
-| :--------------------- | :-------------------------------- | :------------------------- |
-| **Primary Goal**       | UI Responsiveness / Rendering     | High-throughput I/O        |
-| **Structure**          | Macrotask -> Microtasks -> Render | 6 Phased Cycles (Libuv)    |
-| **Microtasks**         | After every Macrotask             | After every callback/phase |
+| Feature                | Browser Event Loop                | Node.js Event Loop          |
+| :--------------------- | :-------------------------------- | :-------------------------- |
+| **Primary Goal**       | UI Responsiveness / Rendering     | High-throughput I/O         |
+| **Structure**          | Macrotask -> Microtasks -> Render | 6 Phased Cycles (Libuv)     |
+| **Microtasks**         | After every Macrotask             | After every callback/phase  |
 | **`process.nextTick`** | ❌ N/A                            | ✅ Runs **before** Promises |
-| **`setImmediate`**     | ❌ N/A                            | ✅ Check Phase             |
-| **Rendering**          | ✅ Core phase                     | ❌ N/A                     |
+| **`setImmediate`**     | ❌ N/A                            | ✅ Check Phase              |
+| **Rendering**          | ✅ Core phase                     | ❌ N/A                      |
 
 ---
 
