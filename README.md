@@ -36,9 +36,11 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
     - [🖥️ Node.js Concepts](#️-nodejs-concepts)
   - [🚀 Advanced Level](#-advanced-level)
     - [🧩 Advanced Internals](#-advanced-internals)
-    - [📈 Memory \& Performance](#-memory--performance)
+    - [📈 Memory & Performance](#-memory--performance)
     - [🛠️ Advanced Patterns \& Techniques](#️-advanced-patterns--techniques)
+    - [🧩 DSA \& Interview Algorithms](#-dsa--interview-algorithms)
     - [🧪 Testing, Debugging \& Tooling](#-testing-debugging--tooling)
+
     - [🌟 ES6 → ES2025 Highlights](#-es6--es2025-highlights)
   - [🌍 Where JavaScript Is Used](#-where-javascript-is-used)
   - [🧪 JS Quiz Practice \& Resources](#-js-quiz-practice--resources)
@@ -196,6 +198,30 @@ It supports **object‑oriented**, **functional**, and **imperative** styles, an
 - Module pattern, Revealing Module, Singleton patterns
 - Factory vs Constructor pattern
 - Pub/Sub and Observer pattern
+
+### 🧩 DSA & Interview Algorithms
+
+High-frequency Data Structures and Algorithms questions common in senior JavaScript interviews.
+
+| Challenge | Key Concept | Complexity | Link |
+| :--- | :--- | :--- | :--- |
+| **Linked List Cycle** | Floyd's Tortoise & Hare | O(N) Time, O(1) Space | [View Code](./DSA%20implimentation/LinkedListCycle.js) |
+| **LRU Cache** | Map + Doubly Linked List | O(1) Get/Put, O(C) Space | [View Code](./LRU/LRUCacheFinal.js) |
+| **Object Flattening** | Recursion + Circular Ref Handling | O(N) Time, O(D) Space | [View Code](./Objects/DeepFlattenCircular.js) |
+| **Event Emitter** | Pub/Sub Pattern | O(1) Sub, O(L) Emit | [View Code](./Adv/EventEmitter.js) |
+| **Valid Parentheses** | Stack | O(N) Time, O(N) Space | [View Code](./Algorithms/ValidParentheses.js) |
+| **Trapping Rain Water** | Two Pointers | O(N) Time, O(1) Space | [View Code](./Algorithms/TrappingRainWater.js) |
+| **Deep Merge** | Recursion | O(N) Time, O(D) Space | [View Code](./Objects/DeepMerge.js) |
+
+#### JS Specific Hot Topics
+
+High-signal JavaScript-specific challenges for senior engineers.
+
+| Topic | Key Concept | Complexity | Link |
+| :--- | :--- | :--- | :--- |
+| **Async Task Runner** | Concurrency Limit / Queue | O(N) Total Time | [View Code](./Promises/04-Advanced-Challenges/AsyncTaskRunner.js) |
+| **Advanced Debounce** | Leading/Trailing Options | O(1) | [View Code](./Debounce/debounceAdvanced.js) |
+| **Infinite Currying** | Closures / Recursion | O(N) | [View Code](./Adv/InfiniteCurry.js) |
 
 ### 🧪 Testing, Debugging & Tooling
 
