@@ -4,7 +4,7 @@
  * setTimeout/clearTimeout/clearAllTimeout/setInterval
  * Promise from scratch, new promise, batching in promise, series vs parallel execution
  * map,weekMap, Set weekSet
- * useEffect pollyfill
+ * useEffect polyfill
  * webworker
- *
+ * Debounce and throttle
  */
