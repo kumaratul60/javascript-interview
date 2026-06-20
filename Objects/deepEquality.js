@@ -44,3 +44,11 @@ function deepEqual(a, b, seen = new WeakMap()) {
 
   return keysA.every((key) => Object.prototype.hasOwnProperty.call(b, key) && deepEqual(a[key], b[key], seen));
 }
+
+```
+const a = [1, 2];
+const b = [1, 2];
+console.log(a.length === b.length &&
+a.every((v, i) => v === b[i])) // true
+JSON.stringify(a) === JSON.stringify(b);
+```;
