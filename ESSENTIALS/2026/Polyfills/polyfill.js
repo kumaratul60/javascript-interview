@@ -6,5 +6,4 @@
  * map,weekMap, Set weekSet
  * useEffect polyfill
  * webworker
- * Abort controller
  */
