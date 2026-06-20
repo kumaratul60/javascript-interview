@@ -6,5 +6,5 @@
  * map,weekMap, Set weekSet
  * useEffect polyfill
  * webworker
- * Debounce and throttle
+ * Abort controller
  */
