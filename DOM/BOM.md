@@ -1,770 +1,212 @@
-# Browser Object Model (BOM)
+# Browser Object Model (BOM): Advanced Architecture
 
-The **Browser Object Model (BOM)** provides JavaScript APIs to interact with the browser itself.
+The **Browser Object Model (BOM)** is a set of APIs exposed by the browser to interact with the environment surrounding the web page. While the DOM models the document structure, the BOM models window dimensions, navigation history, geolocation tracking, device specs, and cross-tab communication.
 
-Unlike the DOM, which represents the webpage, the BOM represents the browser environment.
-
-```text
-Browser
-│
-├── window
-│   ├── document (DOM)
-│   ├── history
-│   ├── location
-│   ├── navigator
-│   └── screen
+```
+                  ┌────────────────────────────────────────┐
+                  │                 Window                 │
+                  └────┬──────┬─────────┬─────────┬────┬───┘
+                       │      │         │         │    │
+         ┌─────────────┘      │         │         │    └─────────────┐
+   ┌─────▼────┐         ┌─────▼────┐  ┌─▼──┐  ┌───▼───┐         ┌────▼─────┐
+   │ Document │         │ History  │  │Screen││Location│         │Navigator │
+   │  (DOM)   │         │  (BOM)   │  │(BOM) ││ (BOM)  │         │  (BOM)   │
+   └──────────┘         └──────────┘  └────┘  └───────┘         └──────────┘
 ```
 
 ---
 
-# Window Object
+## 1. Window Object: Global Host Context
 
-The global object in the browser.
+The `window` object represents the browser window hosting the DOM document. It is the global object for client-side JavaScript execution.
 
-Everything in the browser hangs off `window`.
+### 1.1 Cross-Origin Window Messaging (`postMessage`)
 
-```js
-window.alert('Hello');
+Direct script references between windows from different origins (e.g. iframes, child tabs opened via `window.open`) are blocked by the **Same-Origin Policy**.
 
-alert('Hello'); // same thing
+- **Solution:** Use `window.postMessage` to send serialized payloads safely across origins.
+
+> [!CAUTION]
+> Failing to validate `event.origin` when receiving messages allows malicious sites hosting your page inside an iframe to execute arbitrary code (XSS).
+
+```javascript
+// A. Emitter Window (Main Page)
+const iframeElement = document.getElementById('sandbox-iframe');
+
+// Send data only if target matches the origin exactly
+iframeElement.contentWindow.postMessage({ action: 'syncState', payload: { userId: 99 } }, 'https://secure-sandbox.com');
 ```
 
----
-
-## Common Window APIs
-
-### Current Window Size
-
-```js
-window.innerWidth;
-window.innerHeight;
-```
-
-### Scroll Position
-
-```js
-window.scrollX;
-window.scrollY;
-```
-
-### Scroll Programmatically
-
-```js
-window.scrollTo({
-  top: 1000,
-  behavior: 'smooth',
-});
-```
-
-### Open New Tab
-
-```js
-window.open('https://example.com', '_blank');
-```
-
----
-
-## Interview Question
-
-### window vs document
-
-```text
-window
-→ Browser
-
-document
-→ Web Page
-```
-
-Example:
-
-```js
-window.innerWidth;
-```
-
-Browser information.
-
-```js
-document.querySelector('.card');
-```
-
-Page information.
-
----
-
-# Screen Object
-
-Provides information about the user's screen.
-
-```js
-screen.width;
-screen.height;
-```
-
-Example:
-
-```js
-console.log(screen.width);
-console.log(screen.height);
-```
-
-Output:
-
-```text
-1920
-1080
-```
-
----
-
-## Common Properties
-
-```js
-screen.width;
-screen.height;
-
-screen.availWidth;
-screen.availHeight;
-
-screen.colorDepth;
-```
-
----
-
-## Real World Use Cases
-
-### Analytics
-
-```js
-console.log(screen.width);
-```
-
-Track device resolutions.
-
-### Fullscreen Applications
-
-```js
-screen.availWidth;
-```
-
-Calculate available space.
-
----
-
-## Interview Question
-
-### screen.width vs window.innerWidth
-
-```text
-screen.width
-→ Physical screen width
-
-window.innerWidth
-→ Browser viewport width
-```
-
-Example:
-
-```text
-Monitor Width = 1920px
-
-Browser Width = 1200px
-```
-
-```js
-screen.width; // 1920
-window.innerWidth; // 1200
-```
-
----
-
-# Navigator Object
-
-Provides browser and device information.
-
-```js
-navigator.userAgent;
-```
-
----
-
-## Common Properties
-
-### Browser Info
-
-```js
-navigator.userAgent;
-```
-
-### Language
-
-```js
-navigator.language;
-```
-
-### Online Status
-
-```js
-navigator.onLine;
-```
-
-### Clipboard API
-
-```js
-navigator.clipboard.writeText('Hello');
-```
-
-### Geolocation
-
-```js
-navigator.geolocation.getCurrentPosition((position) => {
-  console.log(position);
+```javascript
+// B. Receiver Window (https://secure-sandbox.com)
+window.addEventListener('message', (event) => {
+  // CRITICAL: Always validate the sender's origin
+  if (event.origin !== 'https://trusted-parent.com') {
+    console.warn('Blocked unauthorized message from:', event.origin);
+    return;
+  }
+
+  const { action, payload } = event.data;
+  if (action === 'syncState') {
+    handleStateSync(payload);
+  }
 });
 ```
 
 ---
 
-## Real World Examples
+## 2. History API & Client-Side SPA Routing
 
-### Detect Offline Mode
+Single Page Application (SPA) routers use the History API to transition URLs without causing full-page document reloads.
 
-```js
-if (!navigator.onLine) {
-  showOfflineBanner();
+### 2.1 State Pushes and Browser Back Navigation
+
+- `history.pushState(state, title, url)`: Creates a new entry in the session history stack.
+- `history.replaceState(state, title, url)`: Modifies the current history entry without pushing a new state.
+- `popstate` event: Fires when the active history entry changes due to browser actions (like clicking the browser Back/Forward buttons).
+
+```javascript
+// Register a listener to handle back/forward navigation
+window.addEventListener('popstate', (event) => {
+  // Retrieve the state object associated with the history entry
+  const state = event.state;
+  if (state && state.route) {
+    renderRoute(state.route, false); // Render route without pushing new state
+  }
+});
+
+function navigateTo(route) {
+  // Save route state and change URL synchronously without reloading page
+  history.pushState({ route }, '', route);
+  renderRoute(route, true);
 }
 ```
 
-### Copy To Clipboard
+### 2.2 Manual Scroll Restoration
 
-```js
-await navigator.clipboard.writeText(text);
+By default, the browser remembers and restores scroll positions when navigating history. For SPAs where content is loaded dynamically, this default behavior can cause the page to scroll to random positions.
+
+- **Solution:** Change `history.scrollRestoration` to `manual`.
+
+```javascript
+if ('scrollRestoration' in history) {
+  // Disable default browser scroll restoration
+  history.scrollRestoration = 'manual';
+}
 ```
 
 ---
 
-## Interview Question
+## 3. Location: URL Manipulation & Search Parsing
 
-### Can you trust navigator.userAgent?
+The `location` object represents the current URL of the active document.
 
-Answer:
+### 3.1 `location.href` vs. `location.replace()`
 
-```text
-No.
-```
+- `location.href = '/path'`: Navigates to a new page, pushing the current page into history. The back button will return to this page.
+- `location.replace('/path')`: Navigates to a new page, replacing the current page in history. The back button will skip this page. **Essential for post-login redirects.**
 
-Reasons:
+### 3.2 Modern URL & Search Parameter Parsing
 
-- Can be spoofed
-- Browser vendors changing support
-- User-Agent reduction initiatives
+Avoid parsing query parameters (`location.search`) using complex regex. Use the native `URL` and `URLSearchParams` APIs instead.
 
-Prefer:
+```javascript
+// URL: https://app.com/search?q=js+perf&sort=desc#results
 
-```text
-Feature Detection
-```
+const url = new URL(window.location.href);
 
-Instead of:
+console.log(url.pathname); // "/search"
+console.log(url.hash); // "#results"
 
-```js
-if (navigator.userAgent.includes("Chrome"))
-```
+// Parse Query Parameters
+const params = new URLSearchParams(url.search);
+const query = params.get('q'); // "js perf"
+const sortOrder = params.get('sort') || 'asc'; // "desc"
 
-Use:
-
-```js
-if ("clipboard" in navigator)
-```
-
----
-
-# History Object
-
-Allows navigation through browser history.
-
-```js
-window.history;
+// Modify parameters in memory
+params.set('page', '2');
+const updatedUrl = `${url.pathname}?${params.toString()}`;
+// history.pushState({}, '', updatedUrl);
 ```
 
 ---
 
-## Common Methods
+## 4. Navigator: Hardware & Capability Detection
 
-### Go Back
+The `navigator` object provides information about the client browser, operating system, and hardware properties.
 
-```js
-history.back();
+### 4.1 Adaptive Asset Loading
+
+For high-performance web applications, you can detect the client's network connection and hardware memory limits to serve scaled down assets (e.g. low-res images, blocking heavy animations on low-memory devices).
+
+```javascript
+function loadAdaptiveAssets() {
+  const dpr = window.devicePixelRatio || 1;
+  const memoryGb = navigator.deviceMemory || 4; // RAM in GB
+  const logicalCores = navigator.hardwareConcurrency || 4; // CPU cores
+
+  // Connection details (Network Information API)
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const isSlowNetwork = connection && (connection.effectiveType === '2g' || connection.effectiveType === '3g');
+
+  if (memoryGb <= 2 || logicalCores < 4 || isSlowNetwork) {
+    console.log('Low-performance device or slow connection detected. Activating performance saving mode.');
+    disableHeavyEffects();
+    fetchLowResolutionImages();
+  } else {
+    fetchHighResolutionImages(dpr);
+  }
+}
 ```
 
-Equivalent:
+### 4.2 Clipboard & User Permissions
 
-```text
-Browser Back Button
-```
+Modern asynchronous APIs require querying user permissions before triggering prompt overlays.
 
----
+```javascript
+async function copyToClipboardSafely(text) {
+  try {
+    // Check permission status first
+    const permissionStatus = await navigator.permissions.query({ name: 'clipboard-write' });
 
-### Go Forward
-
-```js
-history.forward();
-```
-
----
-
-### Move N Steps
-
-```js
-history.go(-2);
-history.go(1);
-```
-
----
-
-### Push New History Entry
-
-```js
-history.pushState({}, '', '/dashboard');
-```
-
----
-
-### Replace Current History Entry
-
-```js
-history.replaceState({}, '', '/dashboard');
-```
-
----
-
-## SPA Routing (React/Next.js)
-
-Modern routers use:
-
-```js
-history.pushState();
-history.replaceState();
-```
-
-instead of:
-
-```text
-Full page reload
+    if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+      await navigator.clipboard.writeText(text);
+      console.log('Copied successfully!');
+    }
+  } catch (error) {
+    console.error('Failed to write to clipboard:', error);
+  }
+}
 ```
 
 ---
 
-## Interview Question
-
-### pushState vs replaceState
-
-#### pushState
-
-```js
-history.pushState({}, '', '/profile');
-```
-
-Creates a new history entry.
-
-```text
-Home
- ↓
-Profile
-```
-
-Back button works.
-
----
-
-#### replaceState
-
-```js
-history.replaceState({}, '', '/profile');
-```
-
-Replaces current history entry.
-
-```text
-Home
-```
-
-becomes
-
-```text
-Profile
-```
-
-Back button cannot return to Home.
-
----
-
-## Real Interview Scenario
-
-Question:
-
-Why does React Router not reload the page?
-
-Answer:
-
-```text
-Uses History API
-
-history.pushState()
-
-instead of
-
-window.location.href
-```
-
----
-
-# Location Object
-
-Provides information about the current URL.
-
-```js
-window.location;
-```
-
----
-
-## Common Properties
-
-### Full URL
-
-```js
-location.href;
-```
-
-### Origin
-
-```js
-location.origin;
-```
-
-### Pathname
-
-```js
-location.pathname;
-```
-
-### Query Params
-
-```js
-location.search;
-```
-
-### Hash
-
-```js
-location.hash;
-```
-
----
-
-Example URL:
-
-```text
-https://app.com/users?id=1#profile
-```
-
-Values:
-
-```js
-location.href;
-// https://app.com/users?id=1#profile
-
-location.pathname;
-// /users
-
-location.search;
-// ?id=1
-
-location.hash;
-// #profile
-```
-
----
-
-## Navigation
-
-### Redirect
-
-```js
-location.href = '/dashboard';
-```
-
-### Reload
-
-```js
-location.reload();
-```
-
-### Replace URL
-
-```js
-location.replace('/dashboard');
-```
-
----
-
-## Interview Question
-
-### location.href vs location.replace
-
-#### href
-
-```js
-location.href = '/dashboard';
-```
-
-Creates history entry.
-
-Back button works.
-
----
-
-#### replace
-
-```js
-location.replace('/dashboard');
-```
-
-Replaces current page.
-
-Back button won't return.
-
----
-
-# Frequently Asked Interview Questions
-
-## Q1. BOM vs DOM
-
-```text
-DOM
-→ Web Page
-
-BOM
-→ Browser
-```
-
-Examples:
-
-```js
-document.querySelector();
-```
-
-DOM
-
-```js
-window.location;
-```
-
-BOM
-
----
-
-## Q2. window vs document
-
-```text
-window
-→ Browser object
-
-document
-→ HTML document
-```
-
----
-
-## Q3. screen.width vs window.innerWidth
-
-```text
-screen.width
-→ Monitor width
-
-window.innerWidth
-→ Browser viewport width
-```
-
----
-
-## Q4. pushState vs replaceState
-
-```text
-pushState
-→ Adds history entry
-
-replaceState
-→ Replaces history entry
-```
-
----
-
-## Q5. location.href vs location.replace
-
-```text
-href
-→ Adds history entry
-
-replace
-→ Replaces history entry
-```
-
----
-
-## Q6. Why do React Routers use History API?
-
-```text
-Avoid full page reloads
-
-Enable SPA navigation
-```
-
----
-
-## Q7. Why should you avoid userAgent detection?
-
-```text
-Can be spoofed
-
-Use feature detection instead
-```
-
----
-
-# Senior Frontend Interview Scenarios
-
-## Scenario 1
-
-Question:
-
-Implement SPA navigation without page reload.
-
-Answer:
-
-```js
-history.pushState({}, '', '/dashboard');
-```
-
----
-
-## Scenario 2
-
-Question:
-
-Redirect after login and prevent back navigation to login page.
-
-Answer:
-
-```js
-location.replace('/dashboard');
-```
-
-or
-
-```js
-history.replaceState({}, '', '/dashboard');
-```
-
----
-
-## Scenario 3
-
-Question:
-
-Determine if user is offline.
-
-Answer:
-
-```js
-navigator.onLine;
-```
-
----
-
-## Scenario 4
-
-Question:
-
-Get current route path.
-
-Answer:
-
-```js
-location.pathname;
-```
-
----
-
-## Scenario 5
-
-Question:
-
-Get viewport width.
-
-Answer:
-
-```js
-window.innerWidth;
-```
-
-Not:
-
-```js
-screen.width;
-```
-
----
-
-# Quick Revision
-
-```text
-BOM
-│
-├── Window
-│   ├── innerWidth
-│   ├── innerHeight
-│   └── scrollTo
-│
-├── Screen
-│   ├── width
-│   ├── height
-│   └── colorDepth
-│
-├── Navigator
-│   ├── userAgent
-│   ├── language
-│   ├── onLine
-│   └── clipboard
-│
-├── History
-│   ├── back
-│   ├── forward
-│   ├── go
-│   ├── pushState
-│   └── replaceState
-│
-└── Location
-    ├── href
-    ├── pathname
-    ├── search
-    ├── hash
-    ├── reload
-    └── replace
-```
-
-## Staff-Level Takeaway
-
-Most BOM interview questions are actually testing:
-
-```text
-Do you understand:
-
-1. Browser Navigation?
-2. SPA Routing?
-3. URL Manipulation?
-4. Browser vs Page distinction?
-5. Feature Detection vs Browser Detection?
-```
-
-If you understand those five areas, you'll answer 90% of BOM interview questions correctly.
+## 5. Interview Hot Corners
+
+### Q1: Why does `window.onLine` return false positives?
+
+- **Answer:** `navigator.onLine` returns a boolean indicating whether the client browser is connected to a network. However, it does not verify whether that network has actual internet access (e.g., if the user is connected to a router but the WAN connection is offline, `navigator.onLine` returns `true`). Always pair this check with a quick `fetch` request or listen for offline events to confirm connectivity:
+  ```javascript
+  window.addEventListener('offline', () => showOfflineAlert());
+  ```
+
+### Q2: How do you listen to route changes in single-page apps (SPAs)?
+
+- **Answer:** The `popstate` event only fires when the browser back/forward buttons are clicked or `history.back()` / `history.forward()` is called programmatically. It **does not** fire when `history.pushState()` or `history.replaceState()` is called. To listen to all route changes, SPA routers wrap the `pushState` and `replaceState` methods to trigger custom events:
+
+  ```javascript
+  const patchHistoryMethod = (type) => {
+    const orig = history[type];
+    return function () {
+      const result = orig.apply(this, arguments);
+      const event = new Event(type.toLowerCase());
+      event.arguments = arguments;
+      window.dispatchEvent(event);
+      return result;
+    };
+  };
+  history.pushState = patchHistoryMethod('pushState');
+
+  // Now you can listen to custom state pushes:
+  window.addEventListener('pushstate', () => console.log('Route updated!'));
+  ```

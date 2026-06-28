@@ -1,47 +1,32 @@
 # JavaScript & UI Component Best Practices: Patterns, Accessibility, and Architecture
 
-This comprehensive guide covers common UI component patterns, their intended use cases, and best practices for implementation, with a strong focus on JavaScript-driven behaviors, accessibility (ARIA), and front-end architectural considerations often discussed in technical interviews.
+This comprehensive guide covers common UI component patterns, their intended use cases, and best practices for implementation, with a strong focus on JavaScript-driven behaviors, accessibility (ARIA), CSS containment performance, and frontend architectural considerations often discussed in technical interviews.
+
+---
 
 ## Table of Contents
 
-1.  [Understanding Common UI Components & Their Characteristics](#1-understanding-common-ui-components--their-characteristics)
-    1.1 [Side Panel (Drawer)](#11-side-panel-drawer)
-
-    1.2 [Modal](#12-modal)
-
-    1.3 [Dialog](#13-dialog)
-
-    1.4 [Popover](#14-popover)
-
-    1.5 [Tooltip](#15-tooltip)
-
-    1.6 [Dropdown](#16-dropdown)
-
-    1.7 [Bottom Sheet (Mobile)](#17-bottom-sheet-mobile)
-
-2.  [Quick Decision Rules: When to Use Which Component](#2-quick-decision-rules-when-to-use-which-component)
-
-3.  [Architectural & Implementation Best Practices (JavaScript & CSS)](#3-architectural--implementation-best-practices-javascript--css)
-
-    3.1 [The `z-index` Scale & Stacking Contexts](#31-the-z-index-scale--stacking-contexts)
-
-    3.2 [Portal Rendering (Escaping CSS Constraints)](#32-portal-rendering-escaping-css-constraints)
-
-    3.3 [Accessibility (ARIA) & Focus Management with JavaScript](#33-accessibility-aria--focus-management-with-javascript)
-
-    3.4 [Event Delegation & Bubbling for Component Interaction](#34-event-delegation--bubbling-for-component-interaction)
-
-    3.5 [Avoid `MutationObserver` for Layering Issues](#35-avoid-mutationobserver-for-layering-issues)
-
-4.  [Common JavaScript Implementation Patterns for UI Components](#4-common-javascript-implementation-patterns-for-ui-components)
-
-    4.1 [State Management (Open/Closed, Selected)](#41-state-management-openclosed-selected)
-
-    4.2 [Composition vs. Inheritance](#42-composition-vs-inheritance)
-
-    4.3 [Separation of Concerns (HTML, CSS, JS)](#43-separation-of-concerns-html-css-js)
-
-5.  [Interview Questions & Discussion Points](#5-interview-questions--discussion-points)
+1. [Understanding Common UI Components & Their Characteristics](#1-understanding-common-ui-components--their-characteristics)
+   - 1.1 [Side Panel (Drawer)](#11-side-panel-drawer)
+   - 1.2 [Modal](#12-modal)
+   - 1.3 [Dialog](#13-dialog)
+   - 1.4 [Popover](#14-popover)
+   - 1.5 [Tooltip](#15-tooltip)
+   - 1.6 [Dropdown](#16-dropdown)
+   - 1.7 [Bottom Sheet (Mobile)](#17-bottom-sheet-mobile)
+2. [Quick Decision Rules: When to Use Which Component](#2-quick-decision-rules-when-to-use-which-component)
+3. [Architectural & Implementation Best Practices (JavaScript & CSS)](#3-architectural--implementation-best-practices-javascript--css)
+   - 3.1 [The `z-index` Scale & Stacking Contexts](#31-the-z-index-scale--stacking-contexts)
+   - 3.2 [Portal Rendering (Escaping CSS Constraints)](#32-portal-rendering-escaping-css-constraints)
+   - 3.3 [Accessibility (ARIA) & Focus Management with JavaScript](#33-accessibility-aria--focus-management-with-javascript)
+   - 3.4 [Event Delegation & Bubbling for Component Interaction](#34-event-delegation--bubbling-for-component-interaction)
+   - 3.5 [Avoid `MutationObserver` for Layering Issues](#35-avoid-mutationobserver-for-layering-issues)
+   - 3.6 [CSS Containment & Layout Optimizations](#36-css-containment--layout-optimizations)
+4. [Common JavaScript Implementation Patterns for UI Components](#4-common-javascript-implementation-patterns-for-ui-components)
+   - 4.1 [State Management (Open/Closed, Selected)](#41-state-management-openclosed-selected)
+   - 4.2 [Composition vs. Inheritance](#42-composition-vs-inheritance)
+   - 4.3 [Separation of Concerns (HTML, CSS, JS)](#43-separation-of-concerns-html-css-js)
+5. [Interview Questions & Discussion Points](#5-interview-questions--discussion-points)
 
 ---
 
@@ -79,7 +64,7 @@ Choosing the right UI component is crucial for user experience and accessibility
 - **JS Aspects**:
   - **Native `<dialog>` API**: Using `dialog.showModal()` and `dialog.close()` methods.
   - **Return Values**: `dialog.returnValue` can capture results.
-  - **Accessibility**: Native element handles much of the focus trapping and ARIA roles automatically when `showModal()` is used, but polyfills/manual JS may be needed for broader browser support or custom behavior.
+  - **Accessibility**: Native element handles much of the focus trapping and ARIA roles automatically when `showModal()` is used.
 
 ### 1.4 Popover
 
@@ -87,7 +72,7 @@ Choosing the right UI component is crucial for user experience and accessibility
 - **Use Cases**: Providing extra information, quick actions, context menus, date pickers.
 - **Blocks Page?**: ❌ No (user can typically interact with other page elements).
 - **JS Aspects**:
-  - **Positioning**: JavaScript often calculates and updates the `top`/`left` (or `transform`) CSS properties to position the popover relative to its trigger element. `Popper.js` is a popular library for this.
+  - **Positioning**: JavaScript often calculates and updates the `top`/`left` (or `transform`) CSS properties to position the popover relative to its trigger element.
   - **Show/Hide Logic**: Toggling `class` or `hidden` attribute. Dismissing on blur, click outside, or `Escape` key.
   - **Accessibility**: Managing `aria-expanded` on the trigger, `aria-haspopup` to indicate a popover.
 
@@ -105,9 +90,45 @@ While both components overlay content, the fundamental difference is **modality*
 | **Use Cases**     | Tooltips, menus, togglable settings, toasts.                  | Confirmations, complex forms, critical alerts.           |
 | **API Control**   | Declarative HTML (`popover`, `popovertarget`).                | Requires JS (`dialog.showModal()`, `dialog.close()`).    |
 
-> **Interview Tip**: If asked why you'd choose one over the other, focus on **Inertness**. Use `<dialog>` when you need the user to stop what they are doing and address the overlay. Use the Popover API for transient, non-disruptive information.
+#### Popover API Implementation Example (Declarative + Zero JS):
 
----
+```html
+<button popovertarget="my-popover">Open Popover</button>
+
+<div id="my-popover" popover>
+  <h3>Context Action</h3>
+  <p>Non-blocking context menu details.</p>
+</div>
+```
+
+#### Native Dialog Modal Implementation Example (With Click-Outside Dismiss):
+
+```html
+<dialog id="my-dialog">
+  <form method="dialog">
+    <h3>Modal Dialogue</h3>
+    <button value="cancel">Cancel</button>
+    <button value="confirm">Confirm</button>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('my-dialog');
+  // dialog.showModal(); // Programmatic open
+
+  dialog.addEventListener('click', (event) => {
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog =
+      event.clientX >= rect.left &&
+      event.clientX <= rect.right &&
+      event.clientY >= rect.top &&
+      event.clientY <= rect.bottom;
+    if (!isInDialog) {
+      dialog.close();
+    }
+  });
+</script>
+```
 
 ### 1.5 Tooltip
 
@@ -122,7 +143,7 @@ While both components overlay content, the fundamental difference is **modality*
 ### 1.6 Dropdown
 
 - **What**: A list of options that appears when a trigger element is clicked or focused.
-- **Use Cases**: Selection from a predefined list, navigation menus (e.g., "kebab" or "meatball" menus).
+- **Use Cases**: Selection from a predefined list, navigation menus.
 - **Blocks Page?**: ❌ No.
 - **JS Aspects**:
   - **Open/Close Logic**: Toggling visibility.
@@ -132,8 +153,8 @@ While both components overlay content, the fundamental difference is **modality*
 ### 1.7 Bottom Sheet (Mobile)
 
 - **What**: A mobile-specific UI component that slides up from the bottom of the screen, partially overlaying the content.
-- **Use Cases**: Mobile-specific actions, contextual options (e.g., share sheets, quick settings).
-- **Blocks Page?**: ⚠️ Partial (often main content is dimmed and non-interactive, but not completely blocked like a modal).
+- **Use Cases**: Mobile-specific actions, contextual options (e.g., share sheets).
+- **Blocks Page?**: ⚠️ Partial (often main content is dimmed and non-interactive).
 - **JS Aspects**:
   - **Gesture Handling**: JavaScript may handle swipe-down gestures to dismiss.
   - **Scroll Management**: Controlling scroll behavior of the sheet and the underlying content.
@@ -171,327 +192,223 @@ These best practices ensure your UI components are robust, maintainable, and acc
 
 ### 3.1 The `z-index` Scale & Stacking Contexts
 
-Establishing a consistent `z-index` scale is crucial for managing layers effectively across your application, especially when components overlap. Mismanaging `z-index` can lead to elusive bugs where interactive elements are hidden or unclickable.
+Establishing a consistent `z-index` scale is crucial for managing layers effectively across your application.
 
 **Example Scale (Conceptual):**
 
 - `0–10`: Base layout elements, page content.
-- `100`: Dropdowns, context menus, elements that temporarily overlay content.
-- `1000`: Tooltips / Popovers, often requiring higher stacking to be visible above most UI.
-- `1100`: Side Panels, overlays that might appear over other transient elements.
-- `1200`: Modals / Dialogs, typically the highest layer that blocks interaction.
-- `1300`: Toasts / Notifications, usually appear over everything else, including modals, to convey system messages.
+- `100`: Dropdowns, context menus.
+- `1000`: Tooltips / Popovers.
+- `1100`: Side Panels.
+- `1200`: Modals / Dialogs.
+- `1300`: Toasts / Notifications.
 
-#### Important Warnings & JavaScript Implications ⚠️
+#### Stacking Context Triggers & Warnings ⚠️
 
-- **Negative `z-index`**: Elements with a negative `z-index` can go behind their parent or even the entire document. From a JavaScript perspective, this means they might become **unreachable for user interaction (clicks, focus)**, leading to inaccessible UI. Use with extreme caution.
-- **Positioning is Required**: `z-index` only works on elements with a `position` value of `relative`, `absolute`, `fixed`, or `sticky`. If your JavaScript dynamically adds/removes positioning, be aware of its impact on `z-index`.
-- **Stacking Context > `z-index`**: This is a critical concept. A new **stacking context** (created by properties like `transform`, `filter`, `opacity < 1`, `position: relative` + `z-index`, `flex`/`grid` containers with `z-index`, etc.) can "trap" its children. An element with `z-index: 9999` _inside_ one stacking context can still appear _below_ an element with `z-index: 1` from a different, higher stacking context. JavaScript manipulation of these CSS properties can inadvertently create new stacking contexts, leading to unexpected layering issues. Debugging tools are essential here.
-- **The "999999" Rule**: If you feel the need to use an extremely high `z-index` like `999999`, it's a strong sign that your stacking context architecture is broken. Don't solve it by increasing the number; fix the underlying CSS/DOM structure or consider **Portal Rendering**.
+- **Stacking Context > `z-index`**: A new stacking context (created by properties like `transform`, `filter`, `opacity < 1`, `position: relative` + `z-index`, CSS container queries, or `will-change`) encapsulates its children. An element with `z-index: 9999` inside one stacking context can still appear below an element with `z-index: 1` from a higher stacking context.
+- **Negative `z-index`**: Elements with a negative `z-index` can go behind their parent or the document body, rendering them unreachable for click events and focus.
+
+---
 
 ### 3.2 Portal Rendering (Escaping CSS Constraints)
 
-For components that must truly appear above all other content (e.g., Modals, Dialogs, Global Notifications) regardless of their parent's stacking context or `overflow` properties, it's a best practice to render them in a "portal."
+For components that must appear above all other content regardless of parent overflow or stacking contexts, render them in a portal.
 
-- **Concept**: Instead of rendering the component as a direct child of its logical parent in the DOM tree, it's moved (or rendered directly) to be a direct child of `<body>` or a dedicated, top-level DOM node (e.g., `<div id="portals"></div>`).
-- **Why? (JavaScript Perspective)**:
-  - **Escapes Stacking Contexts**: Prevents `z-index` conflicts with parent elements. The component lives in its own high-level stacking context.
-  - **Avoids `overflow: hidden` Issues**: A parent with `overflow: hidden` will clip its children. Portals circumvent this.
-  - **Cleaner Event Handling**: Can simplify event bubbling, though care must be taken with `event.stopPropagation()` if the event's origin is logically within the portal's "parent."
-  - **Framework Support**: Modern JS frameworks (React, Vue) provide dedicated APIs for portals, simplifying their implementation and ensuring correct component lifecycle management.
+- **Concept**: Render the component direct under `<body>` or a dedicated portal root (`<div id="portal-root"></div>`), rather than as a child of its logical container.
 
-**Simple Vanilla JavaScript Portal Example:**
+**Vanilla JavaScript Portal Example:**
 
 ```javascript
-// HTML: <div id="app">...</div> <div id="portal-root"></div>
-
-// JS: Function to render a component into a portal
 function renderIntoPortal(elementToRender, portalContainerId) {
   const portalRoot = document.getElementById(portalContainerId);
-  if (!portalRoot) {
-    console.error(`Portal root #${portalContainerId} not found.`);
-    return;
+  if (portalRoot) {
+    portalRoot.appendChild(elementToRender);
   }
-  portalRoot.appendChild(elementToRender);
-  // You would typically add logic here to manage lifecycle if using a framework
 }
-
-// Example usage:
-const myModalContent = document.createElement('div');
-myModalContent.innerHTML = '<h2>I am a Modal from a Portal!</h2><button>Close</button>';
-myModalContent.style.cssText =
-  'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid black; z-index: 9999;';
-
-// renderIntoPortal(myModalContent, 'portal-root');
-// After some time, or on close: portalRoot.removeChild(myModalContent);
 ```
+
+---
 
 ### 3.3 Accessibility (ARIA) & Focus Management with JavaScript
 
-Accessibility is not an afterthought; it's a core aspect of UI component development. JavaScript plays a critical role in dynamic accessibility behaviors.
+Keyboard navigation and screen reader attributes must be handled programmatically.
 
-- **Keyboard Navigation:** All interactive components must be navigable and usable via keyboard (`Tab`, `Shift+Tab`, `Enter`, `Escape`, arrow keys).
-- **Focus Trapping (for Modals/Dialogs):** When a modal opens, focus must be programmatically moved to the first interactive element _inside_ the modal. The `Tab` key should then cycle _only_ through elements within the modal. When the modal closes, focus should return to the element that triggered the modal.
-  - **JS Implementation**:
-    - `element.focus()` to move focus.
-    - Listen for `keydown` events (especially `Tab`, `Shift+Tab`, `Escape`) to manage focus flow.
-    - Store the element that had focus _before_ the modal opened to return focus to it later.
-- **ARIA Attributes**: JavaScript dynamically updates ARIA attributes to communicate the component's state and purpose to assistive technologies (screen readers).
-  - `aria-expanded`: Indicates if a collapsible element is currently expanded or collapsed (e.g., dropdowns, accordions).
-  - `aria-haspopup`: Indicates that an element has a pop-up context menu or sub-level menu.
-  - `aria-modal="true"`: On a modal element, indicates that the underlying content is inert and should not be accessible.
-  - `aria-hidden="true"`: On background content when a modal is open, visually hides it from screen readers.
-  - `role="dialog"`, `role="alertdialog"`, `role="menu"`, `role="listbox"`: Define the component's semantic meaning.
+- **Keyboard Navigation:** All interactive components must be usable via keyboard (`Tab`, arrow keys, `Enter`, `Escape`).
+- **Focus Trapping:** When a modal opens, move focus to the first interactive element inside it, and cycle focus inside the modal on `Tab` / `Shift+Tab`. Return focus to the trigger on close.
 
-**Simple JavaScript Focus Trap Example (for a modal):**
+#### Production-Grade Focus Trap Class:
 
 ```javascript
-// Basic concept (simplified, for illustration)
-function trapFocus(modalElement) {
-  const focusableEls = modalElement.querySelectorAll(
-    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
-  );
-  const firstFocusableEl = focusableEls[0];
-  const lastFocusableEl = focusableEls[focusableEls.length - 1];
-  let previouslyFocusedEl; // To store element that had focus before modal opened
-
-  // Store previously focused element and move focus to first element in modal
-  if (document.activeElement) {
-    previouslyFocusedEl = document.activeElement;
+class FocusTrap {
+  constructor(containerElement) {
+    this.container = containerElement;
+    this.firstFocusable = null;
+    this.lastFocusable = null;
+    this.triggerElement = null;
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
-  firstFocusableEl?.focus();
 
-  modalElement.addEventListener('keydown', function (e) {
-    const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-    if (!isTabPressed) {
-      return;
+  activate() {
+    this.triggerElement = document.activeElement;
+    this.updateFocusableElements();
+    if (this.firstFocusable) this.firstFocusable.focus();
+    this.container.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  deactivate() {
+    this.container.removeEventListener('keydown', this.handleKeyDown);
+    if (this.triggerElement) this.triggerElement.focus();
+  }
+
+  updateFocusableElements() {
+    const focusableSelectors = [
+      'a[href]',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      'button:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ];
+    const elements = Array.from(this.container.querySelectorAll(focusableSelectors.join(',')));
+    const visibleElements = elements.filter((el) => {
+      const style = window.getComputedStyle(el);
+      return style.display !== 'none' && style.visibility !== 'hidden';
+    });
+    if (visibleElements.length > 0) {
+      this.firstFocusable = visibleElements[0];
+      this.lastFocusable = visibleElements[visibleElements.length - 1];
     }
+  }
 
-    if (e.shiftKey) {
-      // if shift key pressed for shift + tab
-      if (document.activeElement === firstFocusableEl) {
-        lastFocusableEl.focus(); // move focus to the last element
-        e.preventDefault();
+  handleKeyDown(event) {
+    if (event.key !== 'Tab') return;
+    this.updateFocusableElements();
+    if (event.shiftKey) {
+      if (document.activeElement === this.firstFocusable) {
+        this.lastFocusable.focus();
+        event.preventDefault();
       }
     } else {
-      // if tab key is pressed
-      if (document.activeElement === lastFocusableEl) {
-        firstFocusableEl.focus(); // move focus to the first element
-        e.preventDefault();
+      if (document.activeElement === this.lastFocusable) {
+        this.firstFocusable.focus();
+        event.preventDefault();
       }
     }
-  });
-
-  // On modal close: previouslyFocusedEl.focus();
+  }
 }
-// Example usage: trapFocus(document.getElementById('myModal'));
 ```
+
+---
 
 ### 3.4 Event Delegation & Bubbling for Component Interaction
 
-Instead of attaching event listeners to every individual instance of a repeating component (e.g., many list items in a dropdown), use event delegation.
-
-- **Concept**: Attach a single event listener to a common parent element. When an event bubbles up from a child, the parent's listener catches it. JavaScript then determines which child element was the actual target of the event.
-- **Why? (JavaScript Benefits)**:
-  - **Performance**: Fewer event listeners mean less memory consumption and faster DOM updates.
-  - **Dynamic Elements**: Automatically works for dynamically added/removed child elements without needing to attach/detach listeners.
-  - **Simplified Code**: Cleaner and more concise event management code.
-
-**Example: Event Delegation for a Dropdown List:**
+Instead of attaching event listeners to every individual list item, bind one listener to the parent element.
 
 ```javascript
-// HTML: <ul id="myDropdownList"><li>Item 1</li><li>Item 2</li>...</ul>
-
-// JS: Instead of:
-// document.querySelectorAll('#myDropdownList li').forEach(item => {
-//     item.addEventListener('click', handleItemClick);
-// });
-
-// Use Event Delegation:
 const dropdownList = document.getElementById('myDropdownList');
 if (dropdownList) {
-  dropdownList.addEventListener('click', function (event) {
-    if (event.target.tagName === 'LI') {
-      // Check if the clicked element is a list item
-      console.log('Clicked on:', event.target.textContent);
-      // Call specific handler for this item
-      // handleItemClick(event.target.dataset.value);
+  dropdownList.addEventListener('click', (event) => {
+    const item = event.target.closest('li');
+    if (item && dropdownList.contains(item)) {
+      console.log('Clicked item:', item.textContent);
     }
   });
 }
 ```
+
+---
 
 ### 3.5 Avoid `MutationObserver` for Layering Issues
 
 > **Never fix UI layering issues with `MutationObserver`.**
 
-A visual layering problem should always have a CSS-based solution. Using JavaScript to react to DOM changes to fix `z-index` (e.g., observing when an element's `z-index` changes to then adjust another) is:
+Visual layering bugs must be fixed via CSS (`z-index` and stacking contexts). Using JavaScript to react to DOM tree changes to adjust `z-index` in real-time adds runtime CPU/memory overhead, causes layout recalculations, and leads to visual flickers.
 
-- **Inefficient**: `MutationObserver` callbacks run asynchronously, making real-time visual adjustments difficult and prone to flicker.
-- **Expensive**: It adds overhead (CPU/memory) for observing and processing changes.
-- **Brittle**: The logic can easily break if the DOM structure or CSS changes.
+---
 
-- **`MutationObserver` is a hammer. For visual layering, `z-index` and stacking contexts are the screwdrivers.**
+### 3.6 CSS Containment & Layout Optimizations
+
+When rendering complex components, limit rendering reflows via CSS.
+
+- **`contain: layout paint`**: Informs the browser that style modifications inside the container cannot affect the layout or paint bounds of elements outside, isolating the reflow.
+- **`content-visibility: auto`**: Tells the rendering engine to skip layout/paint calculations for offscreen elements. You must specify a `contain-intrinsic-size` to prevent scrollbar jumps:
+  ```css
+  .list-item-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 120px;
+  }
+  ```
 
 ---
 
 ## 4. Common JavaScript Implementation Patterns for UI Components
 
-These patterns guide how you structure the JavaScript logic for your components.
-
 ### 4.1 State Management (Open/Closed, Selected)
 
-UI components are inherently stateful. JavaScript manages this state.
-
-- **Component State**: Represents the current condition of the component (e.g., `isOpen: true/false`, `selectedValue: 'optionA'`, `isActive: true/false`).
-- **Updating State**:
-  - **Vanilla JS**: Directly manipulating DOM properties (`element.classList.add('open')`), updating data attributes (`element.dataset.isOpen = 'true'`).
-  - **Frameworks**: Using `useState` (React), `data` properties (Vue), or reactive services (Angular) for declarative state management.
-- **Reacting to State Changes**: State changes trigger UI updates (re-rendering in frameworks, direct DOM manipulation in vanilla JS).
-
-**Example: Simple Toggle Component State (Vanilla JS)**
+UI components are stateful. Toggle classes to let CSS handle visual changes, and update ARIA states simultaneously.
 
 ```javascript
-// HTML: <button id="toggleBtn">Toggle Content</button><div id="content" class="hidden">My content</div>
-
-// JS:
 const toggleBtn = document.getElementById('toggleBtn');
 const contentDiv = document.getElementById('content');
-let isOpen = false; // Component state
+let isOpen = false;
 
 toggleBtn.addEventListener('click', () => {
-  isOpen = !isOpen; // Update state
-  if (isOpen) {
-    contentDiv.classList.remove('hidden');
-    contentDiv.setAttribute('aria-expanded', 'true');
-  } else {
-    contentDiv.classList.add('hidden');
-    contentDiv.setAttribute('aria-expanded', 'false');
-  }
-  toggleBtn.setAttribute('aria-pressed', isOpen); // Update ARIA based on state
+  isOpen = !isOpen;
+  contentDiv.classList.toggle('hidden', !isOpen);
+  contentDiv.setAttribute('aria-expanded', isOpen);
+  toggleBtn.setAttribute('aria-pressed', isOpen);
 });
-
-// Initial setup
-contentDiv.classList.add('hidden');
-contentDiv.setAttribute('aria-expanded', 'false');
-toggleBtn.setAttribute('aria-pressed', 'false');
 ```
 
 ### 4.2 Composition vs. Inheritance
 
-- **Composition (Preferred for UI Components)**: Building components by combining smaller, simpler, independent components or functions.
-  - **Benefits**: Flexibility, reusability, easier testing, avoids "inheritance hell."
-  - **JS Example**: A `Dropdown` component might _compose_ a `Button` (for the trigger) and a `List` (for options).
-- **Inheritance (Less Common for UI Logic)**: Creating new components that derive properties and methods from a base class.
-  - **Drawbacks**: Can lead to tight coupling, inflexibility, and difficulties understanding behavior.
+Always prefer **composition** over inheritance for UI components. Build complex components by combining smaller, reusable pieces (e.g., composing a trigger `Button` and options `List` into a `Dropdown`).
 
 ### 4.3 Separation of Concerns (HTML, CSS, JS)
 
-Maintain clear boundaries between structure (HTML), presentation (CSS), and behavior (JavaScript).
-
-- **HTML**: Provides semantic structure and content.
-- **CSS**: Handles styling and visual presentation. Use classes to toggle states (`.is-open`, `.is-active`).
-- **JavaScript**: Manages interaction, state changes, and updates ARIA attributes. Avoid inline styles where possible; use class manipulation instead.
+- **HTML**: Semantic structure.
+- **CSS**: Styles, transitions, and state classes (`.is-open`, `.is-disabled`).
+- **JavaScript**: Focus management, event handling, and ARIA updates.
 
 ---
 
 ## 5. Interview Questions & Discussion Points
 
-These questions cover fundamental concepts and advanced considerations for UI component development.
+**Q1: What are the key differences between a Modal and a Popover?**
 
-**Q1: What are the key differences between a Modal and a Popover, and when would you use each?**
+- **Modal**: Modal blocks all interaction with the background content, traps keyboard focus, and requires an action to close.
+- **Popover**: Non-modal, background remains interactive, does not trap focus, and supports light dismiss.
 
-**A1:** (Refer to Sections 1.2, 1.4, and 2).
-**Modal:** Blocks all interaction, requires a decision, usually for critical flows (login, confirmation).
-**Popover:** Non-blocking, contextual, for quick actions or extra info (profile menus, date pickers).
-The core difference is the level of user interruption and the importance of the content.
+**Q2: What is a "stacking context" and how does it affect `z-index`?**
 
----
+- Stacking context is a 3D rendering context. Properties like `transform`, `opacity < 1`, or parent stacking contexts encapsulate child `z-index` values. A child with `z-index: 9999` inside a lower stacking context will render below a sibling with `z-index: 1` in a higher stacking context.
 
-**Q2: How does `z-index` work, and what is a "stacking context"? Why is understanding this important for UI components?**
+**Q3: Explain "Portal Rendering" and what problems it solves.**
 
-**A2:** (Refer to Section 3.1).
-`z-index` controls the stacking order of _positioned_ elements along the z-axis. A **stacking context** is a three-dimensional rendering context created by certain CSS properties (e.g., `position: relative/absolute/fixed/sticky` combined with `z-index`, `opacity < 1`, `transform`, `filter`). Elements within the same stacking context are ordered according to `z-index`. Elements in a new stacking context are rendered entirely above or below other contexts, regardless of their children's `z-index`.
-**Importance:** Misunderstanding stacking contexts is the root cause of many layering bugs, where a high `z-index` element might still appear beneath another. It's crucial for correctly layering modals, tooltips, and dropdowns.
+- Rendering overlays outside their parent hierarchy (typically directly under `<body>`). This prevents parent `overflow: hidden` clipping and escapes parent stacking contexts.
 
----
+**Q4: What are the accessibility requirements of a Modal component?**
 
-**Q3: Explain "Portal Rendering" in the context of UI components. What problems does it solve, and how might you implement it in vanilla JavaScript?**
+- Focus trapping, focus restoration on close, closing on `Escape` key, `aria-modal="true"`, `role="dialog"`, and using `inert` or `aria-hidden` on background content.
 
-**A3:** (Refer to Section 3.2).
-**Portal Rendering** involves rendering a component's DOM (e.g., a modal) into a DOM node that is _outside_ the hierarchical parent of the component in the application's React/Vue/Angular tree, usually directly under `<body>` or a dedicated portal root.
-**Problems Solved:**
+**Q5: What are the benefits and limitations of Event Delegation?**
 
-- **`z-index` conflicts**: Escapes parent stacking contexts.
-- **`overflow: hidden` issues**: Avoids clipping by parent containers.
-- **Cleaner DOM structure**: Keeps complex overlays at the top level.
-  **Vanilla JS Implementation:** Create a target DOM element (e.g., `<div id="portal-root"></div>`). Use `document.getElementById('portal-root').appendChild(myComponentElement)` to move/render the component's DOM there.
+- **Benefits**: Low memory footprint (fewer listeners), automatically handles dynamic elements.
+- **Limitations**: Events that do not bubble (`focus`, `blur`) require using the capture phase. Resolving targets requires `.closest()` due to inner tag clicks.
 
----
+**Q6: Why is `MutationObserver` the wrong tool to resolve `z-index` bugs?**
 
-**Q4: What are the essential JavaScript-driven accessibility considerations for implementing a Modal or Dialog component?**
+- It runs asynchronously as a microtask, causing style recalculation lags and visual flickering. Layering is a presentation issue that must be resolved using CSS rules.
 
-**A4:** (Refer to Section 3.3).
+**Q7: How do you manage component visibility states in plain JavaScript?**
 
-- **Focus Trapping**: Programmatically move keyboard focus to the first interactive element inside the modal upon opening, and keep it cycling only within the modal.
-- **Focus Restoration**: Return focus to the element that triggered the modal upon closing.
-- **Keyboard Interaction**: Ensure `Escape` key closes the modal.
-- **ARIA Attributes**:
-  - `role="dialog"` or `role="alertdialog"` on the modal container.
-  - `aria-modal="true"` on the modal container.
-  - `aria-labelledby` and `aria-describedby` to link the modal to its visible title and description.
-  - `aria-hidden="true"` on the main application content when the modal is open.
-- **Scroll Management**: Prevent scrolling of the underlying `<body>` when the modal is open.
+- Maintain a local state variable, toggle CSS classes for transitions, and dynamically update ARIA attributes (`aria-expanded`, `aria-hidden`).
 
----
+**Q8: How do you identify stacking context bugs in Chrome DevTools?**
 
-**Q5: Describe the benefits of using "Event Delegation" when managing interactions for a list-based UI component (e.g., a dropdown or a table).**
+- Use the **Layers** panel in Chrome DevTools (More Tools > Layers) to view a 3D grid layout of the page's stacking contexts, identifying which parent container is encapsulating the child.
 
-**A5:** (Refer to Section 3.4).
-**Event Delegation** is the technique of attaching a single event listener to a common parent element, rather than attaching individual listeners to each child element. When an event (like a click) occurs on a child element, it bubbles up the DOM tree, and the parent's listener catches it. The listener then uses `event.target` to identify which specific child triggered the event.
-**Benefits:**
+**Q9: What is the difference between `aria-hidden` and `inert`?**
 
-- **Performance**: Reduces memory footprint by attaching fewer event listeners, especially for large lists.
-- **Dynamic Elements**: Automatically handles events for child elements that are added or removed from the DOM _after_ the initial page load, without needing to re-attach listeners.
-- **Simplified Code**: Makes event management cleaner and more concise.
-
----
-
-**Q6: Why is it generally a bad practice to use `MutationObserver` to solve UI layering (`z-index`) issues?**
-
-**A6:** (Refer to Section 3.5).
-Using `MutationObserver` for layering issues is a bad practice because:
-
-- **Inefficient/Expensive**: It involves reactive JavaScript code observing DOM changes, which is generally more CPU/memory intensive than a declarative CSS solution.
-- **Asynchronous Nature**: `MutationObserver` callbacks are asynchronous. This means you react to changes _after_ they've occurred, making it difficult to prevent visual flicker or race conditions when trying to adjust `z-index` in real-time.
-- **Brittle**: The logic can easily break if the DOM structure or CSS changes.
-- **Wrong Tool**: UI layering is a visual problem best solved with CSS (`z-index`, `position`, `stacking contexts`). JavaScript should manage behavior and state, not constantly police CSS visual properties.
-
----
-
-**Q7: How would you manage the open/closed state of a reusable UI component in plain JavaScript, considering accessibility attributes?**
-
-**A7:** (Refer to Section 4.1).
-In plain JavaScript, you would manage state using:
-
-1.  **A JavaScript variable**: `let isOpen = false;`
-2.  **CSS Classes**: Toggle classes like `element.classList.toggle('is-open')`. CSS defines the visual changes for these states.
-3.  **ARIA Attributes**: Dynamically update `aria-expanded` (for visibility), `aria-hidden` (for screen reader visibility), or `aria-pressed` (for button states) on the component's elements based on the `isOpen` state.
-4.  **Event Listeners**: Attach event listeners (e.g., `click`) to the trigger element to update the `isOpen` variable, toggle classes, and update ARIA attributes.
-
-```javascript
-// Example: A simple accordion header that toggles content visibility
-// <button id="accordionHeader" aria-expanded="false" aria-controls="accordionPanel">Toggle</button>
-// <div id="accordionPanel" role="region" aria-hidden="true">Content</div>
-
-// const header = document.getElementById('accordionHeader');
-// const panel = document.getElementById('accordionPanel');
-// let panelIsOpen = false;
-
-// header.addEventListener('click', () => {
-//     panelIsOpen = !panelIsOpen;
-//     panel.classList.toggle('hidden', !panelIsOpen); // 'hidden' class would hide it via CSS
-//     header.setAttribute('aria-expanded', panelIsOpen);
-//     panel.setAttribute('aria-hidden', !panelIsOpen);
-// });
-```
+- `aria-hidden="true"` only hides elements from screen readers (keyboard users can still tab into inputs).
+- `inert` disables all mouse/touch interactions, removes elements from tab-focus navigation, and hides them from screen readers.

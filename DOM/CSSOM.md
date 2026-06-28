@@ -1,606 +1,112 @@
-# CSSOM (CSS Object Model)
+# CSS Object Model (CSSOM): The Style Tree & Rendering Path
 
-The CSSOM is JavaScript's representation of all CSS loaded by the browser.
+The **CSS Object Model (CSSOM)** is a set of APIs that allows JavaScript to inspect and manipulate CSS stylesheets, rules, and styles at runtime.
 
-> DOM → CSSOM → Render Tree → Layout → Paint → Composite
+---
 
-Just as:
+## 1. The Critical Rendering Path
 
-```text id="5wrtdq"
-HTML
-  ↓
-DOM
+The browser combines the DOM and CSSOM to build the **Render Tree**, which calculates layout geometry and paints pixels to the screen.
+
+```
+       HTML ──► [ DOM Construction ] ──────┐
+                                           ├─► [ Render Tree ] ──► [ Layout ] ──► [ Paint ] ──► [ Composite ]
+       CSS  ──► [ CSSOM Construction ] ────┘
 ```
 
-CSS becomes:
+> [!IMPORTANT]
+> **CSS is a Render-Blocking Resource.** The browser will parse HTML and construct the DOM tree, but it will **suspend page rendering (painting)** until the CSSOM tree is fully constructed. Without a completed CSSOM, the Render Tree cannot determine style values, layout boundaries, or visibility properties (`display: none`), which could cause flashes of unstyled content (FOUC).
 
-```text id="t0qk8n"
-CSS
-  ↓
-CSSOM
-```
+---
 
-The browser combines both to create the Render Tree.
+## 2. Programmatic CSSOM Rule Manipulation
 
-```text id="l9yvj7"
-HTML
-  ↓
- DOM
+While toggling CSS classes (`element.classList.add()`) is the preferred method for component styling, direct CSSOM manipulation allows you to dynamically inject rules for micro-theme layers or editor platforms.
 
-CSS
-  ↓
-CSSOM
+```javascript
+// 1. Retrieve stylesheets loaded in the document
+const stylesheetsList = document.styleSheets;
+const mainSheet = stylesheetsList[0];
 
-DOM + CSSOM
-      ↓
-Render Tree
-      ↓
-Layout
-      ↓
-Paint
-      ↓
-Composite
+// 2. Safely insert a new CSS rule at the top index
+// Syntax: sheet.insertRule(ruleString, indexPosition)
+const insertedIndex = mainSheet.insertRule('.dynamic-card { border: 2px solid #6366f1; padding: 16px; }', 0);
+
+// 3. Retrieve rule text
+console.log(mainSheet.cssRules[insertedIndex].cssText);
+
+// 4. Remove a rule dynamically
+// Syntax: sheet.deleteRule(indexPosition)
+mainSheet.deleteRule(insertedIndex);
 ```
 
 ---
 
-# Why CSSOM Exists
+## 3. Reading Styles: Inline vs. Computed Styles
 
-The browser cannot render elements using only HTML.
+A common point of confusion is retrieving style values via JavaScript.
 
-Example:
+### 3.1 `element.style` (Inline Styles Only)
 
-```html id="r7s5ny"
-<div>Hello</div>
+`element.style` only reads styles set directly inline on the HTML element (e.g., `<div style="width: 100px;">`). It cannot read styles defined in external CSS files or `<style>` blocks.
+
+### 3.2 `window.getComputedStyle(element)` (Calculated Values)
+
+`getComputedStyle` resolves all stylesheets and rules to return the final computed styles applied to the element.
+
+```javascript
+const el = document.getElementById('hero-box');
+
+// ❌ Reads empty string if styled via external CSS file
+console.log(el.style.width); // ""
+
+// ✅ Resolves rules and returns computed value in absolute pixels
+const computed = window.getComputedStyle(el);
+console.log(computed.width); // "250px"
 ```
 
-```css id="0qv1n2"
-div {
-  color: red;
-  display: flex;
-}
-```
-
-The browser must understand:
-
-* color
-* font-size
-* display
-* width
-* height
-* visibility
-
-This information is stored in the CSSOM.
+> [!WARNING]
+> Calling `getComputedStyle(element)` forces the browser to synchronously recalculate styles and layout if changes are pending. Repeated calls can trigger **Forced Synchronous Layout (FSL)** and degrade page performance.
 
 ---
 
-# Accessing CSSOM
+## 4. CSS Custom Properties (CSS Variables)
 
-## Read Stylesheets
+CSS Variables allow you to modify global theme variables dynamically using JavaScript.
 
-```js id="ud4kui"
-document.styleSheets;
-```
+```javascript
+const root = document.documentElement; // Root element <html>
 
-Output:
+// 1. Read CSS variable value
+const primaryColor = window.getComputedStyle(root).getPropertyValue('--primary-color').trim();
+console.log('Primary Color:', primaryColor);
 
-```text id="n3krlm"
-StyleSheetList
-```
-
----
-
-## Read CSS Rules
-
-```js id="k3j6el"
-const sheet =
-  document.styleSheets[0];
-
-console.log(sheet.cssRules);
-```
-
-Output:
-
-```text id="l3zc7g"
-CSSRuleList
+// 2. Set new variable value (updates all children inheriting this variable)
+root.style.setProperty('--primary-color', '#4f46e5');
 ```
 
 ---
 
-## Access Specific Rule
-
-```js id="q7nh3o"
-const rule =
-  document.styleSheets[0]
-    .cssRules[0];
-
-console.log(rule.cssText);
-```
-
-Example:
-
-```css id="ydmr5h"
-body {
-  margin: 0;
-}
-```
-
----
-
-# Modifying CSSOM
-
-## Add Rule Dynamically
-
-```js id="yv49jx"
-const sheet =
-  document.styleSheets[0];
-
-sheet.insertRule(
-  ".active { color: red; }"
-);
-```
-
----
-
-## Remove Rule
-
-```js id="kudx4s"
-sheet.deleteRule(0);
-```
-
----
-
-# Reading Computed Styles
-
-One of the most important CSSOM APIs.
-
-```js id="j4a2je"
-const styles =
-  getComputedStyle(element);
-
-console.log(styles.width);
-```
-
----
-
-## Why Not Use element.style?
-
-```js id="rf6hva"
-element.style.width;
-```
-
-Only returns inline styles.
-
-Example:
-
-```html id="l2wgvv"
-<div style="width:100px"></div>
-```
-
-Returns:
-
-```text id="w31df3"
-100px
-```
-
----
-
-But:
-
-```css id="4w6t0i"
-.card {
-  width: 300px;
-}
-```
-
-```js id="o0vcti"
-element.style.width;
-```
-
-Returns:
-
-```text id="w7mn40"
-""
-```
-
----
-
-Use:
-
-```js id="4tnw93"
-getComputedStyle(element)
-  .width;
-```
-
-Returns:
-
-```text id="xq5w2s"
-300px
-```
-
----
-
-# CSSOM and Rendering
-
-The browser must build:
-
-```text id="fvlh6s"
-DOM
-CSSOM
-```
-
-before rendering.
-
-Therefore:
-
-```text id="lzlc2m"
-CSS blocks rendering
-```
-
-This is a very common interview question.
-
----
-
-# Interview Question
-
-## Why Does CSS Block Rendering?
-
-Suppose:
-
-```html id="bsixyo"
-<link rel="stylesheet" href="style.css">
-```
-
-The browser cannot render until it knows:
-
-```text id="4x3ywo"
-Colors
-Sizes
-Layouts
-Visibility
-Display values
-```
-
-Without CSSOM, the Render Tree cannot be created.
-
-```text id="ef6j1t"
-No CSSOM
-    ↓
-No Render Tree
-    ↓
-No Paint
-```
-
----
-
-# CSSOM vs DOM
-
-| DOM                    | CSSOM              |
-| ---------------------- | ------------------ |
-| Represents HTML        | Represents CSS     |
-| Built from HTML        | Built from CSS     |
-| Manipulates elements   | Manipulates styles |
-| document.querySelector | getComputedStyle   |
-
----
-
-# Layout (Reflow)
-
-Layout determines element positions and sizes.
-
-Example:
-
-```js id="9n2epd"
-element.style.width =
-  "500px";
-```
-
-Browser must recalculate:
-
-```text id="r1u2sl"
-Width
-Height
-Position
-Relationships
-```
-
-This is called:
-
-```text id="6j5lbx"
-Reflow
-(Layout)
-```
-
----
-
-# Paint
-
-After layout:
-
-```text id="72jv4f"
-Draw pixels
-Draw text
-Draw borders
-Draw colors
-```
-
-This is called:
-
-```text id="mgo4n7"
-Paint
-```
-
----
-
-# Reflow vs Repaint
-
-## Reflow (Expensive)
-
-Triggers:
-
-```js id="x8zq0r"
-element.style.width =
-  "500px";
-```
-
-Because layout changes.
-
----
-
-## Repaint (Cheaper)
-
-Triggers:
-
-```js id="mjlwmc"
-element.style.color =
-  "red";
-```
-
-Position unchanged.
-
-Only color changes.
-
----
-
-# Layout Thrashing
-
-Very common performance interview question.
-
-❌ Bad
-
-```js id="k1k4zg"
-for (let i = 0; i < 100; i++) {
-  element.style.width =
-    element.offsetWidth + 10 + "px";
-}
-```
-
-Why?
-
-```text id="2ezj46"
-Read Layout
-Write Layout
-Read Layout
-Write Layout
-Read Layout
-Write Layout
-```
-
-Browser repeatedly recalculates layout.
-
----
-
-## Better
-
-```js id="nld6vk"
-const width =
-  element.offsetWidth;
-
-element.style.width =
-  width + 100 + "px";
-```
-
-Read once.
-
-Write once.
-
----
-
-# Frequently Asked Interview Questions
-
-## Q1. What is CSSOM?
-
-```text id="jjm5va"
-JavaScript representation of CSS.
-```
-
----
-
-## Q2. What creates the Render Tree?
-
-```text id="j6rffr"
-DOM + CSSOM
-```
-
----
-
-## Q3. Why does CSS block rendering?
-
-```text id="mj7q1u"
-Render Tree cannot be built
-without CSSOM.
-```
-
----
-
-## Q4. Difference Between style and getComputedStyle?
-
-```js id="gq4nwy"
-element.style
-```
-
-Inline styles only.
-
-```js id="cy8q4v"
-getComputedStyle(element)
-```
-
-Final calculated styles.
-
----
-
-## Q5. What is Reflow?
-
-```text id="aw4xbm"
-Layout recalculation.
-```
-
-Examples:
-
-```js id="7mms3d"
-width
-height
-margin
-padding
-display
-```
-
-changes.
-
----
-
-## Q6. What is Repaint?
-
-```text id="fow3xf"
-Visual redraw without layout changes.
-```
-
-Example:
-
-```js id="2rlj5m"
-color
-background
-visibility
-```
-
----
-
-## Q7. Which is more expensive?
-
-```text id="t9ln86"
-Reflow > Repaint
-```
-
----
-
-# Senior Frontend Interview Scenarios
-
-## Scenario 1
-
-Question:
-
-Why does CSS block rendering but not DOM parsing?
-
-Answer:
-
-```text id="mdjlwm"
-Render Tree requires CSSOM.
-
-Without CSSOM,
-browser cannot paint correctly.
-```
-
----
-
-## Scenario 2
-
-Question:
-
-Need final width after all CSS applied.
-
-Answer:
-
-```js id="u5gnk8"
-getComputedStyle(element)
-  .width;
-```
-
----
-
-## Scenario 3
-
-Question:
-
-Page feels janky during animations.
-
-Check for:
-
-```text id="o8w8w5"
-Layout Thrashing
-Forced Reflow
-Excessive Repaints
-```
-
----
-
-## Scenario 4
-
-Question:
-
-What's more expensive?
-
-```js id="o98lv7"
-element.style.width =
-  "500px";
-```
-
-or
-
-```js id="9nhx4m"
-element.style.color =
-  "red";
-```
-
-Answer:
-
-```text id="teb5ei"
-Width change
-
-Triggers Reflow + Paint.
-```
-
----
-
-# Quick Revision
-
-```text id="ndww6g"
-CSS
- ↓
-CSSOM
-
-HTML
- ↓
-DOM
-
-DOM + CSSOM
-      ↓
-Render Tree
-      ↓
-Layout (Reflow)
-      ↓
-Paint
-      ↓
-Composite
-
-Key APIs
-├── document.styleSheets
-├── cssRules
-├── insertRule
-├── deleteRule
-└── getComputedStyle
-
-Performance
-├── Reflow (Expensive)
-├── Repaint
-└── Layout Thrashing
-```
+## 5. Interview Hot Corners
+
+### Q1: What is the difference between Reflow (Layout) and Repaint?
+
+- **Reflow (Layout):** The browser calculates the geometry (size, position) of elements on the page. It is triggered by geometric modifications:
+  ```javascript
+  element.style.width = '300px';
+  element.style.padding = '12px';
+  ```
+- **Repaint:** The browser draws the visual elements onto the screen. It is triggered by stylistic changes that do not affect layout geometry:
+  ```javascript
+  element.style.color = '#fff';
+  element.style.backgroundColor = 'blue';
+  ```
+- **Performance Impact:** Reflow is significantly more expensive because modifying the geometry of one element can trigger cascades of layout calculations on its siblings and parent containers.
+
+### Q2: What are CSSOM Stylesheet Access Origin Limits?
+
+- **Answer:** If a stylesheet is loaded from a different origin (e.g. via CDN: `<link rel="stylesheet" href="https://cdn.com/style.css">`), accessing its rules (`sheet.cssRules`) will throw a **Security Error** (cross-origin frame block).
+- **Solution:** Add the `crossorigin="anonymous"` attribute to the `<link>` tag, and ensure the server responds with appropriate CORS headers (`Access-Control-Allow-Origin: *`):
+  ```html
+  <link rel="stylesheet" href="https://cdn.com/style.css" crossorigin="anonymous" />
+  ```
