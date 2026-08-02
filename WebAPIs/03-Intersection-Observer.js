@@ -11,7 +11,7 @@ window.scrollY + window.innerHeight >= document.documentElement.scrollHeight
 
 Modern approach:
 IntersectionObserver (better performance, no scroll event spam)
-```;
+```
 
 // ==========================================
 // 1. Basic Setup & Configuration Options
