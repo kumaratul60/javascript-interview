@@ -29,10 +29,11 @@ This guide explains the mechanics of the `this` keyword and how to manually cont
 
 The value of `this` is determined by **how** a function is called, not where it is defined.
 
+- **Regular function:** `this` depends on how the function is called, not its parent scope.
+- **Arrow function:** Has no own `this`; it inherits `this` from its surrounding lexical scope.
 - **Global Context:** Points to `window` (browser) or `{}` (Node.js).
 - **Object Method:** Points to the object the method is called on.
 - **Standalone Function:** Points to `global/window` (non-strict) or `undefined` (strict mode).
-- **Arrow Functions:** Do not have their own `this`; they inherit it lexically from the parent scope.
 
 ---
 

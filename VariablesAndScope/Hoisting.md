@@ -237,10 +237,11 @@ console.log("
 --- 5. Key Takeaways & Interview One-Liners ---");
 ```
 
+- **Scope:** `var` is function-scoped; `let` and `const` are block-scoped.
+- **Hoisting:** All three are hoisted. `var` is initialized to `undefined`; `let` and `const` remain uninitialized.
+- **TDZ:** Accessing `let` or `const` before declaration throws a `ReferenceError`. They do not return `undefined`.
 - Hoisting moves declarations to the top of their scope, not initializations.
-- `var` variables are hoisted and initialized to `undefined`.
 - Function declarations are fully hoisted (declaration + definition).
-- `let`/`const` are hoisted but remain in the Temporal Dead Zone (TDZ) until initialized.
 - Avoid `var` for better predictability and to leverage block-scoping.
 - Always declare variables and functions before use to make code clearer and prevent TDZ errors.
 - TDZ makes `let`/`const` safer by preventing access to uninitialized variables.

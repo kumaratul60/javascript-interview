@@ -51,7 +51,9 @@ greet(sayHello); // Passing as an argument
 
 ### Q: How do Arrow Functions differ from Regular Functions?
 
-1.  **Lexical `this`:** Arrow functions do not have their own `this`; they inherit it from the parent scope.
+1.  **`this` Binding:**
+    - **Regular function:** `this` depends on how the function is called, not its parent scope.
+    - **Arrow function:** Has no own `this`; it inherits `this` from its surrounding lexical scope.
 2.  **No `arguments` Object:** Use `...args` (Rest parameters) instead.
 3.  **Cannot be used as Constructors:** You cannot use `new` with an arrow function.
 4.  **Implicit Return:** Single-line arrows return the expression automatically.

@@ -90,8 +90,9 @@ JavaScript provides three keywords to declare variables, each with different sco
 
 **Hoisting** is JavaScript's behavior of moving declarations to the top of their scope before code execution.
 
-- `var` variables are hoisted and initialized with `undefined`.
-- `let` and `const` variables are hoisted but _not_ initialized. The period from the start of the block to the variable declaration is the **Temporal Dead Zone (TDZ)**. Accessing a variable in its TDZ results in a `ReferenceError`.
+- **Scope:** `var` is function-scoped; `let` and `const` are block-scoped.
+- **Hoisting:** All three are hoisted. `var` is initialized to `undefined`; `let` and `const` remain uninitialized.
+- **TDZ:** Accessing `let` or `const` before declaration throws a `ReferenceError`. They do not return `undefined`.
 
 > The TDZ enforces discipline, preventing you from using a variable before it’s declared.
 
